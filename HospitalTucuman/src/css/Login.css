@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.card{
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    width: 500px;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
