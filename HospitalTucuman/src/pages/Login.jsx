@@ -103,7 +103,7 @@ const Login = () => {
             <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" onChange={(e) => setContrasenaIngresada(e.target.value)}
             >
               <InputLabel htmlFor="outlined-adornment-password">
-                Password
+                Contraseña
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
@@ -119,7 +119,7 @@ const Login = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="Contraseña"
               />
             </FormControl>
 
