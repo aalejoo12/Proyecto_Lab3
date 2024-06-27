@@ -13,34 +13,58 @@ import Button from "@mui/material/Button";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import "../css/Login.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  
-  const [usuario, setUsuario] = useState("")
-  const [contrasena, setContrasena] = useState("")
-  // const [usuarioIngresado, setUsuarioIngresado] = useState("")
+
+  const [usuario, setUsuario] = useState([])
+  const [contrasena, setContrasena] = useState([])
+  const [usuarioIngresado, setUsuarioIngresado] = useState("")
+  const [contrasenaIngresada, setContrasenaIngresada] = useState("")
+  const navigate = useNavigate();
+
 
 // console.log(usuarioIngresado);
 
 
   const getUsuario = async () => {
 
-    let response = await axios.get("http://localhost:8000/login");
-
-    setUsuario(response.data[0].nombreUsuario);
-    setContrasena(response.data[0].contrasena);
+    let response = await axios.get("http://localhost:8000/login")
+    const respuesta = response.data
+    // console.log(respuesta);
+    respuesta.map((res)=>{
+      // console.log(res.nombreUsuario);
+      // setUsuario(); 
+      // setContrasena(res.contrasena);
+    })
+    
   
-    console.log(usuario, contrasena);
-  
-  };
+  }
 
+  console.log(usuario);
+const handleClick = () =>{
+
+if ((usuario && contrasena) === (usuarioIngresado && contrasenaIngresada)) {
+  navigate("/home")
+}
+else{
+  alert("incorrecto")
+}
+
+}
+console.log(usuarioIngresado,contrasenaIngresada);
 
   useEffect(() => {
-    getUsuario();
-  }, []);
+  
+    getUsuario()
+
+  }, [usuario]);
+
+  
 
   return (
     <>
@@ -55,10 +79,10 @@ const Login = () => {
               noValidate
               autoComplete="off"
             >
-              <TextField id="outlined-basic" label="Email" variant="outlined" />
+            
+            <TextField id="outlined-basic" label="Email" variant="outlined" onChange={(e) => setUsuarioIngresado(e.target.value)}  />
             </Box>
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined"
-            onChange={(e) => setUsuarioIngresado(e.target.value)}
+            <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" onChange={(e) => setContrasenaIngresada(e.target.value)}
             >
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
@@ -81,7 +105,7 @@ const Login = () => {
               />
             </FormControl>
 
-            <Button className="mt-5" variant="contained">
+            <Button type="button" onClick={handleClick} className="mt-5" variant="contained">
               Ingresar
             </Button>
           </Form>

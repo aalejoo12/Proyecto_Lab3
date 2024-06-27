@@ -4,6 +4,7 @@ const pacientes = require("./routes/pacientes")
 const logins = require("./routes/logins")
 const cors = require("cors")
 
+
 const app = express();
 
 const port = 8000;
