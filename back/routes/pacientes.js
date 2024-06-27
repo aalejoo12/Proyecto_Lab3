@@ -3,7 +3,7 @@ const {todoPacientes} = require("../controllers/pacientes")
 
 const router = express.Router()
 
-router.get("/home",todoPacientes)
+router.get("/pacientes",todoPacientes)
 
 
 module.exports = router

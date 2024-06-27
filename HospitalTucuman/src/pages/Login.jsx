@@ -22,7 +22,6 @@ const Login = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const [usuarios, setUsuarios] = useState([])
-  const [contrasena, setContrasena] = useState([])
   const [usuarioIngresado, setUsuarioIngresado] = useState("")
   const [contrasenaIngresada, setContrasenaIngresada] = useState("")
   const navigate = useNavigate();

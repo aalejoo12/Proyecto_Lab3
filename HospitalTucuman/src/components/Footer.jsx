@@ -1,8 +1,14 @@
 import React from 'react'
 import "../css/Footer.css"
+import { Navbar } from 'react-bootstrap'
 const Footer = () => {
+  
   return (
-    <div>Footer</div>
+    <Navbar className='justify-content-center' fixed='bottom'>
+    <div className="footer text-center">
+    <h4><i aria-hidden="true">Copyright© 2024 Grupo 2 Comisión 2 </i></h4>
+  </div>
+  </Navbar>
   )
 }
 
