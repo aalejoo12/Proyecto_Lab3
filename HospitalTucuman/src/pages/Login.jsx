@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import "../css/Login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const [usuario, setUsuario] = useState([])
+  const [usuarios, setUsuarios] = useState([])
   const [contrasena, setContrasena] = useState([])
   const [usuarioIngresado, setUsuarioIngresado] = useState("")
   const [contrasenaIngresada, setContrasenaIngresada] = useState("")
@@ -35,34 +35,38 @@ const Login = () => {
 
     let response = await axios.get("http://localhost:8000/login")
     const respuesta = response.data
-    // console.log(respuesta);
-    respuesta.map((res)=>{
-      // console.log(res.nombreUsuario);
-      // setUsuario(); 
-      // setContrasena(res.contrasena);
-    })
-    
+    console.log(respuesta);
+    setUsuarios(respuesta)
   
   }
 
-  console.log(usuario);
-const handleClick = () =>{
 
-if ((usuario && contrasena) === (usuarioIngresado && contrasenaIngresada)) {
-  navigate("/home")
-}
-else{
-  alert("incorrecto")
-}
 
-}
-console.log(usuarioIngresado,contrasenaIngresada);
+
+  const handleClick = () => {
+
+    const usuarioEncontrado = usuarios.find(
+      usuario => 
+        usuario.nombreUsuario === usuarioIngresado && 
+        usuario.contrasena === contrasenaIngresada
+    );
+
+    if (usuarioEncontrado) {
+      navigate('/home');
+    } else {
+      alert('Usuario o contraseña incorrectos. Por favor, intente nuevamente.');
+    }
+  };
+
+
+
+
 
   useEffect(() => {
   
     getUsuario()
 
-  }, [usuario]);
+  }, []);
 
   
 
@@ -77,10 +81,24 @@ console.log(usuarioIngresado,contrasenaIngresada);
                 "& > :not(style)": { m: 1, width: "25ch" },
               }}
               noValidate
-              autoComplete="off"
+              autoComplete="on"
             >
             
-            <TextField id="outlined-basic" label="Email" variant="outlined" onChange={(e) => setUsuarioIngresado(e.target.value)}  />
+            {/* <TextField type="email" id="outlined-basic" label="Email" variant="outlined" onChange={(e) => setUsuarioIngresado(e.target.value)}  /> */}
+            <TextField
+      type="text"
+      id="outlined-basic"
+      label="Usuario"
+      variant="outlined"
+      onChange={(e) => setUsuarioIngresado(e.target.value)}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <AccountCircle />
+          </InputAdornment>
+        ),
+      }}
+    />
             </Box>
             <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" onChange={(e) => setContrasenaIngresada(e.target.value)}
             >
