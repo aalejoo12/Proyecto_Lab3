@@ -9,9 +9,14 @@ const app = express();
 
 const port = 8000;
 
+app.use(express.json())
 app.use("/",pacientes)
 app.use("/",logins)
 app.use(cors())
+
+
+
+
 
 conection.connect(()=>{
     console.log("conectado a mi base de datos");
