@@ -1,3 +1,8 @@
 .navbar{
     padding-left: 200px;
 }
+.titulo{
+    font-weight: bolder;
+    color: black;
+    font-size: 30px;
+}
