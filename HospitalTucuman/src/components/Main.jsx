@@ -97,10 +97,11 @@ const Main = () => {
     }
   };
 
-  const handleActualizar = async (e, id_paciente) => {
-    // e.preventDefault()
+  const handleActualizar = async (e) => {
+    e.preventDefault()
     try {
-      const response = await axios.put(`http://localhost:8000/pacientes/editar/${id_paciente}`, {
+      const response = await axios.put(`http://localhost:8000/pacientes/editar/${idActualizar}`, {
+
         nombre: nomyape,
         edad: edad,
         email: email,
@@ -248,7 +249,7 @@ const Main = () => {
             </div>
             <div className="text-center mt-5">
 
-              <Button variant="success" type="button" onClick={() => handleActualizar(idActualizar)}>
+              <Button variant="success" type="button" onClick={handleActualizar}>
                 Actualizar
               </Button>
 
