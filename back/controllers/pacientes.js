@@ -26,8 +26,18 @@ const agregarPacientes = (req, res)=>{
 
     })
 
-
 }
 
-module.exports= {todoPacientes, agregarPacientes}
+const borrarPacientes = (req,res) =>{
+
+    const id = req.params.id
+    const query = `delete from pacientes where id="${id}`
+    conection.query(query,(err,results)=>{
+        if(err) throw err
+        res.send(results)
+
+    })
+}
+
+module.exports= {todoPacientes, agregarPacientes,borrarPacientes}
 

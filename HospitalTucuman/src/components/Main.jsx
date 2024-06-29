@@ -133,7 +133,7 @@ getPacientes();
             <Form.Control
               name="dni"
               type="number"
-              placeholder="Ingrese DNI"
+              placeholder="Ingrese DNI sin puntos"
               onChange={(e)=>{setDni(e.target.value)}}
             />
           </Form.Group>
