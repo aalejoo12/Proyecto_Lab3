@@ -10,9 +10,9 @@ const {
 const router = express.Router();
 
 router.get("/pacientes", todoPacientes);
-router.post("/pacientes", agregarPacientes);
+router.post("/pacientes/agregar", agregarPacientes);
 router.delete("/pacientes/eliminar/:id", borrarPacientes);
-router.put("pacientes/editar/:id", editarPacientes);
+router.put("/pacientes/editar/:id", editarPacientes);
 router.get("/pacientes/:id", verPacientes);
 
 module.exports = router;
