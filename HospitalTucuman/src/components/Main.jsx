@@ -15,6 +15,7 @@ import Sidebar from "./Sidebar";
 const Main = () => {
   const [pacientes, setPacientes] = useState([]);
 
+
   const [nomyape, setNomyape] = useState("");
   const [edad, setEdad] = useState("");
   const [email, setEmail] = useState("");
@@ -24,6 +25,7 @@ const Main = () => {
   const [opcion, setOpcion] = useState("");
   const [show, setShow] = useState(false);
   const [idAeliminar, setIdAEliminar] = useState(null);
+  const [idActualizar, setIdActualizar] = useState(null);
 
   const handleClose = () => {
     setShow(false);
@@ -82,9 +84,6 @@ const Main = () => {
     getPacientes();
   };
 
-
-  const handleActualizar = () => { }
-
   const handleChange = () => {
 
     // parte de agregar
@@ -98,18 +97,49 @@ const Main = () => {
     }
   };
 
-  const handleEditar = async (id) => {
+  const handleActualizar = async (e, id_paciente) => {
+    // e.preventDefault()
+    try {
+      const response = await axios.put(`http://localhost:8000/pacientes/editar/${id_paciente}`, {
+        nombre: nomyape,
+        edad: edad,
+        email: email,
+        dni: dni,
+        telefono: telefono
+      });
+      if (response.status === 200) {
+        alert("Paciente actualizado correctamente");
+        getPacientes(); // Opcional: actualizar la lista después de la actualización
+      }
+    } catch (error) {
+      console.error("Error al actualizar el paciente:", error);
+    }
+    setNomyape("");
+    setEdad("");
+    setEmail("");
+    setDni("");
+    setTelefono("");
+    setInternar("");
 
-    console.log(id);
+    getPacientes();
+
+  }
+
+
+  const handleEditar = async (id_paciente) => {
+    setIdActualizar(id_paciente)
+    console.log(idActualizar);
     let result = await axios.get("http://localhost:8000/pacientes");
 
-    console.log(result.data[id - 1]);
+    console.log(result.data[id_paciente - 1]);
+    if (result) {
 
-    setNomyape(result.data[id -1].nombre)
-    setEdad(result.data[id -1].edad)
-    setEmail(result.data[id -1].email)
-    setDni(result.data[id -1].dni)
-    setTelefono(result.data[id -1].telefono)
+      setNomyape(result.data[id_paciente - 1].nombre)
+      setEdad(result.data[id_paciente - 1].edad)
+      setEmail(result.data[id_paciente - 1].email)
+      setDni(result.data[id_paciente - 1].dni)
+      setTelefono(result.data[id_paciente - 1].telefono)
+    }
 
   };
 
@@ -124,12 +154,12 @@ const Main = () => {
   return (
     <>
       <div className="container-form">
-        <Form className="form" onSubmit={handleSubmit}>
+        <Form className="form" onSubmit={handleSubmit} >
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
-              value={nomyape}
+                value={nomyape}
                 name="nomyape"
                 type="text"
                 placeholder="Ingresa nombre y apellido"
@@ -142,7 +172,7 @@ const Main = () => {
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Edad</Form.Label>
               <Form.Control
-              value={edad}
+                value={edad}
                 name="edad"
                 type="number"
                 placeholder="Edad"
@@ -183,7 +213,7 @@ const Main = () => {
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>Telefono</Form.Label>
               <Form.Control
-              value={telefono}
+                value={telefono}
                 name="telefono"
                 type="number"
                 placeholder="Teléfono"
@@ -214,11 +244,15 @@ const Main = () => {
               <Button variant="success" type="submit" onClick={handleChange}>
                 Agregar
               </Button>
+
             </div>
             <div className="text-center mt-5">
-              <Button variant="success" type="submit" onClick={handleActualizar}>
-                Agregar
+
+              <Button variant="success" type="button" onClick={() => handleActualizar(idActualizar)}>
+                Actualizar
               </Button>
+
+
             </div>
           </Row>
         </Form>
