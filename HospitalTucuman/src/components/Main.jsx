@@ -40,47 +40,56 @@ const Main = () => {
   };
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
     if (nomyape && edad && email && dni && telefono != "" && internar != null) {
-      handleChange()
+      handleChange();
 
-      const response = axios.post("http://localhost:8000/pacientes",{
-        nomyape:nomyape,
-        edad:edad,
-        email:email,
-        dni:dni,
-        telefono:telefono
-  
-      })
+      const response = axios.post("http://localhost:8000/pacientes", {
+        nomyape: nomyape,
+        edad: edad,
+        email: email,
+        dni: dni,
+        telefono: telefono,
+      });
       if (response) {
-        alert("contacto creado")
+        alert("paciente creado");
       }
+    } else {
+      alert("debe ingresar todos los campos");
     }
-   else{
-    alert("debe ingresar todos los campos")
-   }
-setNomyape("")
-setEdad("")
-setEmail("")
-setDni("")
-setTelefono("")
-setInternar("")   
+    setNomyape("");
+    setEdad("");
+    setEmail("");
+    setDni("");
+    setTelefono("");
+    setInternar("");
 
-e.target.reset()
-getPacientes();
+    e.target.reset();
+    getPacientes();
+  };
+  const handleEliminar = async (id_paciente) => {
+    console.log(id_paciente);
+    let response = await axios.delete(
+      `http://localhost:8000/pacientes/eliminar/${id_paciente}`
+    );
 
+    if (response) {
+      alert("Paciente eliminado correctamente");
+      getPacientes();
+    }
   };
 
   const handleChange = () => {
+    // parte de eliminar
+
+    // parte de agregar
 
     if (opcion === "SI") {
       setInternar(1);
-    } else if (opcion ==="NO") {
+    } else if (opcion === "NO") {
       setInternar(0);
-    }
-    else{
-      setInternar(null)
+    } else {
+      setInternar(null);
     }
   };
 
@@ -103,7 +112,9 @@ getPacientes();
                 name="nomyape"
                 type="text"
                 placeholder="Ingresa nombre y apellido"
-                onChange={(e)=>{setNomyape(e.target.value)}}
+                onChange={(e) => {
+                  setNomyape(e.target.value);
+                }}
               />
             </Form.Group>
 
@@ -113,7 +124,9 @@ getPacientes();
                 name="edad"
                 type="number"
                 placeholder="Edad"
-                onChange={(e)=>{setEdad(e.target.value)}}
+                onChange={(e) => {
+                  setEdad(e.target.value);
+                }}
               />
             </Form.Group>
           </Row>
@@ -124,7 +137,9 @@ getPacientes();
               name="email"
               type="email"
               placeholder="example@example.com"
-              onChange={(e)=>{setEmail(e.target.value)}}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
           </Form.Group>
 
@@ -134,7 +149,9 @@ getPacientes();
               name="dni"
               type="number"
               placeholder="Ingrese DNI sin puntos"
-              onChange={(e)=>{setDni(e.target.value)}}
+              onChange={(e) => {
+                setDni(e.target.value);
+              }}
             />
           </Form.Group>
 
@@ -145,25 +162,25 @@ getPacientes();
                 name="telefono"
                 type="number"
                 placeholder="Teléfono"
-                onChange={(e)=>{setTelefono(e.target.value)}}
+                onChange={(e) => {
+                  setTelefono(e.target.value);
+                }}
               />
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Internación</Form.Label>
               <Form.Select
-                onChange={(e)=>{setOpcion(e.target.value)}}
+                onChange={(e) => {
+                  setOpcion(e.target.value);
+                }}
                 defaultValue="Choose..."
               >
                 <option value="">Elije</option>
                 <option value={"SI"}>SI</option>
                 <option value={"NO"}>NO</option>
               </Form.Select>
-
-          </Form.Group>
-
- 
-
+            </Form.Group>
           </Row>
 
           <div className="text-center mt-5">
@@ -272,7 +289,10 @@ getPacientes();
                 <td>{paciente.telefono}</td>
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">
-                    <button className="bin-button">
+                    <button
+                      className="bin-button"
+                      onClick={() => handleEliminar(paciente.id_paciente)}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
