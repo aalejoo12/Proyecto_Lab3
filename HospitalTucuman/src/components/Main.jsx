@@ -129,11 +129,11 @@ const Main = () => {
 
 
   const handleEditar = async (id_paciente) => {
-  
+  console.log(id_paciente);
     setIdActualizar(id_paciente)
     let result = await axios.get("http://localhost:8000/pacientes");
 
-    console.log(result.data[id_paciente - 1]);
+    console.log(result.data[id_paciente]);
     if (result) {
 
       setNomyape(result.data[id_paciente - 1].nombre)
