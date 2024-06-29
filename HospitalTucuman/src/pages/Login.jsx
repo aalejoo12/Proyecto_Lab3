@@ -1,5 +1,5 @@
 import{ useState, useEffect } from "react";
-import { Card,   Container, Form } from "react-bootstrap";
+import { Card,   CardImg,   CardTitle,   Container, Form, Row } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -72,7 +72,12 @@ const Login = () => {
   return (
     <>
       <Container>
+        
         <Card className="card">
+        <CardTitle className="card-title">
+          <h1 className="me-4">Hospital Tucumán</h1>
+        <CardImg src="../public/signo-de-hospital.ico"/>
+        </CardTitle>
           <Form className="inputs">
             <Box
               component="form"

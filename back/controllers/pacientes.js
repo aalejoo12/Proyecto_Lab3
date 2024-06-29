@@ -44,9 +44,9 @@ const borrarPacientes = (req,res) =>{
 const editarPacientes = (req,res) =>{
 
     const id = req.params.id
-    const {nomyape,edad,dni,email,telefono} = req.body
+    const {nombre,edad,dni,email,telefono} = req.body
 
-    const query = `UPDATE pacientes SET nombre = '${nomyape}', edad = '${edad}', dni = '${dni}', email = '${email}', telefono = '${telefono}' WHERE id_paciente = ${id}`;
+    const query = `UPDATE pacientes SET nombre = '${nombre}', edad = '${edad}', dni = '${dni}', email = '${email}', telefono = '${telefono}' WHERE id_paciente = ${id}`;
     conection.query(query,(err,results)=>{
         if(err) throw err
         res.send(results)

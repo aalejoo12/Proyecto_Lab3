@@ -1,26 +1,16 @@
 import { useEffect, useState } from "react";
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import "../css/Main.css";
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+  Table,
+} from "react-bootstrap";
 import axios from "axios";
-import MenuIcon from "@mui/icons-material/Menu";
-
-const drawerWidth = 200;
+import Sidebar from "./Sidebar";
 
 const Main = () => {
   const [pacientes, setPacientes] = useState([]);
@@ -32,6 +22,17 @@ const Main = () => {
   const [telefono, setTelefono] = useState("");
   const [internar, setInternar] = useState(0);
   const [opcion, setOpcion] = useState("");
+  const [show, setShow] = useState(false);
+  const [idAeliminar, setIdAEliminar] = useState(null);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleShow = (id) => {
+    setShow(true);
+    setIdAEliminar(id);
+  };
 
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
@@ -44,7 +45,7 @@ const Main = () => {
     if (nomyape && edad && email && dni && telefono != "" && internar != null) {
       handleChange();
 
-      const response = axios.post("http://localhost:8000/pacientes", {
+      const response = axios.post("http://localhost:8000/pacientes/agregar", {
         nomyape: nomyape,
         edad: edad,
         email: email,
@@ -67,23 +68,23 @@ const Main = () => {
     e.target.reset();
     getPacientes();
   };
-  const handleEliminar = async (id_paciente) => {
-    console.log(id_paciente);
+
+  const handleEliminar = async () => {
+    console.log(idAeliminar);
+
     let response = await axios.delete(
-      `http://localhost:8000/pacientes/eliminar/${id_paciente}`
+      `http://localhost:8000/pacientes/eliminar/${idAeliminar}`
     );
 
     if (response) {
       alert("Paciente eliminado correctamente");
-      getPacientes();
     }
+    handleClose();
+
+    getPacientes();
   };
 
   const handleChange = () => {
-    // parte de eliminar
-
-    // parte de agregar
-
     if (opcion === "SI") {
       setInternar(1);
     } else if (opcion === "NO") {
@@ -91,6 +92,21 @@ const Main = () => {
     } else {
       setInternar(null);
     }
+  };
+
+  const handleEditar = async (id) => {
+
+    console.log(id);
+    let result = await axios.get("http://localhost:8000/pacientes");
+
+    console.log(result.data[id - 1]);
+
+    setNomyape(result.data[id -1].nombre)
+    setEdad(result.data[id -1].edad)
+    setEmail(result.data[id -1].email)
+    setDni(result.data[id -1].dni)
+    setTelefono(result.data[id -1].telefono)
+
   };
 
   useEffect(() => {
@@ -103,12 +119,13 @@ const Main = () => {
 
   return (
     <>
-      <div className="form">
-        <Form onSubmit={handleSubmit}>
+      <div className="container-form">
+        <Form className="form" onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
+              value={nomyape}
                 name="nomyape"
                 type="text"
                 placeholder="Ingresa nombre y apellido"
@@ -121,6 +138,7 @@ const Main = () => {
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Edad</Form.Label>
               <Form.Control
+              value={edad}
                 name="edad"
                 type="number"
                 placeholder="Edad"
@@ -134,6 +152,7 @@ const Main = () => {
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Email</Form.Label>
             <Form.Control
+              value={email}
               name="email"
               type="email"
               placeholder="example@example.com"
@@ -146,6 +165,7 @@ const Main = () => {
           <Form.Group className="mb-3" controlId="formGridAddress2">
             <Form.Label>DNI</Form.Label>
             <Form.Control
+              value={dni}
               name="dni"
               type="number"
               placeholder="Ingrese DNI sin puntos"
@@ -159,6 +179,7 @@ const Main = () => {
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>Telefono</Form.Label>
               <Form.Control
+              value={telefono}
                 name="telefono"
                 type="number"
                 placeholder="Teléfono"
@@ -187,84 +208,15 @@ const Main = () => {
             <Button variant="success" type="submit" onClick={handleChange}>
               Agregar
             </Button>
+            <Button variant="primary" type="submit">
+              Actualizar
+            </Button>
           </div>
         </Form>
       </div>
 
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
+      <Sidebar />
 
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar className="tulbar">
-            <Button variant="none">
-              <Typography
-                className="texto-tulbar"
-                variant=""
-                noWrap
-                component="div"
-              >
-                🏠 Home
-              </Typography>
-            </Button>
-          </Toolbar>
-
-          <Divider />
-          <List className="full-height">
-            <ListItem>
-              <ListItemButton className="item-button">
-                👨🏻 Pacientes
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemButton className="item-button">
-                👨🏻‍⚕️ Medicos
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemButton className="item-button">✍🏻 Turnos</ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemButton className="item-button">
-                🕑 Historial
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemButton className="item-button">
-                📕 Estudios
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemButton className="item-button">🛏️ Camas</ListItemButton>
-            </ListItem>
-            <Divider />
-
-            <ListItem className="list-item-auto-margin">
-              <ListItemButton className="item-button">
-                🤝 Nosotros
-              </ListItemButton>
-            </ListItem>
-          </List>
-          <Divider />
-        </Drawer>
-
-        <Box component="main" sx={{ flexGrow: 1, p: 0 }}></Box>
-      </Box>
       <Container className="tabla" fluid>
         <Table striped bordered hover>
           <thead>
@@ -291,7 +243,7 @@ const Main = () => {
                   <div className="d-flex justify-content-center gap-3 ">
                     <button
                       className="bin-button"
-                      onClick={() => handleEliminar(paciente.id_paciente)}
+                      onClick={() => handleShow(paciente.id_paciente)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -344,7 +296,12 @@ const Main = () => {
                         />
                       </svg>
                     </button>
-                    <button className="editBtn">
+                    <button
+                      className="editBtn"
+                      onClick={() => {
+                        handleEditar(paciente.id_paciente);
+                      }}
+                    >
                       <svg height="1em" viewBox="0 0 512 512">
                         <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
                       </svg>
@@ -358,6 +315,27 @@ const Main = () => {
             ))}
           </tbody>
         </Table>
+        <Modal show={show}>
+          <Modal.Header closeButton>
+            <Modal.Title>¡Cuidado!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            ¿Estás seguro que quieres eliminar el paciente?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleEliminar}>
+              SI
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                handleClose(false);
+              }}
+            >
+              NO
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   );

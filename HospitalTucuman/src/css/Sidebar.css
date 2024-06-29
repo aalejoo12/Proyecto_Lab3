@@ -1,0 +1,38 @@
+.tulbar{
+    background-color: #04AB91;
+    justify-content: center;
+   
+ }
+ .list{
+     background-color:  rgb(71, 91, 107);;
+ }
+ .tabla{
+     padding-left: 210px;
+     padding-bottom: 100px;
+ }
+ .item-button{
+     font-size: 20px;
+ }
+ .MuiTypography-root{
+     font-size: 25px;
+     font-weight: bolder;
+ }
+ 
+ .full-height {
+     display: flex;
+     flex-direction: column;
+     height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+   }
+ 
+ .list-item-auto-margin {
+     margin-top: auto; /* Empuja el elemento hacia la parte inferior */
+   }
+ 
+ .boton-toolbar{
+     background-color: #04AB91;
+     border: none;
+ }
+ .link{
+    text-decoration: none; /* Elimina el subrayado */
+    color: inherit; /* Hereda el color del texto del contenedor */
+ }
