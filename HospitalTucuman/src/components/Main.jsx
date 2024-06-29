@@ -82,37 +82,6 @@ const Main = () => {
     getPacientes();
   };
 
-  const handleEditar = async (e, id_paciente) => {
-
-    try {
-
-      console.log(id_paciente);
-      let response = await axios.put(
-        `http://localhost:8000/pacientes/editar/${id_paciente}`, {
-
-
-        nomyape: nomyape,
-        edad: edad,
-        email: email,
-        dni: dni,
-        telefono: telefono,
-        opcion: opcion,
-
-      }
-      );
-
-      if (response) {
-        alert("Paciente editado correctamente");
-      }
-      getPacientes();
-    }
-
-
-
-    catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleActualizar = () => { }
 
