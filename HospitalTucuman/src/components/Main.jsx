@@ -26,6 +26,9 @@ const Main = () => {
   const [show, setShow] = useState(false);
   const [idAeliminar, setIdAEliminar] = useState(null);
   const [idActualizar, setIdActualizar] = useState(null);
+  const [mostrar, setMostrar] = useState(false);
+  const [mostrar2, setMostrar2] = useState(true);
+
 
   const handleClose = () => {
     setShow(false);
@@ -98,6 +101,8 @@ const Main = () => {
   };
 
   const handleActualizar = async (e) => {
+    setMostrar(false)
+    setMostrar2(true)
     e.preventDefault()
     try {
       const response = await axios.put(`http://localhost:8000/pacientes/editar/${idActualizar}`, {
@@ -128,8 +133,9 @@ const Main = () => {
 
 
   const handleEditar = async (id_paciente) => {
+    setMostrar(true)
+    setMostrar2(false)
     setIdActualizar(id_paciente)
-    console.log(idActualizar);
     let result = await axios.get("http://localhost:8000/pacientes");
 
     console.log(result.data[id_paciente - 1]);
@@ -242,17 +248,14 @@ const Main = () => {
 
 
             <div className="text-center mt-5">
-              <Button variant="success" type="submit" onClick={handleChange}>
+              {mostrar2 &&<Button variant="primary" type="submit" onClick={handleChange}>
                 Agregar
-              </Button>
-
-            </div>
-            <div className="text-center mt-5">
-
-              <Button variant="success" type="button" onClick={handleActualizar}>
+              </Button>}
+              
+              {mostrar &&<Button variant="warning" type="button" onClick={handleActualizar}>
                 Actualizar
-              </Button>
-
+              </Button>}
+              
 
             </div>
           </Row>
