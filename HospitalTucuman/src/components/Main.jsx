@@ -30,7 +30,7 @@ const Main = () => {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [internar, setInternar] = useState("");
+  const [internar, setInternar] = useState(0);
   const [opcion, setOpcion] = useState("");
 
   const getPacientes = async () => {
@@ -40,26 +40,57 @@ const Main = () => {
   };
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
+    if (nomyape && edad && email && dni && telefono != "" && internar != null) {
+      handleChange()
+
+      const response = axios.post("http://localhost:8000/pacientes",{
+        nomyape:nomyape,
+        edad:edad,
+        email:email,
+        dni:dni,
+        telefono:telefono
+  
+      })
+      if (response) {
+        alert("contacto creado")
+      }
+    }
+   else{
+    alert("debe ingresar todos los campos")
+   }
+setNomyape("")
+setEdad("")
+setEmail("")
+setDni("")
+setTelefono("")
+setInternar("")   
+
+e.target.reset()
+getPacientes();
+
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setNomyape(e.target.nomyape);
-    setEdad(e.target.edad);
-    setEmail(e.target.email);
-    setDni(e.target.dni);
-    setTelefono(e.target.telefono);
-    setOpcion(e.target.value)
+  const handleChange = () => {
+
     if (opcion === "SI") {
       setInternar(1);
     } else if (opcion ==="NO") {
       setInternar(0);
     }
+    else{
+      setInternar(null)
+    }
   };
+
   useEffect(() => {
     getPacientes();
   }, []);
+
+  // console.log({nomyape,edad,email,dni,telefono,internar});
+
+  // console.log(opcion,internar);
 
   return (
     <>
@@ -72,7 +103,7 @@ const Main = () => {
                 name="nomyape"
                 type="text"
                 placeholder="Ingresa nombre y apellido"
-                onChange={handleChange}
+                onChange={(e)=>{setNomyape(e.target.value)}}
               />
             </Form.Group>
 
@@ -82,7 +113,7 @@ const Main = () => {
                 name="edad"
                 type="number"
                 placeholder="Edad"
-                onChange={handleChange}
+                onChange={(e)=>{setEdad(e.target.value)}}
               />
             </Form.Group>
           </Row>
@@ -93,7 +124,7 @@ const Main = () => {
               name="email"
               type="email"
               placeholder="example@example.com"
-              onChange={handleChange}
+              onChange={(e)=>{setEmail(e.target.value)}}
             />
           </Form.Group>
 
@@ -103,7 +134,7 @@ const Main = () => {
               name="dni"
               type="number"
               placeholder="Ingrese DNI"
-              onChange={handleChange}
+              onChange={(e)=>{setDni(e.target.value)}}
             />
           </Form.Group>
 
@@ -114,34 +145,24 @@ const Main = () => {
                 name="telefono"
                 type="number"
                 placeholder="Teléfono"
-                onChange={handleChange}
+                onChange={(e)=>{setTelefono(e.target.value)}}
               />
             </Form.Group>
 
-            {/* <Form.Group as={Col} controlId="formGridState">
+            <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Internación</Form.Label>
               <Form.Select
-                onSelectCapture={handleChange}
-                name="internar"
-                value={setOpcion}
+                onChange={(e)=>{setOpcion(e.target.value)}}
                 defaultValue="Choose..."
               >
-                <option>SI</option>
-                <option>NO</option>
+                <option value="">Elije</option>
+                <option value={"SI"}>SI</option>
+                <option value={"NO"}>NO</option>
               </Form.Select>
 
-          </Form.Group> */}
+          </Form.Group>
 
-  <Form.Group as={Col} controlId="formGridState">
-          <Form.Label>State</Form.Label>
-          <Form.Select  onChange={handleChange}
-                name="internar"
-                >
-            <option value="SI">SI</option>
-            <option value="NO">NO</option>
-          </Form.Select>
-        </Form.Group>
-
+ 
 
           </Row>
 
