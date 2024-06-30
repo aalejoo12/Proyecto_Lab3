@@ -8,8 +8,7 @@ const Header = () => {
 
 
   return (
-    <div className=''>
-    <Navbar className="bg-body-tertiary navbar ">
+    <Navbar className="navbar">
     <Container fluid className='d-flex justify-content-center'>
       <Navbar.Brand className='justify-content-end' href="#home">
         
@@ -35,7 +34,6 @@ const Header = () => {
         </Nav>
         </div>
   </Navbar>
-  </div>
   )
 }
 

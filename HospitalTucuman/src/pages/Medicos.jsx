@@ -148,7 +148,7 @@ const Medicos = () => {
       </div>
       <div className="container-form">
         <Form className="form" onSubmit={handleSubmit}>
-          <Row className="mb-3">
+          <Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control

@@ -1,7 +1,7 @@
 const { conection } = require("../config/db");
 
 const todoTurnos = (req, res) => {
-  const query = "select p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora, m.nombre as Medico from Turnos t join Pacientes p on p.id_paciente = t.id_paciente join Medicos M on m.id_medico = t.id_medico";
+  const query = "select m.id_medico, t.id_turno, p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora, m.nombre as Medico from Turnos t join Pacientes p on p.id_paciente = t.id_paciente join Medicos M on m.id_medico = t.id_medico"
 
   conection.query(query, (err, results) => {
     if (err) throw err;

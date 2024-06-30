@@ -164,7 +164,7 @@ const Main = () => {
   // console.log(opcion,internar);
 
   return (
-    <>  <div className="text-center mt-5">
+    <>  <div className="text-center mt-5 container-titulo">
       <h2>Agrega un paciente</h2>
     </div>
       <div className="container-form">
