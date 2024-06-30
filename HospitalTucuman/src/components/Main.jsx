@@ -76,6 +76,7 @@ const Main = () => {
 
   const handleEliminar = async () => {
     console.log(idAeliminar);
+    handleClose(true)
 
     let response = await axios.delete(
       `http://localhost:8000/pacientes/eliminar/${idAeliminar}`
@@ -101,6 +102,8 @@ const Main = () => {
   };
 
   const handleActualizar = async (e) => {
+    getPacientes();
+
     setMostrar(false)
     setMostrar2(true)
     e.preventDefault()
@@ -136,16 +139,16 @@ const Main = () => {
     setMostrar(true)
     setMostrar2(false)
     setIdActualizar(id_paciente)
-    let result = await axios.get("http://localhost:8000/pacientes");
+    let result = await axios.get(`http://localhost:8000/pacientes/${ id_paciente }`);
 
-    console.log(result.data[id_paciente - 1]);
+    console.log(result.data[0]);
     if (result) {
 
-      setNomyape(result.data[id_paciente - 1].nombre)
-      setEdad(result.data[id_paciente - 1].edad)
-      setEmail(result.data[id_paciente - 1].email)
-      setDni(result.data[id_paciente - 1].dni)
-      setTelefono(result.data[id_paciente - 1].telefono)
+      setNomyape(result.data[0].nombre)
+      setEdad(result.data[0].edad)
+      setEmail(result.data[0].email)
+      setDni(result.data[0].dni)
+      setTelefono(result.data[0].telefono)
     }
 
   };
@@ -248,14 +251,14 @@ const Main = () => {
 
 
             <div className="text-center mt-5">
-              {mostrar2 &&<Button variant="primary" type="submit" onClick={handleChange}>
+              {mostrar2 && <Button variant="primary" type="submit" onClick={handleChange}>
                 Agregar
               </Button>}
-              
-              {mostrar &&<Button variant="warning" type="button" onClick={handleActualizar}>
+
+              {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
                 Actualizar
               </Button>}
-              
+
 
             </div>
           </Row>

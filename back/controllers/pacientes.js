@@ -44,7 +44,7 @@ const editarPacientes = (req, res) => {
 
 const verPacientes = (req, res) => {
   const id = req.params.id;
-  const query = `delete from pacientes where id_paciente=${id}`;
+  const query = `select * from pacientes where id_paciente=${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
