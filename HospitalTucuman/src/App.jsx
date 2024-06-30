@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Pacientes from "./pages/Pacientes";
 import Medicos from "./pages/Medicos";
 import Turnos from "./pages/Turnos";
+import Historial from "./pages/Historial";
 
 
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/pacientes" element={<Pacientes />} />
           <Route path="/medicos" element={<Medicos />} />
           <Route path="/turnos" element={<Turnos />} />
+          <Route path="/historial" element={<Historial />} />
         </Routes>
       </BrowserRouter>
       </div>
