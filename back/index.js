@@ -2,6 +2,7 @@ const express = require("express")
 const {conection} = require("./config/db")
 const pacientes = require("./routes/pacientes")
 const logins = require("./routes/logins")
+const medicos = require("./routes/medicos")
 const cors = require("cors")
 
 
@@ -13,6 +14,8 @@ app.use(express.json())
 app.use(cors())
 app.use("/",pacientes)
 app.use("/",logins)
+app.use("/",medicos)
+
 
 
 
