@@ -76,6 +76,7 @@ const Main = () => {
 
   const handleEliminar = async () => {
     console.log(idAeliminar);
+    handleClose(true)
 
     let response = await axios.delete(
       `http://localhost:8000/pacientes/eliminar/${idAeliminar}`
@@ -136,18 +137,18 @@ const Main = () => {
     setMostrar(true)
     setMostrar2(false)
     setIdActualizar(id_paciente)
-    let result = await axios.get("http://localhost:8000/pacientes");
+    let result = await axios.get(`http://localhost:8000/pacientes/${id_paciente}`);
 
-    console.log(result.data[id_paciente - 1]);
+    console.log(result.data[0]);
     if (result) {
 
-      setNomyape(result.data[id_paciente - 1].nombre)
-      setEdad(result.data[id_paciente - 1].edad)
-      setEmail(result.data[id_paciente - 1].email)
-      setDni(result.data[id_paciente - 1].dni)
-      setTelefono(result.data[id_paciente - 1].telefono)
+      setNomyape(result.data[0].nombre)
+      setEdad(result.data[0].edad)
+      setEmail(result.data[0].email)
+      setDni(result.data[0].dni)
+      setTelefono(result.data[0].telefono)
     }
-
+    
   };
 
   useEffect(() => {
