@@ -26,6 +26,9 @@ const Main = () => {
   const [show, setShow] = useState(false);
   const [idAeliminar, setIdAEliminar] = useState(null);
   const [idActualizar, setIdActualizar] = useState(null);
+  const [mostrar, setMostrar] = useState(false);
+  const [mostrar2, setMostrar2] = useState(true);
+
 
   const handleClose = () => {
     setShow(false);
@@ -73,6 +76,7 @@ const Main = () => {
 
   const handleEliminar = async () => {
     console.log(idAeliminar);
+    handleClose(true)
 
     let response = await axios.delete(
       `http://localhost:8000/pacientes/eliminar/${idAeliminar}`
@@ -98,11 +102,12 @@ const Main = () => {
   };
 
   const handleActualizar = async (e) => {
-      
+    setMostrar(false)
+    setMostrar2(true)
     e.preventDefault()
-
     try {
       const response = await axios.put(`http://localhost:8000/pacientes/editar/${idActualizar}`, {
+
         nombre: nomyape,
         edad: edad,
         email: email,
@@ -129,20 +134,21 @@ const Main = () => {
 
 
   const handleEditar = async (id_paciente) => {
-  console.log(id_paciente);
+    setMostrar(true)
+    setMostrar2(false)
     setIdActualizar(id_paciente)
-    let result = await axios.get("http://localhost:8000/pacientes");
+    let result = await axios.get(`http://localhost:8000/pacientes/${id_paciente}`);
 
-    console.log(result.data[id_paciente]);
+    console.log(result.data[0]);
     if (result) {
 
-      setNomyape(result.data[id_paciente - 1].nombre)
-      setEdad(result.data[id_paciente - 1].edad)
-      setEmail(result.data[id_paciente - 1].email)
-      setDni(result.data[id_paciente - 1].dni)
-      setTelefono(result.data[id_paciente - 1].telefono)
+      setNomyape(result.data[0].nombre)
+      setEdad(result.data[0].edad)
+      setEmail(result.data[0].email)
+      setDni(result.data[0].dni)
+      setTelefono(result.data[0].telefono)
     }
-
+    
   };
 
   useEffect(() => {
@@ -245,12 +251,14 @@ const Main = () => {
 
 
             <div className="text-center mt-5">
-              <Button variant="success" type="submit" onClick={handleChange}>
+              {mostrar2 &&<Button variant="primary" type="submit" onClick={handleChange}>
                 Agregar
-              </Button>
-              <Button variant="primary" type="button" onClick={handleActualizar}>
+              </Button>}
+              
+              {mostrar &&<Button variant="warning" type="button" onClick={handleActualizar}>
                 Actualizar
-              </Button>
+              </Button>}
+              
 
             </div>
 
