@@ -18,6 +18,9 @@ const Medicos = () => {
   const [telefono, setTelefono] = useState("");
   const [imagen, setImagen] = useState();
 
+  const [idActualizar, setIdActualizar] = useState(null);
+
+
   const getMedicos = async () => {
     let result = await axios.get("http://localhost:8000/medicos");
     console.log(result.data);
@@ -55,15 +58,60 @@ const Medicos = () => {
   }
 
 
-  const handleActualizar = async() => {
+  const handleActualizar = async (e) => {
+    getMedicos();
 
     setMostrar(false)
     setMostrar2(true)
+    e.preventDefault()
+    try {
+      const response = await axios.put(`http://localhost:8000/medicos/editar/${idActualizar}`, {
+
+        nombre: nomyape,
+        especialidad: especialidad,
+        email: email,
+        telefono: telefono,
+        imagen: imagen,
+      });
+      if (response.status === 200) {
+        alert("Medico actualizado correctamente");
+        getMedicos(); // Opcional: actualizar la lista después de la actualización
+      }
+    } catch (error) {
+      console.error("Error al actualizar el paciente:", error);
+    }
+    setNomyape("");
+    setEspecialidad("");
+    setEmail("");
+    setTelefono("");
+    setImagen("");
+
+    getMedicos();
   }
-  const handleEditar = async() => {
-    setMostrar(true)
-    setMostrar2(false)
-  }
+
+
+
+  const handleEditar = async (id_medico) => {
+    setMostrar(true);
+    setMostrar2(false);
+    setIdActualizar(id_medico);
+  
+    let result = await axios.get("http://localhost:8000/medicos");
+  
+    // Buscamos el médico correspondiente al id_medico proporcionado
+    const medico = result.data.find(m => m.id_medico === id_medico);
+  
+    if (medico) {
+      setNomyape(medico.nombre);
+      setEspecialidad(medico.especialidad);
+      setEmail(medico.email);
+      setTelefono(medico.telefono);
+      setImagen(medico.imagen);
+    } else {
+      console.error(`Medico con id ${id_medico} no encontrado`);
+    }
+  };
+  
 
 
   useEffect(() => {
@@ -85,7 +133,7 @@ const Medicos = () => {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
-                // value={nomyape}
+                value={nomyape}
                 name="nomyape"
                 type="text"
                 placeholder="Ingresa nombre y apellido"
@@ -124,7 +172,7 @@ const Medicos = () => {
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Email</Form.Label>
             <Form.Control
-              // value={email}
+              value={email}
               name="email"
               type="email"
               placeholder="ejemplo@ejemplo.com"
@@ -140,7 +188,7 @@ const Medicos = () => {
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>Telefono</Form.Label>
               <Form.Control
-                // value={telefono}
+                value={telefono}
                 name="telefono"
                 type="number"
                 placeholder="Teléfono"
@@ -152,7 +200,7 @@ const Medicos = () => {
             <Form.Group className="mb-3" controlId="formGridAddress2">
               <Form.Label>Imagen</Form.Label>
               <Form.Control
-                // value={imagen}
+                value={imagen}
                 name="imagen"
                 type="text"
                 placeholder="Ingrese URL de la imagen"
@@ -199,7 +247,7 @@ const Medicos = () => {
                     <ListGroup.Item>Email: {medico.email}</ListGroup.Item>
                     <ListGroup.Item>Telefono: {medico.telefono}</ListGroup.Item>
                   </ListGroup>
-                  <Button variant="primary" onClick={handleEditar}>editar</Button>
+                  <Button variant="primary" onClick={() => handleEditar(medico.id_medico)}>editar</Button>
                   <Button variant="danger">Eliminar</Button>
 
                 </Card.Body>

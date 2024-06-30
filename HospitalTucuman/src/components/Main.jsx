@@ -141,14 +141,16 @@ const Main = () => {
     setIdActualizar(id_paciente)
     let result = await axios.get("http://localhost:8000/pacientes");
 
-    console.log(result.data[0]);
-    if (result) {
+      // Buscamos el médico correspondiente al id_medico proporcionado
+      const paciente = result.data.find(m => m.id_paciente === id_paciente);
 
-      setNomyape(result.data[0].nombre)
-      setEdad(result.data[0].edad)
-      setEmail(result.data[0].email)
-      setDni(result.data[0].dni)
-      setTelefono(result.data[0].telefono)
+    if (paciente) {
+      
+      setNomyape(paciente.nombre)
+      setEdad(paciente.edad)
+      setEmail(paciente.email)
+      setDni(paciente.dni)
+      setTelefono(paciente.telefono)
     }
 
   };
