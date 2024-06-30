@@ -3,7 +3,7 @@ import "../css/Medicos.css"
 import Header from '../components/Header'
 import Sidebar from "../components/Sidebar";
 import Footer from '../components/Footer';
-import { Button, Card, Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Form, ListGroup, Modal, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -19,6 +19,9 @@ const Medicos = () => {
   const [imagen, setImagen] = useState();
 
   const [idActualizar, setIdActualizar] = useState(null);
+  const [idAeliminar, setIdAEliminar] = useState(null);
+
+  const [show, setShow] = useState(false);
 
 
   const getMedicos = async () => {
@@ -95,12 +98,12 @@ const Medicos = () => {
     setMostrar(true);
     setMostrar2(false);
     setIdActualizar(id_medico);
-  
+
     let result = await axios.get("http://localhost:8000/medicos");
-  
+
     // Buscamos el médico correspondiente al id_medico proporcionado
     const medico = result.data.find(m => m.id_medico === id_medico);
-  
+
     if (medico) {
       setNomyape(medico.nombre);
       setEspecialidad(medico.especialidad);
@@ -111,7 +114,29 @@ const Medicos = () => {
       console.error(`Medico con id ${id_medico} no encontrado`);
     }
   };
-  
+
+  const handleEliminar = async () => {
+    console.log(idAeliminar);
+    handleClose(true)
+
+    let response = await axios.delete(
+      `http://localhost:8000/medicos/eliminar/${idAeliminar}`
+    );
+
+    if (response) {
+      alert("Medico eliminado correctamente");
+    }
+    getMedicos();
+  };
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleShow = (id) => {
+    setShow(true);
+    setIdAEliminar(id);
+  };
+
 
 
   useEffect(() => {
@@ -123,6 +148,7 @@ const Medicos = () => {
 
   return (
     <>
+      <Header />
 
       <div className="text-center mt-5">
         <h2>Agrega un medico</h2>
@@ -233,7 +259,6 @@ const Medicos = () => {
         </Form>
       </div>
 
-      <Header />
       <div className='d-flex justify-content-center'>
         <Row md={4} >
           {medicos.map((medico) =>
@@ -248,7 +273,7 @@ const Medicos = () => {
                     <ListGroup.Item>Telefono: {medico.telefono}</ListGroup.Item>
                   </ListGroup>
                   <Button variant="primary" onClick={() => handleEditar(medico.id_medico)}>editar</Button>
-                  <Button variant="danger">Eliminar</Button>
+                  <Button variant="danger" onClick={() => handleShow(medico.id_medico)}>Eliminar</Button>
 
                 </Card.Body>
               </Card>
@@ -258,6 +283,28 @@ const Medicos = () => {
         </Row>
 
       </div>
+
+      <Modal show={show}>
+        <Modal.Header closeButton>
+          <Modal.Title>¡Cuidado!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro que quieres eliminar el medico?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleEliminar}>
+            SI
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              handleClose(false);
+            }}
+          >
+            NO
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
 
 
