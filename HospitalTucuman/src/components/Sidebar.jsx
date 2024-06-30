@@ -50,9 +50,11 @@ const Sidebar = () => {
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemButton className="item-button">
+            <Link className='link' to={"/medicos"}>
+            <ListItemButton className="item-button">
                 👨🏻‍⚕️ Medicos
               </ListItemButton>
+              </Link>
             </ListItem>
             <Divider />
             <ListItem>
