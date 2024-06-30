@@ -12,9 +12,9 @@ const todoMedicos = (req, res) => {
 const agregarMedicos = (req, res) => {
   console.log(req);
 
-  const { nombre,especialidad, email, telefono, imagen } = req.body;
+  const { nombre, especialidad, email, telefono, imagen } = req.body;
 
-  const query = `INSERT INTO medicos (nombre,especialidad, email, telefono, imagen ) VALUES ("${nombre}","${especialidad}","${email}","${telefono}","${imagen}")`;
+  const query = `INSERT INTO Medicos (nombre, especialidad, email, telefono, imagen) VALUES ("${nombre}","${especialidad}","${email}","${telefono}","${imagen}")`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -33,9 +33,9 @@ const borrarMedicos = (req, res) => {
 
 const editarMedicos = (req, res) => {
   const id = req.params.id;
-  const { nombre, edad, dni, email, telefono } = req.body;
+  const { nombre, especialidad, email, telefono, imagen } = req.body;
 
-  const query = `UPDATE medicos SET nombre = '${nombre}', edad = '${edad}', dni = '${dni}', email = '${email}', telefono = '${telefono}' WHERE id_paciente = ${id}`;
+  const query = `UPDATE medicos SET nombre = '${nombre}', especialidad = '${especialidad}', email = '${email}', telefono = '${telefono}', imagen = '${imagen}' WHERE id_medico = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
@@ -44,9 +44,9 @@ const editarMedicos = (req, res) => {
 
 const verMedicos = (req, res) => {
   const id = req.params.id;
-  const query = `select * from medicos where id_paciente=${id}`;
+  const query = `select * from medicos where id_medico=${id}`;
   conection.query(query, (err, results) => {
-    if (err) throw err;Medicos
+    if (err) throw err;
     res.send(results);
   });
 };

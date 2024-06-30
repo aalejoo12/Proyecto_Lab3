@@ -7,7 +7,7 @@ const todoPacientes = (req, res) => {
     if (err) throw err;
     res.json(results);
   });
-};
+};  
 
 const agregarPacientes = (req, res) => {
   console.log(req);
