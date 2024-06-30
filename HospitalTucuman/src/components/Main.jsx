@@ -162,7 +162,9 @@ const Main = () => {
   // console.log(opcion,internar);
 
   return (
-    <>
+    <>  <div className="text-center mt-5">
+        <h2>Agrega un paciente</h2>
+        </div>
       <div className="container-form">
         <Form className="form" onSubmit={handleSubmit} >
           <Row className="mb-3">
@@ -199,7 +201,7 @@ const Main = () => {
               value={email}
               name="email"
               type="email"
-              placeholder="example@example.com"
+              placeholder="ejemplo@ejemplo.com"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
