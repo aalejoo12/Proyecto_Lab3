@@ -1,14 +1,14 @@
-import React from 'react'
-import "../css/Medicos.css"
-import Header from '../components/Header'
+import React from "react";
+import "../css/Medicos.css";
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import Footer from '../components/Footer';
-import { Button, Card, Col, Form, ListGroup, Row } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import Footer from "../components/Footer";
+import { Button, Card, CardBody, CardFooter, CardText, Col, Form, ListGroup, Row } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Medicos = () => {
-  const [medicos, setMedicos] = useState([])
+  const [medicos, setMedicos] = useState([]);
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
@@ -20,7 +20,6 @@ const Medicos = () => {
 
   const [idActualizar, setIdActualizar] = useState(null);
 
-
   const getMedicos = async () => {
     let result = await axios.get("http://localhost:8000/medicos");
     console.log(result.data);
@@ -29,7 +28,7 @@ const Medicos = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (nomyape && especialidad && email && telefono && imagen != "") {
-      handleChange()
+      handleChange();
 
       const response = axios.post("http://localhost:8000/medicos/agregar", {
         nombre: nomyape,
@@ -52,27 +51,26 @@ const Medicos = () => {
 
     e.target.reset();
     getMedicos();
-  }
-  const handleChange = () => {
-
-  }
-
+  };
+  const handleChange = () => {};
 
   const handleActualizar = async (e) => {
     getMedicos();
 
-    setMostrar(false)
-    setMostrar2(true)
-    e.preventDefault()
+    setMostrar(false);
+    setMostrar2(true);
+    e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:8000/medicos/editar/${idActualizar}`, {
-
-        nombre: nomyape,
-        especialidad: especialidad,
-        email: email,
-        telefono: telefono,
-        imagen: imagen,
-      });
+      const response = await axios.put(
+        `http://localhost:8000/medicos/editar/${idActualizar}`,
+        {
+          nombre: nomyape,
+          especialidad: especialidad,
+          email: email,
+          telefono: telefono,
+          imagen: imagen,
+        }
+      );
       if (response.status === 200) {
         alert("Medico actualizado correctamente");
         getMedicos(); // Opcional: actualizar la lista después de la actualización
@@ -87,20 +85,18 @@ const Medicos = () => {
     setImagen("");
 
     getMedicos();
-  }
-
-
+  };
 
   const handleEditar = async (id_medico) => {
     setMostrar(true);
     setMostrar2(false);
     setIdActualizar(id_medico);
-  
+
     let result = await axios.get("http://localhost:8000/medicos");
-  
+
     // Buscamos el médico correspondiente al id_medico proporcionado
-    const medico = result.data.find(m => m.id_medico === id_medico);
-  
+    const medico = result.data.find((m) => m.id_medico === id_medico);
+
     if (medico) {
       setNomyape(medico.nombre);
       setEspecialidad(medico.especialidad);
@@ -111,24 +107,19 @@ const Medicos = () => {
       console.error(`Medico con id ${id_medico} no encontrado`);
     }
   };
-  
-
 
   useEffect(() => {
-
-    getMedicos()
-
-  }, [])
-
+    getMedicos();
+  }, []);
 
   return (
     <>
-
-      <div className="text-center mt-5">
+      <Header />
+      <div className="container-titulo text-center mt-5">
         <h2>Agrega un medico</h2>
       </div>
       <div className="container-form">
-        <Form className="form" onSubmit={handleSubmit} >
+        <Form className="form" onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
@@ -149,23 +140,16 @@ const Medicos = () => {
                 onChange={(e) => {
                   setEspecialidad(e.target.value);
                 }}
-                defaultValue="Chose..."
+                defaultValue=""
               >
                 <option value="">Elije una especialidad</option>
-                <option value="cardiologia">Cardiología</option>
-                <option value="pediatria">Pediatría</option>
-                <option value="neurologia">Neurología</option>
-                <option value="dermatologia">Dermatología</option>
-                <option value="ginecologia">Ginecología</option>
-                <option value="oftalmologia">Oftalmología</option>
-                <option value="traumatologia">Traumatología</option>
-                <option value="psiquiatria">Psiquiatría</option>
-                <option value="urologia">Urología</option>
-                <option value="endocrinologia">Endocrinología</option>
+                {medicos.map((medico) => (
+                  <option value={medico.especialidad} key={medico.id_medico}>
+                    {medico.especialidad}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
-
-
 
           </Row>
 
@@ -181,8 +165,6 @@ const Medicos = () => {
               }}
             />
           </Form.Group>
-
-
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridCity">
@@ -209,64 +191,61 @@ const Medicos = () => {
                 }}
               />
             </Form.Group>
-
-
           </Row>
           <Row>
-
-
             <div className="text-center mt-5">
-              {mostrar2 && <Button variant="primary" type="submit" onClick={handleChange}>
-                Agregar
-              </Button>}
+              {mostrar2 && (
+                <Button variant="primary" type="submit" onClick={handleChange}>
+                  Agregar
+                </Button>
+              )}
 
-              {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
-                Actualizar
-              </Button>}
-
-
+              {mostrar && (
+                <Button
+                  variant="warning"
+                  type="button"
+                  onClick={handleActualizar}
+                >
+                  Actualizar
+                </Button>
+              )}
             </div>
-
-
-
           </Row>
         </Form>
       </div>
 
-      <Header />
-      <div className='d-flex justify-content-center'>
-        <Row md={4} >
-          {medicos.map((medico) =>
-            <Col key={medico.id_medico}>
-              <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={medico.imagen} />
-                <Card.Body>
-                  <Card.Title>{medico.nombre}</Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>Especialidad: {medico.especialidad}</ListGroup.Item>
-                    <ListGroup.Item>Email: {medico.email}</ListGroup.Item>
-                    <ListGroup.Item>Telefono: {medico.telefono}</ListGroup.Item>
-                  </ListGroup>
-                  <Button variant="primary" onClick={() => handleEditar(medico.id_medico)}>editar</Button>
-                  <Button variant="danger">Eliminar</Button>
-
+      <div className="d-flex justify-content-center">
+        <Row md={2}>
+          {medicos.map((medico) => (
+            <Col className="card-medicos" md={6} key={medico.id_medico}>
+              <Card  style={{ width: "410px", height:"600px"}}>
+                <Card.Img style={{width:"408px",height:"320px"}} variant="top" src={medico.imagen} />
+                  <Card.Title className="fw-bolder fs-4 card-title ">{medico.nombre}</Card.Title>
+                <Card.Body className="card-body">
+                  <p className="fs-5 fw-bold"> Especialidad: {medico.especialidad}</p> 
+                   <p> Email:  {medico.email}</p>
+                    <p>Telefono: {medico.telefono}</p>
                 </Card.Body>
+                    <CardFooter className="card-footer">
+                  <Button
+                  className="btn1"
+                    variant="success"
+                    onClick={() => handleEditar(medico.id_medico)}
+                  >
+                    Editar
+                  </Button>
+                  <Button className="btn2" variant="danger">Eliminar</Button>
+                  </CardFooter>
               </Card>
             </Col>
-
-          )}
+          ))}
         </Row>
-
       </div>
-
-
 
       <Sidebar />
       <Footer />
-
-
     </>
-  )
-}
+  );
+};
 
-export default Medicos
+export default Medicos;

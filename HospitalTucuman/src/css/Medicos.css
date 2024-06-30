@@ -1,0 +1,26 @@
+.container-form{
+    display: flex;
+    padding-left: 200px;
+}
+.card-medicos{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 100px;
+    padding-left: 200px;
+}
+.container-titulo{
+    padding-left: 200px;
+}
+.card-body{
+    padding-top: 0%;
+    padding-bottom: 0%;
+}
+.card-title{
+    padding-top: 20px;
+    background-color: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+}
+.card-footer{
+    display: flex;
+    justify-content: space-around;
+    
+}
