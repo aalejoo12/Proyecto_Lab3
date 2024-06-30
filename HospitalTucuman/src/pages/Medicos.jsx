@@ -262,7 +262,7 @@ const Medicos = () => {
                   >
                     Editar
                   </Button>
-                  <Button className="btn2" variant="danger">Eliminar</Button>
+                  <Button onClick={()=>handleShow(medico.id_medico)} className="btn2" variant="danger">Eliminar</Button>
                   </CardFooter>
               </Card>
             </Col>
