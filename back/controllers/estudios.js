@@ -4,7 +4,8 @@ const todoEstudios = (req, res) => {
   const query = `select p.id_paciente, p.nombre, e.id_estudioCompl, e.tipodeEstudio, e.resultado, e.fechaRealizacion
 from Pacientes p
 join estudioscompl e 
-on e.id_paciente = p.id_paciente`;
+on e.id_paciente = p.id_paciente
+order by e.id_estudioCompl`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
