@@ -130,7 +130,7 @@ const Turnos = () => {
     e.preventDefault()
     try {
       const response = await axios.put(`http://localhost:8000/turnos/editar/${idActualizar}`, {
-        fecha: fecha,
+        fechaIngreso: fecha,
         hora: hora,
         id_medico: id_medico,
         id_paciente: id_paciente

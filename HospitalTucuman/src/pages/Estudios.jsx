@@ -3,55 +3,173 @@ import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, FormGroup, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, FormGroup, Modal, Row, Table } from 'react-bootstrap';
 
 const Estudios = () => {
 
-const [estudios, setEstudios] = useState([])
-const [pacientes,setPaciente] = useState([])
+  const [estudios, setEstudios] = useState([])
+  const [pacientes, setPaciente] = useState([])
+
+  const [id_paciente, setId_paciente] = useState(null)
+  const [tipodeEstudio, setTipodeEstudio] = useState(null)
+  const [fecha, setFecha] = useState(null)
+  const [resultado, setResultado] = useState(null)
+
+  const [show, setShow] = useState(false);
+  const [idAeliminar, setIdAEliminar] = useState(null);
+  const [mostrar, setMostrar] = useState(false);
+  const [mostrar2, setMostrar2] = useState(true);
+  const [idActualizar, setIdActualizar] = useState(null);
 
 
 
-const formatDate = (dateString) => {
+ 
+  const getEstudios = async () => {
+    let result = await axios.get("http://localhost:8000/estudios");
+    console.log(result.data);
+    setEstudios(result.data);
+  };
+
+  const getPacientes = async () => {
+    let result = await axios.get("http://localhost:8000/pacientes");
+    // console.log(result.data);
+    setPaciente(result.data);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (id_paciente && tipodeEstudio && fecha && resultado != null) {
+
+      const response = axios.post("http://localhost:8000/estudios/agregar", {
+        id_paciente: id_paciente,
+        resultado: resultado,
+        fechaRealizacion: fecha,
+        tipodeEstudio: tipodeEstudio,
+      });
+      if (response) {
+        alert("estudio creado");
+      }
+    } else {
+      alert("debe ingresar todos los campos");
+    }
+    // setId_paciente("");
+    // setNombre("");
+    // setFecha("");
+    // setResultado("");
+    // setTipodeEstudio("");
+
+    e.target.reset();
+    getEstudios();
+  };
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     return formattedDate;
   };
 
-    const getEstudios = async () => {
-        let result = await axios.get("http://localhost:8000/estudios");
-        console.log(result.data);
-        setEstudios(result.data);
-      };
+  const handleShow = (id) => {
+    setShow(true);
+    setIdAEliminar(id);
+  }
 
-      const getPacientes = async () => {
-        let result = await axios.get("http://localhost:8000/pacientes");
-        // console.log(result.data);
-        setPaciente(result.data);
-      };
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleEliminar = async () => {
+    console.log(idAeliminar);
+    handleClose(true)
+
+    let response = await axios.delete(
+      `http://localhost:8000/estudios/eliminar/${idAeliminar}`
+    );
+
+    if (response) {
+      alert("estudio eliminado correctamente");
+    }
+    getEstudios();
+  };
+
+  const handleEditar = async (id) => {
+    setMostrar(true)
+    setMostrar2(false)
+    setIdActualizar(id)
+
+    let result = await axios.get(`http://localhost:8000/estudios/${id}`);
+    const estudio = result.data;
+    console.log(estudio[0]);
+
+    if (result) {
+      // const fecha = new Date(estudio[0].fecha);
+
+      // const fechaFormateada = fecha.toISOString().split('T')[0];
+
+
+      setFecha(estudio[0].fechaRealizacion)
+      setId_paciente(estudio[0].id_paciente)
+      setResultado(estudio[0].resultado)
+      setTipodeEstudio(estudio[0].tipodeEstudio)
+    }
+  };
+
+  const handleActualizar = async (e) => {
+
+    getEstudios();
+
+    setMostrar(false)
+    setMostrar2(true)
+    e.preventDefault()
+    try {
+      const response = await axios.put(`http://localhost:8000/estudios/editar/${idActualizar}`, {
+        id_paciente: id_paciente,
+        resultado: resultado,
+        fechaRealizacion: fecha,
+        tipodeEstudio: tipodeEstudio,
+      });
+      if (response.status === 200) {
+        alert("estudio actualizado correctamente");
+        getEstudios();
+      }
+    } catch (error) {
+      console.error("Error al actualizar el estudio:", error);
+    }
+
+    setId_paciente("");
+    setFecha("");
+    setResultado("");
+    setTipodeEstudio("");
+
+
+    getEstudios();
+
+  }
 
 
 
-      useEffect(() => {
-        getEstudios()
-       getPacientes()
-      }, [])
-      
+  useEffect(() => {
+    getEstudios()
+    getPacientes()
+  }, [])
+
   return (
 
     <>
-    <Header/>
-    <div className="container-titulo text-center mt-5">
+      <Header />
+      <div className="container-titulo text-center mt-5">
         <h2>Agrega un Estudio </h2>
       </div>
 
       <div className="container-form">
 
-      <Form>
-<Row>
-<FormGroup as={Col}>
-            <Form.Label>Elije el paciente</Form.Label>
-            <Form.Select
+        <Form onSubmit={handleSubmit}>
+          <Row
+          >
+            <FormGroup as={Col}>
+              <Form.Label>Elije el paciente</Form.Label>
+              <Form.Select
+                onChange={(e) => {
+                  setId_paciente(e.target.value)
+                }}
               >
                 <option value="">Elija el paciente</option>
                 {pacientes.map((paciente) => (
@@ -61,40 +179,57 @@ const formatDate = (dateString) => {
                 ))}
               </Form.Select>
             </FormGroup>
-</Row>
-<Row>
+          </Row>
+          <Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Ingresa tipo de estudio</Form.Label>
               <Form.Control
-              value={""}
+                value={tipodeEstudio}
                 type="text"
                 placeholder="Estudio"
-                
-                />
+                onChange={(e) => {
+                  setTipodeEstudio(e.target.value)
+                }}
+
+              />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Resultado</Form.Label>
               <Form.Control
-              value={""}
+                value={resultado}
                 type="text"
                 placeholder="Resultado"
-               
-                />
+                onChange={(e) => {
+                  setResultado(e.target.value)
+                }}
+
+              />
             </Form.Group>
-                </Row>
-                <Form.Label>Ingrese la fecha de realizacion</Form.Label>
-              <Form.Control
-                // value={fecha}
-                type="date"
-                placeholder="fecha"
-                />
-<Button variant="primary" type="submit">
-                Agregar
-              </Button>
-      </Form>
+          </Row>
+          <Form.Label>Ingrese la fecha de realizacion</Form.Label>
+          <Form.Control
+            value={fecha}
+            type="date"
+            placeholder="fecha"
+            onChange={(e) => { setFecha(e.target.value) }}
+          />
+          {mostrar2 && <Button variant="primary" type="submit" >
+            Agregar
+          </Button>}
+
+          {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
+            Actualizar
+          </Button>}
+        </Form>
       </div>
-    <Container fluid className="tabla">
-    <Table striped bordered hover>
+
+
+      {/* aqui empieza la tabla */}
+
+
+
+      <Container fluid className="tabla">
+        <Table striped bordered hover>
           <thead>
             <tr className="text-center">
               <th>ID Estudio</th>
@@ -102,7 +237,7 @@ const formatDate = (dateString) => {
               <th>Tipo de estudio</th>
               <th>Resultado</th>
               <th>Fecha de Realizacion</th>
-             
+
               <th>Acciones</th>
             </tr>
           </thead>
@@ -114,11 +249,11 @@ const formatDate = (dateString) => {
                 <td>{estudio.tipodeEstudio}</td>
                 <td>{estudio.resultado}</td>
                 <td>{formatDate(estudio.fechaRealizacion)}</td>
-               
+
 
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">
-                    <button className="bin-button" >
+                    <button className="bin-button" onClick={() => handleShow(estudio.id_estudioCompl)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -170,7 +305,7 @@ const formatDate = (dateString) => {
                         />
                       </svg>
                     </button>
-                    <button className="editBtn"  >
+                    <button className="editBtn"  onClick={() => handleEditar(estudio.id_estudioCompl)}>
                       <svg height="1em" viewBox="0 0 512 512">
                         <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
                       </svg>
@@ -185,12 +320,34 @@ const formatDate = (dateString) => {
           </tbody>
         </Table>
 
+        <Modal show={show}>
+          <Modal.Header closeButton>
+            <Modal.Title>¡Cuidado!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            ¿Estás seguro que quieres eliminar el estudio?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleEliminar}>
+              SI
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                handleClose(false);
+              }}
+            >
+              NO
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-</Container>
 
-    <Sidebar/>
-    <Footer/>
-    
+      </Container>
+
+      <Sidebar />
+      <Footer />
+
     </>
   )
 }
