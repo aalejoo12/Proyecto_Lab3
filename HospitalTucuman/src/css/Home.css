@@ -1,0 +1,27 @@
+.izq {
+  position: relative;
+  left: 300px;
+}
+.letra {
+  color: rgb(61, 70, 155);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 17px;
+}
+.bienvenida {
+  color: rgb(0, 16, 245);
+  font-family: "Times New Roman", serif;
+}
+.parrafo {
+  color: rgb(61, 70, 155);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+.typeWriter {
+  color: rgb(0, 72, 90);
+  font-size: 30px;
+}
+.img {
+  height: 125px;
+}
+.foto {
+  height: 150px;
+}
