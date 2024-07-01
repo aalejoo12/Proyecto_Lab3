@@ -110,7 +110,7 @@ const Camas = () => {
         id_sala: id_sala,
       });
       if (response.status === 200) {
-        alert("Cama actualizado correctamente");
+        alert("Cama actualizada correctamente");
         getCamas();
       }
     } catch (error) {
