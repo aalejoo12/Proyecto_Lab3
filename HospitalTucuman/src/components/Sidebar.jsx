@@ -64,9 +64,11 @@ const Sidebar = () => {
             </ListItem>
             <Divider />
             <ListItem>
+              <Link className='link' to={"/hc"}>
               <ListItemButton className="item-button">
                 🕑 Historial
               </ListItemButton>
+              </Link>
             </ListItem>
             <Divider />
             <ListItem>

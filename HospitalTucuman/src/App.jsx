@@ -20,7 +20,7 @@ function App() {
           <Route path="/pacientes" element={<Pacientes />} />
           <Route path="/medicos" element={<Medicos />} />
           <Route path="/turnos" element={<Turnos />} />
-          <Route path="/historial" element={<Historial />} />
+          <Route path="/hc" element={<Historial />} />
         </Routes>
       </BrowserRouter>
       </div>

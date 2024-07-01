@@ -1,7 +1,10 @@
 const { conection } = require("../config/db");
 
 const todoHistoriasClinicas = (req, res) => {
-  const query = "select * from historiasclinicas";
+  const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura,h.fechaIngreso
+from Pacientes p
+join historiasclinicas h 
+on h.id_paciente = p.id_paciente`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -43,7 +46,11 @@ const editarHistoriasClinicas = (req, res) => {
 
 const verHistoriasClinicas = (req, res) => {
   const id = req.params.id;
-  const query = `select * from historiasclinicas where id_historiaclinica=${id}`;
+  const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura
+from Pacientes p
+join historiasclinicas h 
+on h.id_paciente = p.id_paciente
+where p.id_paciente = ${id};`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

@@ -181,7 +181,7 @@ const handleActualizar = async (e) => {
                   </option>
                 ))}
               </Form.Select>
-            </Form.Group>
+            </Form.Group> 
           </Row>
           <Row>
             <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
