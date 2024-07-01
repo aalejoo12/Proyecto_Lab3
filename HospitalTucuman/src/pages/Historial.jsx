@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Button, Col, Container, Form, FormGroup, FormLabel, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, FormGroup,  Row, Table } from "react-bootstrap";
 
 const Historial = () => {
   const [historial, setHistorial] = useState([]);
