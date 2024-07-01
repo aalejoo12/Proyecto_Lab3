@@ -30,8 +30,6 @@ const formatDate = (dateString) => {
         setPaciente(result.data);
       };
 
-
-
       useEffect(() => {
         getEstudios()
        getPacientes()

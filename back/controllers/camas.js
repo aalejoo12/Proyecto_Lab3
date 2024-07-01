@@ -18,7 +18,7 @@ const agregarCamas = (req, res) => {
   const { estado, fechaIngreso, fechaAlta, id_paciente, id_sala } = req.body;
 
   const query = `INSERT INTO camas (estado, fechaIngreso, fechaAlta, id_paciente, id_sala) VALUES 
-  ("${estado}","${fechaIngreso}","${fechaAlta}", "${id_paciente}","${id_sala}")`;
+  ("${estado}","${fechaIngreso}","${fechaAlta}",${id_paciente},${id_sala})`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -49,7 +49,15 @@ const editarCamas = (req, res) => {
 
 const verCamas = (req, res) => {
   const id = req.params.id;
-  const query = `select * from camas where id_cama=${id}`;
+  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,p.nombre,s.tipoSala
+from Camas c 
+join Salas s
+on s.id_sala = c.id_sala
+join Pacientes p 
+on p.id_paciente = c.id_paciente
+where c.id_cama = ${id}
+order by c.id_cama;
+`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

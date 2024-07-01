@@ -8,6 +8,7 @@ import Turnos from "./pages/Turnos";
 import Historial from "./pages/Historial";
 import Estudios from "./pages/Estudios";
 import Camas from "./pages/Camas";
+import VerCama from "./pages/VerCama";
 
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/hc" element={<Historial />} />
           <Route path="/estudios" element={<Estudios />} />
           <Route path="/camas" element={<Camas />} />
+          <Route path="/camas/:id" element={<VerCama />} />
 
         </Routes>
       </BrowserRouter>

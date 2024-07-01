@@ -4,7 +4,8 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { Button, Card, CardFooter, CardImg, Col, Form, Modal, Row } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
+import "../css/Camas.css"
 const Camas = () => {
 
   const [camas, setCamas] = useState([])
@@ -14,7 +15,7 @@ const Camas = () => {
   const [estado, setEstado] = useState(null);
   const [fechaIngreso, setFechaIngreso] = useState("");
   const [fechaAlta, setFechaAlta] = useState("");
-  const [id_paciente, setId_paciente] = useState("");
+  const [id_paciente, setId_paciente] = useState(null);
   const [id_sala, setId_sala] = useState("");
 
   const [idActualizar, setIdActualizar] = useState(null);
@@ -27,8 +28,6 @@ const Camas = () => {
 
   const [opcion, setOpcion] = useState(null);
 
-console.log(opcion);
-console.log(estado);
 
 const handleChange = () => {
 
@@ -72,8 +71,7 @@ const handleChange = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (fechaIngreso && fechaAlta && id_paciente && id_sala != "" && estado != null) {
-      handleChange();
+    if (fechaIngreso && fechaAlta  && id_sala != "" && estado != null) {
 
       const response = axios.post("http://localhost:8000/camas/agregar", {
         estado: estado,
@@ -88,13 +86,11 @@ const handleChange = () => {
     } else {
       alert("debe ingresar todos los campos");
     }
-    setEstado("");
     setFechaIngreso("");
     setFechaAlta("");
     setId_paciente("");
     setId_sala("");
 
-    e.target.reset();
     getCamas();
   };
 
@@ -187,8 +183,6 @@ const handleChange = () => {
 
   }, [])
 
-
-
   return (
     <>
       <Header />
@@ -197,24 +191,26 @@ const handleChange = () => {
       </div>
 
       <div className="container-form">
+        
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label>Ingrese el paciente</Form.Label>
-              <Form.Select
-                onChange={(e) => {
-                  setId_paciente(e.target.value);
-                }}
-                defaultValue=""
-              >
-                <option value="">Elije el paciente</option>
-                {pacientes.map((paciente) => (
-                  <option value={paciente.id_paciente} key={paciente.id_paciente}>
-                    {paciente.nombre}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
+          
+          <Form.Group as={Col} controlId="formGridEmail"
+          className={estado != 1 ? 'visible' : 'hidden'}
+          >
+            <Form.Label>Ingrese el paciente</Form.Label>
+            <Form.Select
+              onChange={(e) => setId_paciente(e.target.value)}
+              defaultValue=""
+            >
+              <option value="">Elije el paciente</option>
+              {pacientes.map((paciente) => (
+                <option value={paciente.id_paciente} key={paciente.id_paciente}>
+                  {paciente.nombre}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
 
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Ingrese La sala</Form.Label>
@@ -249,18 +245,18 @@ const handleChange = () => {
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Disponibilidad</Form.Label>
               <Form.Select
-                onChange={(e)=>{setOpcion(e.target.value)}}
+                onChange={(e)=>{(setEstado(e.target.value))}}
                 defaultValue="Choose..."
               >
                 <option value="">Elije</option>
-                <option value={"SI"}>Libre</option>
-                <option value={"NO"}>Ocupada</option>
+                <option value={1}>Libre</option>
+                <option value={0}>Ocupada</option>
               </Form.Select>
             </Form.Group>
 
 
           </Row>
-          {mostrar2 && <Button variant="primary" type="submit" onClick={handleChange}>
+          {mostrar2 && <Button variant="primary" type="submit" onClick={handleSubmit}>
             Agregar
           </Button>}
 
@@ -284,7 +280,7 @@ const handleChange = () => {
         <Row md={2}>
           {camas.map((cama) => (
             <Col className="card-medicos" md={6} key={cama.id_cama}>
-              <Card style={{ width: "410px", height: "500px" }}>
+              <Card style={{ width: "410px", height: "590px" }}>
                 <Card.Title className="fw-bolder fs-4 card-title bg-light">Cama número: {cama.id_cama}</Card.Title>
                 <CardImg style={{ width: "408px", height: "320px" }} src="https://i.trade-cloud.com.cn/upload/6662/image/20211224/2_295201.jpg"></CardImg>
                 <Card.Body className="card-body">
@@ -302,7 +298,9 @@ const handleChange = () => {
                     Editar
                   </Button>
                   <Button onClick={() => handleShow(cama.id_cama)} className="btn2" variant="danger">Eliminar</Button>
-                  <Button className="btn3" variant="primary">Ver</Button>
+                  <Link className="link" to={`/camas/${cama.id_cama}`}>
+                  <Button className={cama.estado != 1 ? 'visible' : 'hidden'} variant="primary">Ver</Button>
+                  </Link>
                 </CardFooter>
                 
               </Card>
