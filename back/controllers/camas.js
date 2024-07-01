@@ -36,7 +36,7 @@ const editarCamas = (req, res) => {
   const { estado, fechaIngreso, fechaAlta, id_paciente, id_sala } = req.body;
 
 
-  const query = `UPDATE camas SET estado="${estado}",fechaingreso="${fechaIngreso}",fechaalta="${fechaAlta}", id_paciente="${id_paciente}",id_sala="${id_sala}" where  id_cama = ${id}`;
+  const query = `UPDATE camas SET estado="${estado}",fechaIngreso="${fechaIngreso}",fechaAlta="${fechaAlta}", id_paciente="${id_paciente}",id_sala="${id_sala}" where  id_cama = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
