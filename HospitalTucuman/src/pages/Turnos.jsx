@@ -18,6 +18,8 @@ const Turnos = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
   const [idActualizar, setIdActualizar] = useState(null);
+  const [pacientes,setPacientes] = useState([])
+  const [medicos,setMedicos] = useState([])
 
 
 
@@ -26,6 +28,19 @@ const Turnos = () => {
     console.log(result.data);
     setTurnos(result.data);
   };
+
+  const getPacientes = async () => {
+    let result = await axios.get("http://localhost:8000/pacientes");
+    console.log(result.data);
+    setPacientes(result.data);
+  };
+
+  const getMedicos = async () => {
+    let result = await axios.get("http://localhost:8000/medicos");
+    console.log(result.data);
+    setMedicos(result.data);
+  };
+
 
   
   const handleSubmit = (e) => {
@@ -39,7 +54,7 @@ const Turnos = () => {
         fecha: fecha
       });
       if (response) {
-        alert("paciente creado");
+        alert("turno creado");
       }
     } else {
       alert("debe ingresar todos los campos");
@@ -84,24 +99,28 @@ const Turnos = () => {
   getTurnos();
 };
 
-const handleEditar = async (id_turno) => {
+const handleEditar = async (id) => {
   setMostrar(true)
   setMostrar2(false)
-  setIdActualizar(id_turno)
+  setIdActualizar(id)
 
-  let result = await axios.get(`http://localhost:8000/turnos/${id_turno}`);
+  let result = await axios.get(`http://localhost:8000/turnos/${id}`);
 const turno = result.data ;
-console.log(turno);
+console.log(turno[0]);
 
 if (result) {
-setFecha(turno.fecha)
-setHora(turno.hora)
-setId_paciente(turno.id_paciente)
-setId_medico(turno.id_medico)
-}
- 
+  const fecha = new Date(turno[0].fecha);
 
-  }
+  const fechaFormateada = fecha.toISOString().split('T')[0];
+
+
+setFecha(fechaFormateada)
+setHora(turno[0].hora)
+setId_paciente(turno[0].id_paciente)
+setId_medico(turno[0].id_medico)
+}
+  };
+
 const handleActualizar = async (e) => {
 
   getTurnos();
@@ -133,10 +152,11 @@ const handleActualizar = async (e) => {
 
 }
 
-
-
   useEffect(() => {
     getTurnos();
+    getPacientes()
+    getMedicos()
+
   }, []);
 
   return (
@@ -158,9 +178,9 @@ const handleActualizar = async (e) => {
                 defaultValue=""
               >
                 <option value="">Elije el paciente</option>
-                {turnos.map((turno) => (
-                  <option value={turno.id_paciente} key={turno.id_paciente}>
-                    {turno.NombrePaciente}
+                {pacientes.map((paciente) => (
+                  <option value={paciente.id_paciente} key={paciente.id_paciente}>
+                    {paciente.nombre}
                   </option>
                 ))}
               </Form.Select>
@@ -175,9 +195,9 @@ const handleActualizar = async (e) => {
                 defaultValue=""
               >
                 <option value="">Elije el médico</option>
-                {turnos.map((turno) => (
-                  <option value={turno.id_medico} key={turno.id_medico}>
-                    {turno.Medico}
+                {medicos.map((medico) => (
+                  <option value={medico.id_medico} key={medico.id_medico}>
+                    {medico.nombre}
                   </option>
                 ))}
               </Form.Select>
@@ -186,12 +206,12 @@ const handleActualizar = async (e) => {
           <Row>
             <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
               <Form.Label>Ingrese la fecha del turno</Form.Label>
-              <Form.Control type="date" placeholder="Fecha del Turno" onChange={(e)=>{setFecha(e.target.value)}} />
+              <Form.Control value={fecha} type="date" placeholder="Fecha del Turno" onChange={(e)=>{setFecha(e.target.value)}} />
             </Form.Group>
 
             <Form.Group as={Col} className="mb-3" controlId="formGridAddress2">
               <Form.Label>Horario del turno</Form.Label>
-              <Form.Control type="time" placeholder="Hora" onChange={(e)=>{
+              <Form.Control value={hora} type="time" placeholder="Hora" onChange={(e)=>{
                 setHora(e.target.value)
               }} />
             </Form.Group>

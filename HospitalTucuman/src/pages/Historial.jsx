@@ -3,11 +3,23 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Button, Col, Container, Form, FormGroup, FormLabel, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, FormGroup, FormLabel, Modal, Row, Table } from "react-bootstrap";
 
 const Historial = () => {
   const [historial, setHistorial] = useState([]);
   const [pacientes, setPaciente] = useState([]);
+  const[idPaciente, setIdPaciente] = useState("")
+  const[grupoSanguineo, setGrupoSanguineo] = useState("")
+  const[alergias, setAlergias] = useState("")
+  const[peso, setPeso] = useState("")
+  const[altura, setAltura] = useState("")
+  const[fecha, setFecha] = useState("")
+  const [show, setShow] = useState("");
+  const [idAeliminar, setIdAEliminar] = useState("");
+  const [mostrar, setMostrar] = useState(false);
+  const [mostrar2, setMostrar2] = useState(true);
+  const [idActualizar, setIdActualizar] = useState(null);
+
 
 
 
@@ -18,21 +30,131 @@ const Historial = () => {
     return formattedDate;
   };
 
-  const getPacientes = async () => {
-    let result = await axios.get("http://localhost:8000/pacientes");
-    console.log(result.data);
-    setPaciente(result.data);
-  };
-
   const getHistorial = async () => {
     let result = await axios.get("http://localhost:8000/hc");
     console.log(result.data);
     setHistorial(result.data);
   };
+  const getPacientes = async () => {
+    let result = await axios.get("http://localhost:8000/pacientes");
+    // console.log(result.data);
+    setPaciente(result.data);
+  };
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (idPaciente && grupoSanguineo && alergias && peso && altura && fecha != null ) {
+
+      const response = await axios.post("http://localhost:8000/hc/agregar", {
+        id_paciente: idPaciente,
+        grupoSanguineo: grupoSanguineo,
+        alergias: alergias,
+        peso: peso,
+        altura: altura,
+        fechaIngreso: fecha
+
+      });
+      if (response) {
+        alert("historial creado");
+      }
+    } else {
+      alert("debe ingresar todos los campos");
+    }
+    // setIdPaciente("");
+    // setGrupoSanguineo("");
+    // setAlergias("");
+    // setPeso("");
+    // setAltura("");
+    // setFecha("");
+
+
+    e.target.reset();
+    getHistorial();
+  };
+
+  const handleShow = (id) =>{
+    setShow(true);
+    setIdAEliminar(id);
+  }
+  
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleEliminar = async () => {
+    console.log(idAeliminar);
+    handleClose(true)
+    
+    let response = await axios.delete(
+      `http://localhost:8000/hc/eliminar/${idAeliminar}`
+    );
+    
+    if (response) {
+      alert("Historial eliminado correctamente");
+  }
+  getHistorial();
+};
+
+
+const handleEditar = async (id) => {
+  setMostrar(true)
+  setMostrar2(false)
+  setIdActualizar(id)
+
+  let result = await axios.get(`http://localhost:8000/hc/${id}`);
+const historial = result.data;
+
+console.log(historial[0]);
+
+if (result) {
+setIdPaciente(historial[0].id_paciente)
+setGrupoSanguineo(historial[0].grupoSanguineo)
+setAlergias(historial[0].alergias)
+setPeso(parseFloat(historial[0].peso.replace('kg', '')))
+setAltura(historial[0].altura)
+setFecha(historial[0].fechaIngreso)
+
+}
+  };
+  
+
+  const handleActualizar = async (e) => {
+
+    getHistorial();
+  
+    setMostrar(false)
+    setMostrar2(true)
+    e.preventDefault()
+    try {
+      const response = await axios.put(`http://localhost:8000/hc/editar/${idActualizar}`, {
+        id_paciente: idPaciente,
+        grupoSanguineo: grupoSanguineo,
+        alergias: alergias,
+        peso: peso,
+        altura: altura,
+        fechaIngreso: fecha
+      });
+      if (response.status === 200) {
+        alert("Historial actualizado correctamente");
+        getHistorial(); 
+      }
+    } catch (error) {
+      console.error("Error al actualizar el historial:", error);
+    }
+  
+    
+    getHistorial();
+  
+  }
+
+
+
 
   useEffect(() => {
     getHistorial();
-    getPacientes()
+    getPacientes();
   }, []);
 
   return (
@@ -43,12 +165,14 @@ const Historial = () => {
       </div>
 
       <div className="container-form">
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Row>
             <FormGroup as={Col}>
+            <Form.Label>Elije el paciente</Form.Label>
             <Form.Select
-               
-                defaultValue=""
+               onChange={(e) => {
+                setIdPaciente(e.target.value);
+              }}
               >
                 <option value="">Elija el paciente</option>
                 {pacientes.map((paciente) => (
@@ -63,15 +187,23 @@ const Historial = () => {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Ingresa el grupo sanguíneo</Form.Label>
               <Form.Control
+              value={grupoSanguineo}
                 type="text"
                 placeholder="Grupo sanguíneo"
+                onChange={(e) => {
+                  setGrupoSanguineo(e.target.value);
+                }}
                 />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Ingrese las alergias</Form.Label>
               <Form.Control
+              value={alergias}
                 type="text"
                 placeholder="Alergias"
+                onChange={(e) => {
+                  setAlergias(e.target.value);
+                }}
                 />
             </Form.Group>
                 </Row>
@@ -79,29 +211,45 @@ const Historial = () => {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Ingrese el Peso</Form.Label>
               <Form.Control
+              value={peso}
                 type="number"
                 placeholder="Peso"
+                onChange={(e) => {
+                  setPeso(e.target.value);
+                }}
                 />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Ingrese la Altura</Form.Label>
               <Form.Control
+              value={altura}
                 type="number"
                 placeholder="Altura"
+                onChange={(e) => {
+                  setAltura(e.target.value);
+                }}
                 />
             </Form.Group>
                 </Row>
                 <Form.Label>Ingrese la fecha de registro</Form.Label>
               <Form.Control
+                // value={fecha}
                 type="date"
                 placeholder="fecha"
+                onChange={(e) => {
+                  setFecha(e.target.value);
+                }}
                 />
                 <Row>
 
                 </Row>
-            <Button variant="primary" type="submit">
-                  Agregar
-                </Button>
+                {mostrar2 && <Button variant="primary" type="submit">
+                Agregar
+              </Button>}
+
+              {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
+                Actualizar
+              </Button>}
         </Form>
       </div>
 
@@ -132,7 +280,7 @@ const Historial = () => {
 
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">
-                    <button className="bin-button">
+                    <button className="bin-button" onClick={() => handleShow(historial.id_historiaClinica)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -184,7 +332,7 @@ const Historial = () => {
                         />
                       </svg>
                     </button>
-                    <button className="editBtn">
+                    <button className="editBtn"  onClick={() => handleEditar(historial.id_historiaClinica)} >
                       <svg height="1em" viewBox="0 0 512 512">
                         <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
                       </svg>
@@ -198,6 +346,27 @@ const Historial = () => {
             ))}
           </tbody>
         </Table>
+        <Modal show={show}>
+          <Modal.Header closeButton>
+            <Modal.Title>¡Cuidado!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            ¿Estás seguro que quieres eliminar el historial?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleEliminar}>
+              SI
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                handleClose(false);
+              }}
+            >
+              NO
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
       <Sidebar />
       <Footer />

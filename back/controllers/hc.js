@@ -16,7 +16,7 @@ const agregarHistoriasClinicas = (req, res) => {
   console.log(req)
   const { grupoSanguineo, alergias, peso, altura,fechaIngreso,id_paciente } = req.body;
 
-  const query = `INSERT INTO historiasclinicas (grupoSanguineo, alergias, peso,altura , fechaIngreso,id_paciente) VALUES ("${grupoSanguineo}","${alergias}","${peso}","${altura}","${fechaIngreso}", "${id_paciente}")`;
+  const query = `INSERT INTO historiasclinicas (grupoSanguineo, alergias, peso,altura ,id_paciente,fechaIngreso) VALUES ("${grupoSanguineo}","${alergias}","${peso}","${altura}", "${id_paciente}", "${fechaIngreso}")`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -46,7 +46,7 @@ const editarHistoriasClinicas = (req, res) => {
 
 const verHistoriasClinicas = (req, res) => {
   const id = req.params.id;
-  const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura
+  const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura,h.fechaIngreso
 from Pacientes p
 join historiasclinicas h 
 on h.id_paciente = p.id_paciente
