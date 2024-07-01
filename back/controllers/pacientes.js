@@ -1,7 +1,7 @@
 const { conection } = require("../config/db");
 
 const todoPacientes = (req, res) => {
-  const query = "select * from pacientes";
+  const query = "SELECT * FROM Pacientes WHERE activo = TRUE;";
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -24,7 +24,7 @@ const agregarPacientes = (req, res) => {
 
 const borrarPacientes = (req, res) => {
   const id = req.params.id;
-  const query = `delete from pacientes where id_paciente=${id}`;
+  const query = `UPDATE Pacientes SET activo = FALSE WHERE id_paciente = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
@@ -44,7 +44,13 @@ const editarPacientes = (req, res) => {
 
 const verPacientes = (req, res) => {
   const id = req.params.id;
-  const query = `select * from pacientes where id_paciente=${id}`;
+  const query = `select p.nombre, e.tipodeEstudio,e.resultado,e.fechaRealizacion,h.grupoSanguineo,h.alergias,h.peso,h.altura,h.fechaIngreso
+from Pacientes p
+join estudiosCompl e
+on e.id_paciente = p.id_paciente
+join historiasClinicas h
+on h.id_paciente = p.id_paciente
+where p.id_paciente = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

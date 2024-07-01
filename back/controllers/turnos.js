@@ -1,8 +1,14 @@
 const { conection } = require("../config/db");
 
 const todoTurnos = (req, res) => {
-  const query = "select m.id_medico, t.id_turno, p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora, m.nombre as Medico from Turnos t join Pacientes p on p.id_paciente = t.id_paciente join Medicos M on m.id_medico = t.id_medico"
-
+  const query = `select t.id_turno,p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora,m.id_medico, m.nombre as Medico
+  from Turnos t
+  join Pacientes p
+  on p.id_paciente = t.id_paciente
+  join Medicos M
+  on m.id_medico = t.id_medico
+  where p.activo and m.activo = TRUE
+  order by t.id_turno`
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.json(results);
@@ -24,7 +30,7 @@ const agregarTurnos = (req, res) => {
 
 const borrarTurnos = (req, res) => {
   const id = req.params.id;
-  const query = `delete from turnos where id_turno=${id}`;
+  const query = `UPDATE Turnos SET activo = FALSE WHERE id_turno = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

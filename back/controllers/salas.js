@@ -24,7 +24,7 @@ const agregarSalas = (req, res) => {
 
 const borrarSalas = (req, res) => {
   const id = req.params.id;
-  const query = `delete from salas where id_sala=${id}`;
+  const query = `UPDATE Salas SET activo = FALSE WHERE id_sala = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

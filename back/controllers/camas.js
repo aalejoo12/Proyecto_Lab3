@@ -5,7 +5,8 @@ const todoCamas = (req, res) => {
 from Camas c 
 join Salas s
 on s.id_sala = c.id_sala
-order by c.id_cama`;
+where c.activo = TRUE 
+order by c.estado`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -28,7 +29,7 @@ const agregarCamas = (req, res) => {
 
 const borrarCamas = (req, res) => {
   const id = req.params.id;
-  const query = `delete from camas where id_cama=${id}`;
+  const query = `UPDATE Camas SET activo = FALSE WHERE id_cama = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

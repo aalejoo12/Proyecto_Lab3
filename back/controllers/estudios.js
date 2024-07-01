@@ -5,7 +5,8 @@ const todoEstudios = (req, res) => {
 from Pacientes p
 join estudioscompl e 
 on e.id_paciente = p.id_paciente
-order by e.id_estudioCompl`;
+where p.activo && e.activo = TRUE
+order by e.id_estudioCompl;`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -28,7 +29,7 @@ const agregarEstudios = (req, res) => {
 
 const borrarEstudios = (req, res) => {
   const id = req.params.id;
-  const query = `delete from estudiosCompl where id_estudioCompl=${id}`;
+  const query = `UPDATE estudiosCompl SET activo = FALSE WHERE id_estudioCompl = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

@@ -85,7 +85,13 @@ const Sidebar = () => {
               </Link>
             </ListItem>
             <Divider />
-
+            <Divider />
+            <ListItem>
+              <Link className='link' to={"/salas"}>
+              <ListItemButton className="item-button">🏥 Salas</ListItemButton>
+              </Link>
+            </ListItem>
+            <Divider />
             <ListItem className="list-item-auto-margin">
               <ListItemButton className="item-button">
                 🤝 Nosotros

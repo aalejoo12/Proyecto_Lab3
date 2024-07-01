@@ -4,7 +4,8 @@ const todoHistoriasClinicas = (req, res) => {
   const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura,h.fechaIngreso
 from Pacientes p
 join historiasclinicas h 
-on h.id_paciente = p.id_paciente`;
+on h.id_paciente = p.id_paciente
+where p.activo && h.activo = TRUE;`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -14,6 +15,7 @@ on h.id_paciente = p.id_paciente`;
 
 const agregarHistoriasClinicas = (req, res) => {
   console.log(req)
+  
   const { grupoSanguineo, alergias, peso, altura,fechaIngreso,id_paciente } = req.body;
 
   const query = `INSERT INTO historiasclinicas (grupoSanguineo, alergias, peso,altura ,id_paciente,fechaIngreso) VALUES ("${grupoSanguineo}","${alergias}","${peso}","${altura}", "${id_paciente}", "${fechaIngreso}")`;
@@ -26,7 +28,7 @@ const agregarHistoriasClinicas = (req, res) => {
 
 const borrarHistoriasClinicas = (req, res) => {
   const id = req.params.id;
-  const query = `delete from historiasclinicas where id_historiaClinica=${id}`;
+  const query = `UPDATE HistoriasClinicas SET activo = FALSE WHERE id_historiaClinica = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

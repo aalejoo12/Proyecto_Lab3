@@ -48,7 +48,7 @@ useEffect(() => {
                 <Card.Title className="fw-bolder fs-4 card-title bg-light">Cama número: {cama.id_cama}</Card.Title>
                 <CardImg style={{ width: "408px", height: "320px" }} src="https://i.trade-cloud.com.cn/upload/6662/image/20211224/2_295201.jpg"></CardImg>
                 <Card.Body className="card-body">
-                  <p className="fs-5 fw-bold"> Disponibilidad: {cama.estado === 1 ? "Libre" : "Ocupada"}</p>
+                  <p className="fs-5 fw-bold"> Disponibilidad: {cama.estado === 0 ? "Libre" : "Ocupada"}</p>
                   <p>Por el/la paciente: {cama.nombre}</p>
                   <p>Fecha de Ingreso: {formatDate(cama.fechaIngreso)}</p>
                   <p>Fecha de Alta: {formatDate(cama.fechaAlta)}</p>

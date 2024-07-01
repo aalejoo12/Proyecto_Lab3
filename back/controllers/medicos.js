@@ -1,7 +1,7 @@
 const { conection } = require("../config/db");
 
 const todoMedicos = (req, res) => {
-  const query = "select * from medicos";
+  const query = "SELECT * FROM Medicos WHERE activo = TRUE;";
 
   conection.query(query, (err, results) => {
     if (err) throw err;
@@ -24,7 +24,7 @@ const agregarMedicos = (req, res) => {
 
 const borrarMedicos = (req, res) => {
   const id = req.params.id;
-  const query = `delete from medicos where id_medico=${id}`;
+  const query = `UPDATE Medicos SET activo = FALSE WHERE id_medico = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
