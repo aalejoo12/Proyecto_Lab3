@@ -1,7 +1,10 @@
 const { conection } = require("../config/db");
 
 const todoEstudios = (req, res) => {
-  const query = "select * from estudiosCompl";
+  const query = `select p.id_paciente, p.nombre, e.id_estudioCompl, e.tipodeEstudio, e.resultado, e.fechaRealizacion
+from Pacientes p
+join estudioscompl e 
+on e.id_paciente = p.id_paciente`;
 
   conection.query(query, (err, results) => {
     if (err) throw err;

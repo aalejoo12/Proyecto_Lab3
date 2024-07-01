@@ -6,6 +6,8 @@ import Pacientes from "./pages/Pacientes";
 import Medicos from "./pages/Medicos";
 import Turnos from "./pages/Turnos";
 import Historial from "./pages/Historial";
+import Estudios from "./pages/Estudios";
+import Camas from "./pages/Camas";
 
 
 
@@ -21,6 +23,9 @@ function App() {
           <Route path="/medicos" element={<Medicos />} />
           <Route path="/turnos" element={<Turnos />} />
           <Route path="/hc" element={<Historial />} />
+          <Route path="/estudios" element={<Estudios />} />
+          <Route path="/camas" element={<Camas />} />
+
         </Routes>
       </BrowserRouter>
       </div>

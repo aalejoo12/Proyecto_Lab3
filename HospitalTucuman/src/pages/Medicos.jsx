@@ -1,4 +1,3 @@
-import React from "react";
 import "../css/Medicos.css";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";

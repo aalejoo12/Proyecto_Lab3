@@ -72,13 +72,17 @@ const Sidebar = () => {
             </ListItem>
             <Divider />
             <ListItem>
+              <Link className='link' to={"/estudios"}>
               <ListItemButton className="item-button">
                 📕 Estudios
               </ListItemButton>
+              </Link>
             </ListItem>
             <Divider />
             <ListItem>
+              <Link className='link' to={"/camas"}>
               <ListItemButton className="item-button">🛏️ Camas</ListItemButton>
+              </Link>
             </ListItem>
             <Divider />
 
