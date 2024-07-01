@@ -11,7 +11,7 @@ const Camas = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
-  const [estado, setEstado] = useState(0);
+  const [estado, setEstado] = useState(null);
   const [fechaIngreso, setFechaIngreso] = useState("");
   const [fechaAlta, setFechaAlta] = useState("");
   const [id_paciente, setId_paciente] = useState("");
@@ -25,8 +25,22 @@ const Camas = () => {
 
   const [show, setShow] = useState(false);
 
-  const [opcion, setOpcion] = useState("");
+  const [opcion, setOpcion] = useState(null);
 
+console.log(opcion);
+console.log(estado);
+
+const handleChange = () => {
+
+  if (opcion === "NO") {
+    setEstado(1);
+  } else if (opcion === "SI") {
+    setEstado(0);
+  }else{
+    setEstado(null)
+  }
+
+};
 
 
 
@@ -57,6 +71,7 @@ const Camas = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (fechaIngreso && fechaAlta && id_paciente && id_sala != "" && estado != null) {
       handleChange();
 
@@ -82,22 +97,11 @@ const Camas = () => {
     e.target.reset();
     getCamas();
   };
-  const handleChange = () => {
 
-    // parte de agregar
-
-    if (opcion === "SI") {
-      setEstado(1);
-    } else if (opcion === "NO") {
-      setEstado(0);
-    } else {
-      setEstado(null);
-    }
-  };
+ 
   const handleActualizar = async (e) => {
 
     getCamas();
-
     setMostrar(false)
     setMostrar2(true)
     e.preventDefault()
@@ -122,18 +126,19 @@ const Camas = () => {
     setId_paciente("");
     setId_sala("");
     setEstado("");
+
     getCamas();
 
   }
 
   const handleEditar = async (id) => {
+
     setMostrar(true)
     setMostrar2(false)
     setIdActualizar(id)
-
     let result = await axios.get(`http://localhost:8000/camas/${id}`);
     const cama = result.data;
-    console.log(cama[0]);
+    // console.log(cama[0]);
 
     if (result) {
       const fechaIngreso = new Date(cama[0].fechaIngreso);
@@ -148,8 +153,7 @@ const Camas = () => {
       setFechaAlta(fechaAltaFormateada)
 
       setId_paciente(cama[0].id_paciente)
-      setId_sala(cama[0].id_sala)
-      setEstado(cama.estado);
+      setId_sala(cama[0].tipoSala)
 
     }
   };
@@ -245,20 +249,18 @@ const Camas = () => {
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Disponibilidad</Form.Label>
               <Form.Select
-                onChange={(e) => {
-                  setOpcion(e.target.value);
-                }}
+                onChange={(e)=>{setOpcion(e.target.value)}}
                 defaultValue="Choose..."
               >
                 <option value="">Elije</option>
-                <option value={"SI"}>SI</option>
-                <option value={"NO"}>NO</option>
+                <option value={"SI"}>Libre</option>
+                <option value={"NO"}>Ocupada</option>
               </Form.Select>
             </Form.Group>
 
 
           </Row>
-          {mostrar2 && <Button variant="primary" type="submit">
+          {mostrar2 && <Button variant="primary" type="submit" onClick={handleChange}>
             Agregar
           </Button>}
 
@@ -286,10 +288,10 @@ const Camas = () => {
                 <Card.Title className="fw-bolder fs-4 card-title bg-light">Cama número: {cama.id_cama}</Card.Title>
                 <CardImg style={{ width: "408px", height: "320px" }} src="https://i.trade-cloud.com.cn/upload/6662/image/20211224/2_295201.jpg"></CardImg>
                 <Card.Body className="card-body">
-                  <p className="fs-5 fw-bold"> Disponible: {cama.estado}</p>
+                  <p className="fs-5 fw-bold"> Disponibilidad: {cama.estado === 1 ? "Libre" : "Ocupada"}</p>
                   <p>Fecha de Ingreso: {formatDate(cama.fechaIngreso)}</p>
                   <p>Fecha de Alta: {formatDate(cama.fechaAlta)}</p>
-                  <p> Sala:  {cama.tipoSala}</p>
+                  <p> Sala: {cama.tipoSala}</p>
                 </Card.Body>
                 <CardFooter className="card-footer">
                   <Button
@@ -300,7 +302,9 @@ const Camas = () => {
                     Editar
                   </Button>
                   <Button onClick={() => handleShow(cama.id_cama)} className="btn2" variant="danger">Eliminar</Button>
+                  <Button className="btn3" variant="primary">Ver</Button>
                 </CardFooter>
+                
               </Card>
             </Col>
           ))}
