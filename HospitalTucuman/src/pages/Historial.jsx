@@ -117,7 +117,7 @@ setAltura(historial[0].altura)
 setFecha(historial[0].fechaIngreso)
 
 }
-  };
+ };
   
 
   const handleActualizar = async (e) => {
