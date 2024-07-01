@@ -6,6 +6,9 @@ const medicos = require("./routes/medicos");
 const turnos = require("./routes/turnos");
 const hc = require("./routes/hc");
 const estudios = require("./routes/estudios");
+const camas = require("./routes/camas");
+const salas = require("./routes/salas");
+
 
 
 const cors = require("cors");
@@ -22,6 +25,8 @@ app.use("/", medicos);
 app.use("/", turnos);
 app.use ("/", hc)
 app.use ("/", estudios)
+app.use ("/", camas)
+app.use ("/", salas)
 
 
 conection.connect(() => {
