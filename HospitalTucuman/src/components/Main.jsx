@@ -12,7 +12,6 @@ import {
 import axios from "axios";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
-import Historial from "../pages/Historial";
 
 const Main = () => {
   const [pacientes, setPacientes] = useState([]);

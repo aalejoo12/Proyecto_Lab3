@@ -48,7 +48,7 @@ const editarCamas = (req, res) => {
 
 const verCamas = (req, res) => {
   const id = req.params.id;
-  const query = `select * from camas where cama=${id}`;
+  const query = `select * from camas where id_cama=${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

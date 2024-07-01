@@ -18,8 +18,8 @@ const Turnos = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
   const [idActualizar, setIdActualizar] = useState(null);
-  const [pacientes,setPacientes] = useState([])
-  const [medicos,setMedicos] = useState([])
+  const [pacientes, setPacientes] = useState([])
+  const [medicos, setMedicos] = useState([])
 
 
 
@@ -42,10 +42,10 @@ const Turnos = () => {
   };
 
 
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (id_paciente && id_medico && hora && fecha  != null) {
+    if (id_paciente && id_medico && hora && fecha != null) {
 
       const response = axios.post("http://localhost:8000/turnos/agregar", {
         id_paciente: id_paciente,
@@ -68,89 +68,89 @@ const Turnos = () => {
     getTurnos();
   };
 
-  
-  
+
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     return formattedDate;
   };
 
-  const handleShow = (id) =>{
+  const handleShow = (id) => {
     setShow(true);
     setIdAEliminar(id);
   }
-  
+
   const handleClose = () => {
     setShow(false);
   };
-  
+
   const handleEliminar = async () => {
     console.log(idAeliminar);
     handleClose(true)
-    
+
     let response = await axios.delete(
       `http://localhost:8000/turnos/eliminar/${idAeliminar}`
     );
-    
+
     if (response) {
       alert("Turno eliminado correctamente");
-  }
-  getTurnos();
-};
-
-const handleEditar = async (id) => {
-  setMostrar(true)
-  setMostrar2(false)
-  setIdActualizar(id)
-
-  let result = await axios.get(`http://localhost:8000/turnos/${id}`);
-const turno = result.data ;
-console.log(turno[0]);
-
-if (result) {
-  const fecha = new Date(turno[0].fecha);
-
-  const fechaFormateada = fecha.toISOString().split('T')[0];
-
-
-setFecha(fechaFormateada)
-setHora(turno[0].hora)
-setId_paciente(turno[0].id_paciente)
-setId_medico(turno[0].id_medico)
-}
+    }
+    getTurnos();
   };
 
-const handleActualizar = async (e) => {
+  const handleEditar = async (id) => {
+    setMostrar(true)
+    setMostrar2(false)
+    setIdActualizar(id)
 
-  getTurnos();
+    let result = await axios.get(`http://localhost:8000/turnos/${id}`);
+    const turno = result.data;
+    console.log(turno[0]);
 
-  setMostrar(false)
-  setMostrar2(true)
-  e.preventDefault()
-  try {
-    const response = await axios.put(`http://localhost:8000/turnos/editar/${idActualizar}`, {
-      fecha: fecha,
-      hora: hora,
-      id_medico: id_medico,
-      id_paciente: id_paciente
-    });
-    if (response.status === 200) {
-      alert("Paciente actualizado correctamente");
-      getTurnos(); 
+    if (result) {
+      const fecha = new Date(turno[0].fecha);
+
+      const fechaFormateada = fecha.toISOString().split('T')[0];
+
+
+      setFecha(fechaFormateada)
+      setHora(turno[0].hora)
+      setId_paciente(turno[0].id_paciente)
+      setId_medico(turno[0].id_medico)
     }
-  } catch (error) {
-    console.error("Error al actualizar el paciente:", error);
-  }
+  };
+
+  const handleActualizar = async (e) => {
+
+    getTurnos();
+
+    setMostrar(false)
+    setMostrar2(true)
+    e.preventDefault()
+    try {
+      const response = await axios.put(`http://localhost:8000/turnos/editar/${idActualizar}`, {
+        fecha: fecha,
+        hora: hora,
+        id_medico: id_medico,
+        id_paciente: id_paciente
+      });
+      if (response.status === 200) {
+        alert("Paciente actualizado correctamente");
+        getTurnos();
+      }
+    } catch (error) {
+      console.error("Error al actualizar el paciente:", error);
+    }
 
     setId_paciente("");
     setId_medico("");
     setFecha("");
     setHora("");
 
-  getTurnos();
+    getTurnos();
 
-}
+  }
 
   useEffect(() => {
     getTurnos();
@@ -170,7 +170,7 @@ const handleActualizar = async (e) => {
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Ingrese el paciente</Form.Label>
+              <Form.Label>Ingrese el paciente</Form.Label>
               <Form.Select
                 onChange={(e) => {
                   setId_paciente(e.target.value);
@@ -187,7 +187,7 @@ const handleActualizar = async (e) => {
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>Ingrese el Médico</Form.Label>
+              <Form.Label>Ingrese el Médico</Form.Label>
               <Form.Select
                 onChange={(e) => {
                   setId_medico(e.target.value);
@@ -201,28 +201,28 @@ const handleActualizar = async (e) => {
                   </option>
                 ))}
               </Form.Select>
-            </Form.Group> 
+            </Form.Group>
           </Row>
           <Row>
             <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
               <Form.Label>Ingrese la fecha del turno</Form.Label>
-              <Form.Control value={fecha} type="date" placeholder="Fecha del Turno" onChange={(e)=>{setFecha(e.target.value)}} />
+              <Form.Control value={fecha} type="date" placeholder="Fecha del Turno" onChange={(e) => { setFecha(e.target.value) }} />
             </Form.Group>
 
             <Form.Group as={Col} className="mb-3" controlId="formGridAddress2">
               <Form.Label>Horario del turno</Form.Label>
-              <Form.Control value={hora} type="time" placeholder="Hora" onChange={(e)=>{
+              <Form.Control value={hora} type="time" placeholder="Hora" onChange={(e) => {
                 setHora(e.target.value)
               }} />
             </Form.Group>
           </Row>
           {mostrar2 && <Button variant="primary" type="submit">
-                Agregar
-              </Button>}
+            Agregar
+          </Button>}
 
-              {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
-                Actualizar
-              </Button>}
+          {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
+            Actualizar
+          </Button>}
         </Form>
       </div>
 
@@ -341,7 +341,7 @@ const handleActualizar = async (e) => {
       <Footer />
     </>
   );
-  
+
 };
 
 export default Turnos;
