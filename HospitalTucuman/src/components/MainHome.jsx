@@ -9,6 +9,7 @@ import Medicine from "../assets/medicine.jpg";
 const MainHome = () => {
   return (
     <>
+    <div className="container-fluid">
       <Row>
         <Col className="izq letra">
           <div style={{ marginTop: "5px" }}>
@@ -72,6 +73,7 @@ const MainHome = () => {
           <Image className="img" src={Medicos}></Image>
         </Col>
       </Row>
+      </div>
     </>
   );
 };
