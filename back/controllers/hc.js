@@ -16,7 +16,7 @@ where p.activo && h.activo = TRUE;`;
 const agregarHistoriasClinicas = (req, res) => {
   console.log(req)
   
-  const { grupoSanguineo, alergias, peso, altura,fechaIngreso,id_paciente } = req.body;
+  const { grupoSanguineo, alergias, peso, altura,fechaIngreso,id_paciente} = req.body;
 
   const query = `INSERT INTO historiasclinicas (grupoSanguineo, alergias, peso,altura ,id_paciente,fechaIngreso) VALUES ("${grupoSanguineo}","${alergias}","${peso}","${altura}", "${id_paciente}", "${fechaIngreso}")`;
 

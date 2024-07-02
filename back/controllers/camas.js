@@ -1,7 +1,7 @@
 const { conection } = require("../config/db");
 
 const todoCamas = (req, res) => {
-  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala
+  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala,s.id_sala
 from Camas c 
 join Salas s
 on s.id_sala = c.id_sala

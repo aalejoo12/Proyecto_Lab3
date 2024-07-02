@@ -7,7 +7,7 @@ const todoTurnos = (req, res) => {
   on p.id_paciente = t.id_paciente
   join Medicos M
   on m.id_medico = t.id_medico
-  where p.activo and m.activo = TRUE
+  where p.activo and m.activo and t.activo = TRUE
   order by t.id_turno`
   conection.query(query, (err, results) => {
     if (err) throw err;

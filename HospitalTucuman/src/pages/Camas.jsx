@@ -48,19 +48,19 @@ const Camas = () => {
 
   const getCamas = async () => {
     let result = await axios.get("http://localhost:8000/camas");
-    console.log(result.data);
+    // console.log(result.data);
     setCamas(result.data);
   };
 
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
-    console.log(result.data);
+    // console.log(result.data);
     setPacientes(result.data);
   };
 
   const getSalas = async () => {
     let result = await axios.get("http://localhost:8000/salas");
-    console.log(result.data);
+    // console.log(result.data);
     setSalas(result.data);
   };
 
@@ -99,6 +99,7 @@ const Camas = () => {
 
   const handleActualizar = async (e) => {
     getCamas();
+    console.log(id_sala);
     setMostrar(false);
     setMostrar2(true);
     e.preventDefault();
@@ -124,7 +125,6 @@ const Camas = () => {
     setFechaIngreso("");
     setFechaAlta("");
     setId_paciente("");
-    setId_sala("");
     setEstado("");
 
     getCamas();

@@ -4,7 +4,7 @@ const conection = mysql.createConnection({
     host:"localhost",
     user:"root",
     password:"alejo_2018",
-    database:"HospitalTucuman"
+    database:"HospitalTucuman2"
 
 })
 

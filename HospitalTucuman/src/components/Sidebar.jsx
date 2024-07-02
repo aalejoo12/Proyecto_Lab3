@@ -93,9 +93,11 @@ const Sidebar = () => {
             </ListItem>
             <Divider />
             <ListItem className="list-item-auto-margin">
+              <Link className='link' to={"/nosotros"}>
               <ListItemButton className="item-button">
                 🤝 Nosotros
               </ListItemButton>
+              </Link>
             </ListItem>
           </List>
           <Divider />
