@@ -92,7 +92,6 @@ const Camas = () => {
     setFechaIngreso("");
     setFechaAlta("");
     setId_paciente("");
-    setId_sala("");
 
     getCamas();
   };
