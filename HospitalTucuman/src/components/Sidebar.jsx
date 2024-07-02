@@ -1,18 +1,35 @@
-import { Button } from 'react-bootstrap'
+//Importaciones
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Box, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, Toolbar, Typography } from '@mui/material'
-import "../css/Sidebar.css"
+import {
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import "../css/Sidebar.css";
 
-
+//Define el ancho del Drawer (barra lateral) en píxeles
 const drawerWidth = 200;
 
+//define el componente
 const Sidebar = () => {
+  //el componente muestra..
   return (
     <>
-     <Box sx={{ display: "flex" }}>
+      {/* Contenedor principal con estilo flexbox */}
+      <Box sx={{ display: "flex" }}>
+        {/* Componente para normalizar el CSS global */}
         <CssBaseline />
 
+        {/* Crea una barra lateral permanente anclada a la izquierda */}
         <Drawer
+          // Aplica estilos personalizados al Drawer y su papel interno (.MuiDrawer-paper)
           sx={{
             width: drawerWidth,
             flexShrink: 0,
@@ -24,84 +41,112 @@ const Sidebar = () => {
           variant="permanent"
           anchor="left"
         >
+          {/* Contenedor con clase personalizada tulbar */}
           <Toolbar className="tulbar">
-            <Link className='link' to={"/home"}>
-            <Button variant="none">
-              <Typography
-                className="texto-tulbar"
-                variant=""
-                noWrap
-                component="div"
-              >
-                🏠 Home
-              </Typography>
-            </Button>
+            {/* Enlace a la ruta /home */}
+            <Link className="link" to={"/home"}>
+              {/* Botón de React Bootstrap sin variante */}
+              <Button variant="none">
+                {/* Texto del botón con icono de casa */}
+                <Typography
+                  className="texto-tulbar"
+                  variant=""
+                  noWrap
+                  component="div"
+                >
+                  🏠 Home
+                </Typography>
+              </Button>
             </Link>
           </Toolbar>
 
+          {/* Líneas divisorias entre secciones */}
           <Divider />
+          {/* Contenedor de elementos de lista con clase full-height */}
           <List className="full-height">
+            {/* Elemento de lista con enlace a Pacientes */}
             <ListItem>
-              <Link className='link' to={"/pacientes"}>
-              <ListItemButton className="item-button">
-                👨🏻 Pacientes
-              </ListItemButton>
+              <Link className="link" to={"/pacientes"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  👨🏻 Pacientes
+                </ListItemButton>
               </Link>
             </ListItem>
+            {/* Líneas divisorias entre secciones */}
             <Divider />
+            {/* Elemento de lista con enlace a Medicos */}
             <ListItem>
-            <Link className='link' to={"/medicos"}>
-            <ListItemButton className="item-button">
-                👨🏻‍⚕️ Medicos
-              </ListItemButton>
+              <Link className="link" to={"/medicos"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  👨🏻‍⚕️ Medicos
+                </ListItemButton>
               </Link>
             </ListItem>
+            {/* Líneas divisorias entre secciones */}
             <Divider />
+            {/* Elemento de lista con enlace a Turnos */}
             <ListItem>
-              <Link className='link' to={"/turnos"}>
-              <ListItemButton className="item-button">✍🏻 Turnos</ListItemButton>
-            </Link>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <Link className='link' to={"/hc"}>
-              <ListItemButton className="item-button">
-                🕑 Historial
-              </ListItemButton>
+              <Link className="link" to={"/turnos"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  ✍🏻 Turnos
+                </ListItemButton>
               </Link>
             </ListItem>
+            {/* Líneas divisorias entre secciones */}
             <Divider />
+            {/* Elemento de lista con enlace a Historial */}
             <ListItem>
-              <Link className='link' to={"/estudios"}>
-              <ListItemButton className="item-button">
-                📕 Estudios
-              </ListItemButton>
+              <Link className="link" to={"/hc"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  🕑 Historial
+                </ListItemButton>
               </Link>
             </ListItem>
+            {/* Líneas divisorias entre secciones */}
             <Divider />
+            {/* Elemento de lista con enlace a Estudios */}
             <ListItem>
-              <Link className='link' to={"/camas"}>
-              <ListItemButton className="item-button">🛏️ Camas</ListItemButton>
+              <Link className="link" to={"/estudios"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  📕 Estudios
+                </ListItemButton>
               </Link>
             </ListItem>
+            {/* Líneas divisorias entre secciones */}
             <Divider />
-
+            {/* Elemento de la lista con enlace a Camas */}
+            <ListItem>
+              <Link className="link" to={"/camas"}>
+                {/* Botón de lista con íconos y texto. */}
+                <ListItemButton className="item-button">
+                  🛏️ Camas
+                </ListItemButton>
+              </Link>
+            </ListItem>
+            {/* Líneas divisorias entre secciones. */}
+            <Divider />
+            {/* FALTA LINK EN NOSOTROS */}
             <ListItem className="list-item-auto-margin">
+              {/* Botón de lista con íconos y texto. */}
               <ListItemButton className="item-button">
                 🤝 Nosotros
               </ListItemButton>
             </ListItem>
           </List>
+          {/* Líneas divisorias entre secciones */}
           <Divider />
         </Drawer>
-
+        {/* Contenedor principal para el contenido principal de la aplicación. Utiliza flexbox para ocupar el espacio restante (flexGrow: 1). */}
         <Box component="main" sx={{ flexGrow: 1, p: 0 }}></Box>
       </Box>
-    
-    
-    
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+//exporta el componente
+export default Sidebar;

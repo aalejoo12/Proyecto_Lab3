@@ -1,6 +1,5 @@
-//importa useEffect, useState de react, css, varios componentes de react-bootstrap, axios, Sidebar, Link de react-router-dom e Historial
-import { useEffect, useState } from "react";
-import "../css/Main.css";
+import { useEffect, useState } from "react"; // Importación de hooks de React
+import "../css/Main.css"; // Importación de estilos
 import {
   Button,
   Col,
@@ -9,17 +8,15 @@ import {
   Modal,
   Row,
   Table,
-} from "react-bootstrap";
-import axios from "axios";
-import Sidebar from "./Sidebar";
-import { Link } from "react-router-dom";
+} from "react-bootstrap"; // Importación de componentes de react-bootstrap
+import axios from "axios"; // Importación de axios para hacer peticiones HTTP
+import Sidebar from "./Sidebar"; // Importación del componente Sidebar
+import { Link } from "react-router-dom"; // Importación de Link de react-router-dom
 
-//define el componente Main
 const Main = () => {
-  //crea un estado vacio de un array que ira mutando y contendra pacientes
+  // Definición del estado del componente usando useState
   const [pacientes, setPacientes] = useState([]);
 
-  //crea todos los estados que mutaran
   const [nomyape, setNomyape] = useState("");
   const [edad, setEdad] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +30,7 @@ const Main = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
+  // Funciones para manejar el estado de la modal
   const handleClose = () => {
     setShow(false);
   };
@@ -42,12 +40,13 @@ const Main = () => {
     setIdAEliminar(id);
   };
 
+  // Función para obtener los pacientes de la API
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
-    // console.log(result.data);
     setPacientes(result.data);
   };
 
+  // Función para manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     if (nomyape && edad && email && dni && telefono != "" && internar != null) {
@@ -66,6 +65,7 @@ const Main = () => {
     } else {
       alert("debe ingresar todos los campos");
     }
+    // Limpiar los campos del formulario
     setNomyape("");
     setEdad("");
     setEmail("");
@@ -77,6 +77,7 @@ const Main = () => {
     getPacientes();
   };
 
+  // Función para eliminar un paciente
   const handleEliminar = async () => {
     console.log(idAeliminar);
     handleClose(true);
@@ -90,7 +91,7 @@ const Main = () => {
     }
     getPacientes();
   };
-
+  // Función para manejar el cambio de estado de internación
   const handleChange = () => {
     // parte de agregar
 
@@ -103,6 +104,7 @@ const Main = () => {
     }
   };
 
+  // Función para actualizar un paciente
   const handleActualizar = async (e) => {
     getPacientes();
 
@@ -127,6 +129,7 @@ const Main = () => {
     } catch (error) {
       console.error("Error al actualizar el paciente:", error);
     }
+    // Limpiar los campos del formulario
     setNomyape("");
     setEdad("");
     setEmail("");
@@ -137,6 +140,7 @@ const Main = () => {
     getPacientes();
   };
 
+  // Función para editar un paciente
   const handleEditar = async (id_paciente) => {
     setMostrar(true);
     setMostrar2(false);
@@ -155,23 +159,23 @@ const Main = () => {
     }
   };
 
+  // Efecto para obtener los pacientes al montar el componente
   useEffect(() => {
     getPacientes();
   }, []);
 
-  // console.log({nomyape,edad,email,dni,telefono,internar});
-
-  // console.log(opcion,internar);
-
   return (
     <>
       {" "}
+      {/* Título */}
       <div className="text-center mt-5 container-titulo">
         <h2>Agrega un paciente</h2>
       </div>
+      {/* Formulario para agregar o actualizar pacientes */}
       <div className="container-form">
         <Form className="form" onSubmit={handleSubmit}>
           <Row className="mb-3">
+            {/* Campo para Nombre y Apellido */}
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
@@ -185,6 +189,7 @@ const Main = () => {
               />
             </Form.Group>
 
+            {/* Campo para Edad */}
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Edad</Form.Label>
               <Form.Control
@@ -199,6 +204,7 @@ const Main = () => {
             </Form.Group>
           </Row>
 
+          {/* Campo para Email */}
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -212,6 +218,7 @@ const Main = () => {
             />
           </Form.Group>
 
+          {/* Campo para DNI */}
           <Form.Group className="mb-3" controlId="formGridAddress2">
             <Form.Label>DNI</Form.Label>
             <Form.Control
@@ -239,6 +246,7 @@ const Main = () => {
               />
             </Form.Group>
 
+            {/* Campo para Internación */}
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Internación</Form.Label>
               <Form.Select
@@ -253,6 +261,8 @@ const Main = () => {
               </Form.Select>
             </Form.Group>
           </Row>
+
+          {/* Botones para Agregar o Actualizar */}
           <Row>
             <div className="text-center mt-5">
               {mostrar2 && (
@@ -274,7 +284,9 @@ const Main = () => {
           </Row>
         </Form>
       </div>
+      {/* Barra lateral */}
       <Sidebar />
+      {/* Tabla para mostrar pacientes */}
       <Container className="tabla" fluid>
         <Table striped bordered hover>
           <thead>
@@ -299,6 +311,7 @@ const Main = () => {
                 <td>{paciente.telefono}</td>
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">
+                    {/* Botón para eliminar */}
                     <button
                       className="bin-button"
                       onClick={() => handleShow(paciente.id_paciente)}
@@ -354,6 +367,7 @@ const Main = () => {
                         />
                       </svg>
                     </button>
+                    {/* Botón para editar */}
                     <button
                       className="editBtn"
                       onClick={() => handleEditar(paciente.id_paciente)}
@@ -373,6 +387,7 @@ const Main = () => {
             ))}
           </tbody>
         </Table>
+        {/* Modal de confirmación para eliminar */}
         <Modal show={show}>
           <Modal.Header closeButton>
             <Modal.Title>¡Cuidado!</Modal.Title>
@@ -399,4 +414,5 @@ const Main = () => {
   );
 };
 
+//exportacion del componente
 export default Main;
