@@ -1,8 +1,11 @@
-.navbar{
-    padding-left: 290px;
+/* Estilos para la clase .navbar */
+.navbar {
+  padding-left: 290px; /* Añade un padding de 290px en el lado izquierdo */
 }
-.titulo{
-    font-weight: bolder;
-    color: black;
-    font-size: 30px;
+
+/* Estilos para la clase .titulo */
+.titulo {
+  font-weight: bolder; /* Establece un peso de fuente más grueso */
+  color: black; /* Color del texto en negro */
+  font-size: 30px; /* Tamaño de fuente de 30px */
 }

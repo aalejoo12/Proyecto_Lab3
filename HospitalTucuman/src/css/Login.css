@@ -1,29 +1,33 @@
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* Estilos para la clase .container */
+.container {
+  display: flex; /* Utiliza flexbox */
+  justify-content: center; /* Centra horizontalmente los elementos dentro del contenedor */
+  align-items: center; /* Centra verticalmente los elementos dentro del contenedor */
+  height: 100vh; /* Establece la altura del contenedor al 100% del viewport height */
 }
-.card{
-    display: flex;
-    justify-content: center;
-    height: 500px;
-    width: 500px;
+/* Estilos para la clase .card */
+.card {
+  display: flex; /* Utiliza flexbox */
+  justify-content: center; /* Centra horizontalmente los elementos dentro de la card */
+  height: 500px; /* Establece la altura de la card a 500px */
+  width: 500px; /* Establece el ancho de la card a 500px */
 }
-.inputs{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Estilos para la clase .inputs */
+.inputs {
+  display: flex; /* Utiliza flexbox */
+  flex-direction: column; /* Organiza los elementos en columnas */
+  align-items: center; /* Centra horizontalmente los elementos dentro del contenedor */
 }
-.card-img{
-    width: 50px;
-    height: 50px;
+/* Estilos para la clase .card-img */
+.card-img {
+  width: 50px; /* Establece el ancho de la imagen dentro de la card a 50px */
+  height: 50px; /* Establece la altura de la imagen dentro de la card a 50px */
 }
-.card-title{
-    display: flex;
-    text-align: center;
-    padding-bottom: 30px;
-    flex-direction: row;
-    justify-content: center;
-    
+/* Estilos para la clase .card-title */
+.card-title {
+  display: flex; /* Utiliza flexbox */
+  text-align: center; /* Centra el texto horizontalmente dentro del título de la card */
+  padding-bottom: 30px; /* Añade un espacio en la parte inferior del título de la card */
+  flex-direction: row; /* Organiza los elementos del título en filas */
+  justify-content: center; /* Centra horizontalmente los elementos dentro del título de la card */
 }

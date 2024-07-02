@@ -1,7 +1,9 @@
+/* Clase hidden: Esta clase oculta el elemento al que se aplica. */
 .hidden {
-    display: none;
-  }
-  
-  .visible {
-    display: block;
-  }
+  display: none;
+}
+
+/* Clase visible: Esta clase hace visible el elemento al que se aplica. */
+.visible {
+  display: block;
+}
