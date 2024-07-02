@@ -131,13 +131,13 @@ const Camas = () => {
   };
 
   const handleEditar = async (id) => {
+
     setEstado(1);
     setMostrar(true);
     setMostrar2(false);
     setIdActualizar(id);
     let result = await axios.get(`http://localhost:8000/camas/${id}`);
     const cama = result.data;
-    // console.log(cama[0]);
 
     if (result) {
       const fechaIngreso = new Date(cama[0].fechaIngreso);
@@ -150,7 +150,9 @@ const Camas = () => {
       setFechaAlta(fechaAltaFormateada);
 
       setId_paciente(cama[0].id_paciente);
-      setId_sala(cama[0].tipoSala);
+      setId_sala(cama[0].id_sala);
+    console.log(cama[0].fechaIngreso);
+
     }
   };
 
@@ -188,14 +190,16 @@ const Camas = () => {
     <>
       <Header />
       <div className="container-titulo text-center mt-5">
-        <h2>Agrega una nueva cama</h2>
+        <h2>Gestión de camas</h2>
       </div>
 
       <div className="container-form">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
+          {estado != 1 ? <h3>Crear una cama</h3> : <h3>Internar un paciente</h3>}
+              
             <Form.Group as={Col} controlId="formGridPassword">
-              <Form.Label>Ingrese la sala</Form.Label>
+              <Form.Label>Seleccione la sala</Form.Label>
               <Form.Select
                 onChange={(e) => {
                   setId_sala(e.target.value);
@@ -259,7 +263,7 @@ const Camas = () => {
           </Row>
           {mostrar2 && (
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              Agregar
+              Crear cama
             </Button>
           )}
 
@@ -277,9 +281,10 @@ const Camas = () => {
         <Row md={2}>
           {camas.map((cama) => (
             <Col className="card-medicos" md={6} key={cama.id_cama}>
-              <Card style={{ width: "410px", height: "590px" }}>
-                <Card.Title className="fw-bolder fs-4 card-title bg-light">
-                  Cama número: {cama.id_cama}
+              <Card style={{ width: "410px", height: "590px" }}
+              className={cama.estado !== 0 ? "blocked" : ""}>
+                <Card.Title className="fw-bolder fs-4 card-title">
+                  ID: #{cama.id_cama}
                 </Card.Title>
                 <CardImg
                   style={{ width: "408px", height: "320px" }}
@@ -307,6 +312,13 @@ const Camas = () => {
                     onClick={() => handleEditar(cama.id_cama)}
                   >
                     Internar
+                  </Button>
+                  <Button
+                    className={cama.estado != 0 ? "visible" : "hidden"}
+                    variant="success"
+                    onClick={() => handleEditar(cama.id_cama)}
+                  >
+                    Editar
                   </Button>
                   <Button
                     onClick={() => handleShow(cama.id_cama)}

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from "axios"
-import { Container, Table } from 'react-bootstrap'
+import { Button, Container, Table } from 'react-bootstrap'
 import "../css/Paciente.css"
 
 
@@ -44,6 +44,7 @@ const VerPaciente = () => {
     <Table striped bordered hover>
           <thead>
             <tr className="text-center">
+            <th>ID</th>
               <th>Nombre del paciente</th>
               <th>Tipo de estudio</th>
               <th>Resultado</th>
@@ -57,6 +58,7 @@ const VerPaciente = () => {
           <tbody className="text-center">
             {paciente.map((paciente) => (
               <tr key={paciente.id_paciente}>
+                <td>{paciente.id_paciente}</td>
                 <td>{paciente.nombre}</td>
                 <td>{paciente.tipodeEstudio}</td>
                 <td>{paciente.resultado}</td>
@@ -69,6 +71,12 @@ const VerPaciente = () => {
             ))}
           </tbody>
         </Table>
+        <div className="text-center">
+        <Link className="link" to={`/pacientes`}>
+                  <Button className="btn3" variant="primary">Voler</Button>
+                  </Link>
+        </div>
+    
         </Container>
     <Sidebar/>
     <Footer/> 

@@ -22,11 +22,13 @@ const Turnos = () => {
   const [medicos, setMedicos] = useState([])
 
 
+  
 
   const getTurnos = async () => {
     let result = await axios.get("http://localhost:8000/turnos");
     console.log(result.data);
     setTurnos(result.data);
+  
   };
 
   const getPacientes = async () => {
@@ -76,6 +78,11 @@ const Turnos = () => {
     return formattedDate;
   };
 
+  const formatTime = (time) => {
+    const [hours, minutes, seconds] = time.split(':');
+    return `${hours}:${minutes}`;
+  };
+
   const handleShow = (id) => {
     setShow(true);
     setIdAEliminar(id);
@@ -109,14 +116,17 @@ const Turnos = () => {
     console.log(turno[0]);
 
     if (result) {
-      const fecha = new Date(turno[0].fecha);
+
+      const fecha = new Date(turno[0].Fecha);
 
       const fechaFormateada = fecha.toISOString().split('T')[0];
 
-
       setFecha(fechaFormateada)
-      setHora(turno[0].hora)
+      setHora(turno[0].Hora)
+      
+     
       setId_paciente(turno[0].id_paciente)
+
       setId_medico(turno[0].id_medico)
     }
   };
@@ -244,7 +254,7 @@ const Turnos = () => {
                 <td>{turno.id_turno}</td>
                 <td>{turno.NombrePaciente}</td>
                 <td>{formatDate(turno.Fecha)}</td>
-                <td>{turno.Hora}</td>
+                <td>{formatTime(turno.Hora)}</td>
                 <td>{turno.Medico}</td>
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">

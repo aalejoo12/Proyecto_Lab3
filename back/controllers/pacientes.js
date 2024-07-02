@@ -44,7 +44,7 @@ const editarPacientes = (req, res) => {
 
 const verPacientes = (req, res) => {
   const id = req.params.id;
-  const query = `select p.nombre, e.tipodeEstudio,e.resultado,e.fechaRealizacion,h.grupoSanguineo,h.alergias,h.peso,h.altura,h.fechaIngreso
+  const query = `select p.id_paciente, p.nombre, e.tipodeEstudio,e.resultado,e.fechaRealizacion,h.grupoSanguineo,h.alergias,h.peso,h.altura,h.fechaIngreso
 from Pacientes p
 join estudiosCompl e
 on e.id_paciente = p.id_paciente

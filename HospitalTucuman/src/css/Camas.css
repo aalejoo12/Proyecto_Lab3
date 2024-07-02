@@ -5,3 +5,21 @@
   .visible {
     display: block;
   }
+  
+  /* .blocked {
+    filter: grayscale(100%) brightness(50%);
+  } */
+  
+  .blocked .card-body{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+  }
+  
+  .blocked .card-title {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+  }
+  
+  .blocked img {
+    filter: grayscale(100%) brightness(50%);
+  }

@@ -109,12 +109,16 @@ const Historial = () => {
     console.log(historial[0]);
 
     if (result) {
+      const fecha = new Date(historial[0].fechaIngreso);
+
+      const fechaFormateada = fecha.toISOString().split('T')[0];
+
       setIdPaciente(historial[0].id_paciente)
       setGrupoSanguineo(historial[0].grupoSanguineo)
       setAlergias(historial[0].alergias)
       setPeso(parseFloat(historial[0].peso.replace('kg', '')))
       setAltura(historial[0].altura)
-      setFecha(historial[0].fechaIngreso)
+      setFecha(fechaFormateada)
 
     }
   };
@@ -233,7 +237,7 @@ const Historial = () => {
           </Row>
           <Form.Label>Ingrese la fecha de registro</Form.Label>
           <Form.Control
-            // value={fecha}
+            value={fecha}
             type="date"
             placeholder="fecha"
             onChange={(e) => {

@@ -50,7 +50,13 @@ const editarTurnos = (req, res) => {
 
 const verTurnos = (req, res) => {
   const id = req.params.id;
-  const query = `select * from turnos where id_turno=${id}`;
+  const query = `select t.id_turno,p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora,m.id_medico, m.nombre as Medico
+  from Turnos t
+  join Pacientes p
+  on p.id_paciente = t.id_paciente
+  join Medicos M
+  on m.id_medico = t.id_medico
+  where t.id_turno = ${id}`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);

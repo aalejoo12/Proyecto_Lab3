@@ -100,12 +100,12 @@ const Estudios = () => {
     console.log(estudio[0]);
 
     if (result) {
-      // const fecha = new Date(estudio[0].fecha);
+      const fecha = new Date(estudio[0].fechaRealizacion);
 
-      // const fechaFormateada = fecha.toISOString().split('T')[0];
+      const fechaFormateada = fecha.toISOString().split('T')[0];
 
 
-      setFecha(estudio[0].fechaRealizacion)
+      setFecha(fechaFormateada)
       setId_paciente(estudio[0].id_paciente)
       setResultado(estudio[0].resultado)
       setTipodeEstudio(estudio[0].tipodeEstudio)

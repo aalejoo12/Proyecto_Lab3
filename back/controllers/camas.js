@@ -5,7 +5,7 @@ const todoCamas = (req, res) => {
 from Camas c 
 join Salas s
 on s.id_sala = c.id_sala
-where c.activo = TRUE 
+where c.activo && s.activo = TRUE 
 order by c.estado`;
 
   conection.query(query, (err, results) => {
