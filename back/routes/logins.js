@@ -1,11 +1,15 @@
-const express = require("express")
+//importa express
+const express = require("express");
 
-const router = express.Router()
+//crea la constante router que almacena la instancia del enrutador de express
+const router = express.Router();
 
-const {loguear} = require("../controllers/logins")
+//importa la funcion loguear del archivo /controllers/logins
+const { loguear } = require("../controllers/logins");
 
+//asigna la ruta /login y la peticion http GET a la funcion controladora loguear
+//esta funcion te loguea
+router.get("/login", loguear);
 
-
-router.get("/login",loguear)
-
-module.exports = router
+//exporta router
+module.exports = router;

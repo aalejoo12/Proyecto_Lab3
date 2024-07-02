@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import "../css/Main.css";
+import { useEffect, useState } from "react"; // Importación de hooks de React
+import "../css/Main.css"; // Importación de estilos
 import {
   Button,
   Col,
@@ -8,15 +8,14 @@ import {
   Modal,
   Row,
   Table,
-} from "react-bootstrap";
-import axios from "axios";
-import Sidebar from "./Sidebar";
-import { Link } from "react-router-dom";
+} from "react-bootstrap"; // Importación de componentes de react-bootstrap
+import axios from "axios"; // Importación de axios para hacer peticiones HTTP
+import Sidebar from "./Sidebar"; // Importación del componente Sidebar
+import { Link } from "react-router-dom"; // Importación de Link de react-router-dom
 
 const Main = () => {
-
+  // Definición del estado del componente usando useState
   const [pacientes, setPacientes] = useState([]);
-
 
   const [nomyape, setNomyape] = useState("");
   const [edad, setEdad] = useState("");
@@ -30,8 +29,7 @@ const Main = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
-
-
+  // Funciones para manejar el estado de la modal
   const handleClose = () => {
     setShow(false);
   };
@@ -41,12 +39,13 @@ const Main = () => {
     setIdAEliminar(id);
   };
 
+  // Función para obtener los pacientes de la API
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
-    // console.log(result.data);
     setPacientes(result.data);
   };
 
+  // Función para manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     if (nomyape && edad && email && dni && telefono != "") {
@@ -64,6 +63,7 @@ const Main = () => {
     } else {
       alert("debe ingresar todos los campos");
     }
+    // Limpiar los campos del formulario
     setNomyape("");
     setEdad("");
     setEmail("");
@@ -75,9 +75,10 @@ const Main = () => {
     getPacientes();
   };
 
+  // Función para eliminar un paciente
   const handleEliminar = async () => {
     console.log(idAeliminar);
-    handleClose(true)
+    handleClose(true);
 
     let response = await axios.delete(
       `http://localhost:8000/pacientes/eliminar/${idAeliminar}`
@@ -90,12 +91,13 @@ const Main = () => {
   };
 
 
+  // Función para actualizar un paciente
   const handleActualizar = async (e) => {
     getPacientes();
 
-    setMostrar(false)
-    setMostrar2(true)
-    e.preventDefault()
+    setMostrar(false);
+    setMostrar2(true);
+    e.preventDefault();
     try {
       const response = await axios.put(`http://localhost:8000/pacientes/editar/${idActualizar}`, {
 
@@ -112,6 +114,7 @@ const Main = () => {
     } catch (error) {
       console.error("Error al actualizar el paciente:", error);
     }
+    // Limpiar los campos del formulario
     setNomyape("");
     setEdad("");
     setEmail("");
@@ -119,30 +122,28 @@ const Main = () => {
     setTelefono("");
 
     getPacientes();
-
-  }
-
-
-  const handleEditar = async (id_paciente) => {
-    setMostrar(true)
-    setMostrar2(false)
-    setIdActualizar(id_paciente)
-    let result = await axios.get("http://localhost:8000/pacientes");
-
-      // Buscamos el médico correspondiente al id_medico proporcionado
-      const paciente = result.data.find(m => m.id_paciente === id_paciente);
-
-    if (paciente) {
-      
-      setNomyape(paciente.nombre)
-      setEdad(paciente.edad)
-      setEmail(paciente.email)
-      setDni(paciente.dni)
-      setTelefono(paciente.telefono)
-    }
-
   };
 
+  // Función para editar un paciente
+  const handleEditar = async (id_paciente) => {
+    setMostrar(true);
+    setMostrar2(false);
+    setIdActualizar(id_paciente);
+    let result = await axios.get("http://localhost:8000/pacientes");
+
+    // Buscamos el médico correspondiente al id_medico proporcionado
+    const paciente = result.data.find((m) => m.id_paciente === id_paciente);
+
+    if (paciente) {
+      setNomyape(paciente.nombre);
+      setEdad(paciente.edad);
+      setEmail(paciente.email);
+      setDni(paciente.dni);
+      setTelefono(paciente.telefono);
+    }
+  };
+
+  // Efecto para obtener los pacientes al montar el componente
   useEffect(() => {
     getPacientes();
   }, []);
@@ -151,12 +152,17 @@ const Main = () => {
   console.log(internar);
 
   return (
-    <>  <div className="text-center mt-5 container-titulo">
-      <h2>Agrega un paciente</h2>
-    </div>
+    <>
+      {" "}
+      {/* Título */}
+      <div className="text-center mt-5 container-titulo">
+        <h2>Agrega un paciente</h2>
+      </div>
+      {/* Formulario para agregar o actualizar pacientes */}
       <div className="container-form">
-        <Form className="form" onSubmit={handleSubmit} >
+        <Form className="form" onSubmit={handleSubmit}>
           <Row className="mb-3">
+            {/* Campo para Nombre y Apellido */}
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
@@ -170,6 +176,7 @@ const Main = () => {
               />
             </Form.Group>
 
+            {/* Campo para Edad */}
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Edad</Form.Label>
               <Form.Control
@@ -184,6 +191,7 @@ const Main = () => {
             </Form.Group>
           </Row>
 
+          {/* Campo para Email */}
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -197,6 +205,7 @@ const Main = () => {
             />
           </Form.Group>
 
+          {/* Campo para DNI */}
           <Form.Group className="mb-3" controlId="formGridAddress2">
             <Form.Label>DNI</Form.Label>
             <Form.Control
@@ -225,6 +234,8 @@ const Main = () => {
             </Form.Group>
 
           </Row>
+
+          {/* Botones para Agregar o Actualizar */}
           <Row>
 
             <div className="text-center mt-5">
@@ -232,21 +243,22 @@ const Main = () => {
                 Agregar
               </Button>}
 
-              {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
-                Actualizar
-              </Button>}
-
-
+              {mostrar && (
+                <Button
+                  variant="warning"
+                  type="button"
+                  onClick={handleActualizar}
+                >
+                  Actualizar
+                </Button>
+              )}
             </div>
-
-
-
           </Row>
         </Form>
       </div>
-
+      {/* Barra lateral */}
       <Sidebar />
-
+      {/* Tabla para mostrar pacientes */}
       <Container className="tabla" fluid>
         <Table striped bordered hover>
           <thead>
@@ -272,6 +284,7 @@ const Main = () => {
 
                 <td>
                   <div className="d-flex justify-content-center gap-3 ">
+                    {/* Botón para eliminar */}
                     <button
                       className="bin-button"
                       onClick={() => handleShow(paciente.id_paciente)}
@@ -327,7 +340,10 @@ const Main = () => {
                         />
                       </svg>
                     </button>
-                    <button className="editBtn" onClick={() => handleEditar(paciente.id_paciente)}
+                    {/* Botón para editar */}
+                    <button
+                      className="editBtn"
+                      onClick={() => handleEditar(paciente.id_paciente)}
                     >
                       <svg height="1em" viewBox="0 0 512 512">
                         <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
@@ -344,6 +360,7 @@ const Main = () => {
             ))}
           </tbody>
         </Table>
+        {/* Modal de confirmación para eliminar */}
         <Modal show={show}>
           <Modal.Header closeButton>
             <Modal.Title>¡Cuidado!</Modal.Title>
@@ -370,4 +387,5 @@ const Main = () => {
   );
 };
 
+//exportacion del componente
 export default Main;

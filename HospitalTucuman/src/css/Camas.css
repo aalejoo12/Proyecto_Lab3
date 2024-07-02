@@ -1,3 +1,4 @@
+/* Clase hidden: Esta clase oculta el elemento al que se aplica. */
 .hidden {
     display: none;
   }

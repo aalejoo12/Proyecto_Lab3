@@ -1,5 +1,5 @@
-.footer{
-    color: rgb(152, 161, 168);
-    background-color: #ebedee;
-
+/* Estilo para la clase .footer */
+.footer {
+  color: rgb(152, 161, 168); /* Color del texto */
+  background-color: #ebedee; /* Color de fondo */
 }
