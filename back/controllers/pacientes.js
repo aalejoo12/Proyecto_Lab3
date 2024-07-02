@@ -44,13 +44,11 @@ const editarPacientes = (req, res) => {
 
 const verPacientes = (req, res) => {
   const id = req.params.id;
-  const query = `select p.id_paciente, p.nombre, e.tipodeEstudio,e.resultado,e.fechaRealizacion,h.grupoSanguineo,h.alergias,h.peso,h.altura,h.fechaIngreso
-from Pacientes p
-join estudiosCompl e
-on e.id_paciente = p.id_paciente
-join historiasClinicas h
-on h.id_paciente = p.id_paciente
-where p.id_paciente = ${id}`;
+  const query = `SELECT p.id_paciente, p.nombre, e.tipodeEstudio, e.resultado, e.fechaRealizacion, h.grupoSanguineo, h.alergias, h.peso, h.altura, h.fechaIngreso
+FROM Pacientes p
+JOIN estudiosCompl e ON e.id_paciente = p.id_paciente
+JOIN historiasClinicas h ON h.id_paciente = p.id_paciente
+WHERE p.id_paciente = ${id} AND e.activo = TRUE AND h.activo = TRUE;`;
   conection.query(query, (err, results) => {
     if (err) throw err;
     res.send(results);
