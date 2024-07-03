@@ -1,26 +1,40 @@
-.container-form{
-    display: flex;
-    padding-left: 200px;
+/* Clase .container-form:
+   Establece un contenedor con un display flex y un padding a la izquierda */
+.container-form {
+  display: flex;
+  padding-left: 200px;
 }
-.card-medicos{
-    display: flex;
-    justify-content: center;
-    padding-bottom: 100px;
-    padding-left: 200px;
+
+/* Clase .card-medicos:
+   Aplica flexbox y centra el contenido horizontalmente, con relleno adicional */
+.card-medicos {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 100px;
+  padding-left: 200px;
 }
-.container-titulo{
-    padding-left: 200px;
+
+/* Clase .container-titulo:
+   Añade un relleno a la izquierda para el contenedor del título */
+.container-titulo {
+  padding-left: 200px;
 }
-.card-body{
-    padding-top: 0%;
-    padding-bottom: 0%;
+
+/* Clase .card-body:
+   Ajusta el relleno superior e inferior del cuerpo de la tarjeta */
+.card-body {
+  padding-top: 0%;
+  padding-bottom: 0%;
 }
-.card-title{
-    padding-top: 20px;
-    background-color: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+/* Clase .card-title:
+   Añade un relleno superior y un fondo con degradado al título de la tarjeta */
+.card-title {
+  padding-top: 20px;
+  background-color: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
-.card-footer{
-    display: flex;
-    justify-content: space-around;
-    
+/* Clase .card-footer:
+   Aplica flexbox y distribuye el contenido uniformemente en el pie de la tarjeta */
+.card-footer {
+  display: flex;
+  justify-content: space-around;
 }

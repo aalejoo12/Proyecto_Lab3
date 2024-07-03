@@ -1,5 +1,6 @@
-.tabla-paciente{
-    padding-top: 200px;
-    padding-bottom: 300px;
-
+/* Estilos para la clase tabla-pacientes */
+/* añade padding en el eje vertical */
+.tabla-paciente {
+  padding-top: 200px; /* padding superior es de 200px*/
+  padding-bottom: 300px; /* padding inferior es de 300px*/
 }

@@ -21,7 +21,7 @@
   z-index: 2; /* control de superposición */
 }
 
-/* Estilos para el ícono de la parte superior del botón */
+/* Estilos para la tapa del tacho de basura */
 .bin-top {
   width: 13px; /* Ancho del ícono de la parte superior */
   transform-origin: right; /* Punto de origen para la transformación */
@@ -29,35 +29,39 @@
   z-index: 2; /* control de superposición */
 }
 
-/* Estilos para la rotación del ícono de la parte superior al pasar el ratón sobre el botón */
+/* Estilos para la rotación de la tapa del tacho de basura */
 .bin-button:hover .bin-top {
-  transform: rotate(45deg); /* Rotación del ícono de la parte superior */
+  transform: rotate(45deg); /* Rotación 45 grados */
 }
+/* Estilos para el cambio de color de fondo al pasar el cursor sobre el boton */
 .bin-button:hover {
   background-color: rgb(255, 0, 0);
 }
+/* Estilos para la escala del botón al hacer clic */
 .bin-button:active {
-  transform: scale(0.9);
+  transform: scale(0.9); /* Reduce la escala del botón al hacer clic */
 }
 .garbage {
-  position: absolute;
-  width: 10px;
-  height: auto;
-  z-index: 1;
-  opacity: 0;
-  transition: all 0.3s;
+  position: absolute; /* Posición absoluta para superponer elementos */
+  width: 10px; /* Ancho del ícono de basura */
+  height: auto; /* Altura automática del ícono de basura */
+  z-index: 1; /* control de superposición en 1 */
+  opacity: 0; /* Opacidad inicial del ícono de basura (invisible) */
+  transition: all 0.3s; /* Transición para efectos visuales */
 }
+/* Animación de lanzamiento del ícono de basura al pasar el cursor sobre el botón */
 .bin-button:hover .garbage {
-  animation: throw 0.4s linear;
+  animation: throw 0.4s linear; /* Aplica la animación 'throw' al ícono de basura */
 }
+/* Keyframes para la animación de lanzamiento */
 @keyframes throw {
   from {
-    transform: translate(-400%, -700%);
-    opacity: 0;
+    transform: translate(-400%, -700%); /* Posición inicial fuera de la vista */
+    opacity: 0; /* Opacidad inicial */
   }
   to {
-    transform: translate(0%, 0%);
-    opacity: 1;
+    transform: translate(0%, 0%); /* Posición final */
+    opacity: 1; /* Opacidad final */
   }
 }
 
@@ -65,142 +69,156 @@
   width: 36px; /* Ancho ajustado */
   height: 36px; /* Altura ajustada */
   border-radius: 20px; /* Hacer el botón circular */
-  border: none;
-  background-color: green;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.123);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s;
+  border: none; /* Sin borde */
+  background-color: green; /* Color de fondo del botón de editar */
+  display: flex; /* Utiliza el modelo de caja flexible */
+  align-items: center; /* Centra horizontalmente los elementos dentro del botón */
+  justify-content: center; /* Centra verticalmente los elementos dentro del botón */
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.123); /* Sombra del botón */
+  cursor: pointer; /* Cambia el cursor a puntero al pasar por encima */
+  position: relative; /* Posición relativa para el posicionamiento de elementos */
+  overflow: hidden; /* Oculta el desbordamiento de elementos más grandes */
+  transition: all 0.3s; /* Transición para efectos visuales */
 }
-
+/* Estilos para el efecto de antes del botón de editar (.editBtn::before) */
 .editBtn::before {
-  content: "";
-  width: 200%;
-  height: 200%;
-  background-color: rgb(2, 159, 2);
-  position: absolute;
-  z-index: 1;
-  transform: scale(0);
-  transition: all 0.3s;
-  border-radius: 50%;
-  filter: blur(10px);
+  content: ""; /* Contenido generado */
+  width: 200%; /* Ancho del efecto antes del botón */
+  height: 200%; /* Altura del efecto antes del botón */
+  background-color: rgb(2, 159, 2); /* Color de fondo del efecto */
+  position: absolute; /* Posición absoluta para superponer elementos */
+  z-index: 1; /* Capa z para control de superposición */
+  transform: scale(0); /* Escala inicial del efecto */
+  transition: all 0.3s; /* Transición para efectos visuales */
+  border-radius: 50%; /* Hace que el efecto tenga forma circular */
+  filter: blur(10px); /* Aplica un desenfoque al efecto */
 }
-
+/* Estilos para el efecto de antes del botón de editar al pasar el ratón sobre él (.editBtn:hover::before) */
 .editBtn:hover::before {
-  transform: scale(1);
+  transform: scale(1); /* Escala del efecto al pasar el ratón sobre él */
 }
-
+/* Estilos para la sombra del botón de editar al pasar el ratón sobre él (.editBtn:hover) */
 .editBtn:hover {
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.336);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.336); /* Sombra del botón al pasar el ratón sobre él */
 }
+/* Estilos para la escala del botón de editar al hacer clic (.editBtn:active) */
 .editBtn:active {
-  transform: scale(0.9);
+  transform: scale(0.9); /* Reduce la escala del botón al hacer clic */
 }
+/* Estilos para el ícono SVG dentro del botón de editar (.editBtn svg) */
 .editBtn svg {
   width: 16px; /* Ancho ajustado del icono */
   height: 16px; /* Altura ajustada del icono */
-  fill: white;
-  z-index: 3;
-  transition: all 0.2s;
-  transform-origin: bottom;
+  fill: white; /* Color de relleno del ícono SVG */
+  z-index: 3; /* Capa z para control de superposición */
+  transition: all 0.2s; /* Transición para efectos visuales */
+  transform-origin: bottom; /* Punto de origen para transformaciones */
 }
-
+/* Estilos para la animación del ícono SVG dentro del botón de editar al pasar el ratón sobre él (.editBtn:hover svg) */
 .editBtn:hover svg {
   transform: rotate(-15deg) translateX(5px); /* Ajuste de la animación del icono */
 }
-
+/* Estilos para el efecto de línea después del botón de editar (.editBtn::after) */
 .editBtn::after {
-  content: "";
+  content: ""; /* Contenido generado */
   width: 30px; /* Ancho ajustado */
   height: 2px; /* Altura ajustada */
-  position: absolute;
+  position: absolute; /* Posición absoluta para superponer elementos */
   bottom: 5px; /* Ajustado para la nueva altura del botón */
-  left: -8px;
-  background-color: white;
-  border-radius: 2px;
-  z-index: 2;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease-out;
+  left: -8px; /* Posicionamiento desde la izquierda del botón */
+  background-color: white; /* Color de fondo del efecto de línea */
+  border-radius: 2px; /* Hace que el efecto tenga bordes redondeados */
+  z-index: 2; /* Capa z para control de superposición */
+  transform: scaleX(0); /* Escala inicial del efecto de línea */
+  transform-origin: left; /* Punto de origen para transformaciones */
+  transition: transform 0.5s ease-out; /* Transición para efectos visuales */
 }
 
+/* Estilos para el efecto de línea después del botón de editar al pasar el ratón sobre él */
 .editBtn:hover::after {
-  transform: scaleX(1);
-  left: -10px;
-  transform-origin: right;
+  transform: scaleX(1); /* Escala del efecto de línea a su tamaño completo */
+  left: -10px; /* Ajusta el posicionamiento desde la izquierda */
+  transform-origin: right; /* Punto de origen para transformaciones */
 }
 
+/* Estilos para el botón de visualización (.btn-ver) */
 .btn-ver {
-  position: relative;
-  padding: 6px 11px;
-  border-radius: 50px;
-  border: 1px solid rgb(61, 106, 255);
-  font-size: 14px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 2px;
-  background: rgb(3, 3, 84);
-  color: #fff;
-  overflow: hidden;
-  box-shadow: 0 0 0 0 transparent;
-  transition: all 0.2s ease-in;
+  position: relative; /* Posición relativa para superposición de elementos */
+  padding: 6px 11px; /* Relleno del botón */
+  border-radius: 50px; /* Hace que el botón tenga bordes redondeados */
+  border: 1px solid rgb(61, 106, 255); /* Borde del botón */
+  font-size: 14px; /* Tamaño de fuente del texto dentro del botón */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  font-weight: 600; /* Peso de la fuente */
+  letter-spacing: 2px; /* Espaciado entre letras */
+  background: rgb(3, 3, 84); /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  overflow: hidden; /* Oculta el desbordamiento de elementos más grandes */
+  box-shadow: 0 0 0 0 transparent; /* Sombra inicial del botón */
+  transition: all 0.2s ease-in; /* Transición para efectos visuales */
 }
 
+/* Estilos para el botón de visualización al pasar el ratón sobre él */
 .btn-ver:hover {
-  background: rgb(61, 106, 255);
-  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
-  transition: all 0.2s ease-out;
+  background: rgb(
+    61,
+    106,
+    255
+  ); /* Cambia el color de fondo al pasar el ratón sobre él */
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815); /* Sombra del botón al pasar el ratón sobre él */
+  transition: all 0.2s ease-out; /* Transición para efectos visuales */
 }
 
+/* Estilos para el efecto antes del botón de visualización al pasar el ratón sobre él */
 .btn-ver:hover::before {
-  animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear; /* Aplica la animación 'sh02' con una duración de 0.5s */
 }
 
+/* Estilos para el efecto antes del botón de visualización */
 .btn-ver::before {
-  content: "";
-  display: block;
-  width: 0;
-  height: 70%;
-  position: absolute;
-  top: 7%;
-  left: 0%;
-  opacity: 0;
-  background: #fff;
-  box-shadow: 0 0 50px 30px #fff;
-  transform: skewX(-20deg);
+  content: ""; /* Contenido generado */
+  display: block; /* Mostrar como un bloque */
+  width: 0; /* Ancho inicial del efecto */
+  height: 70%; /* Altura del efecto */
+  position: absolute; /* Posición absoluta para superposición de elementos */
+  top: 7%; /* Posicionamiento desde la parte superior */
+  left: 0%; /* Posicionamiento desde la izquierda */
+  opacity: 0; /* Opacidad inicial (invisible) */
+  background: #fff; /* Color de fondo del efecto */
+  box-shadow: 0 0 50px 30px #fff; /* Sombra del efecto */
+  transform: skewX(-20deg); /* Transformación inicial del efecto */
 }
 
+/* Keyframes para la animación de deslizamiento */
 @keyframes sh02 {
   from {
-    opacity: 0;
-    left: 0%;
+    opacity: 0; /* Opacidad inicial */
+    left: 0%; /* Posición inicial */
   }
 
   50% {
-    opacity: 1;
+    opacity: 1; /* Opacidad en la mitad de la animación */
   }
 
   to {
-    opacity: 0;
-    left: 100%;
+    opacity: 0; /* Opacidad final */
+    left: 100%; /* Posición final */
   }
 }
 
+/* Estilos para el botón de visualización al hacer clic */
 .btn-ver:active {
-  box-shadow: 0 0 0 0 transparent;
-  transition: box-shadow 0.2s ease-in;
-  transform: scale(0.9) 9;
+  box-shadow: 0 0 0 0 transparent; /* Elimina la sombra al hacer clic */
+  transition: box-shadow 0.2s ease-in; /* Transición para la sombra */
+  transform: scale(0.9) 9; /* Reduce la escala del botón al hacer clic */
 }
 
+/* Estilos para el contenedor del formulario (.container-form) */
 .container-form {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 500px;
-  padding-left: 100px;
-  margin-bottom: 0px;
+  display: flex; /* Utiliza el modelo de caja flexible */
+  justify-content: space-evenly; /* Distribuye uniformemente los elementos con espacio entre ellos */
+  align-items: center; /* Centra verticalmente los elementos dentro del contenedor */
+  height: 500px; /* Altura del contenedor */
+  padding-left: 100px; /* Relleno izquierdo del contenedor */
+  margin-bottom: 0px; /* Sin margen inferior */
 }

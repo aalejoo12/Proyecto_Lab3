@@ -1,38 +1,52 @@
-.tulbar{
-    background-color: #04AB91;
-    justify-content: center;
-   
- }
- .list{
-     background-color:  rgb(71, 91, 107);;
- }
- .tabla{
-     padding-left: 210px;
-     padding-bottom: 100px;
- }
- .item-button{
-     font-size: 20px;
- }
- .MuiTypography-root{
-     font-size: 25px;
-     font-weight: bolder;
- }
- 
- .full-height {
-     display: flex;
-     flex-direction: column;
-     height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
-   }
- 
- .list-item-auto-margin {
-     margin-top: auto; /* Empuja el elemento hacia la parte inferior */
-   }
- 
- .boton-toolbar{
-     background-color: #04AB91;
-     border: none;
- }
- .link{
-    text-decoration: none; /* Elimina el subrayado */
-    color: inherit; /* Hereda el color del texto del contenedor */
- }
+/* Clase .tulbar:
+   Establece el color de fondo y centra el contenido horizontalmente */
+.tulbar {
+  background-color: #04ab91;
+  justify-content: center;
+}
+/* Clase .list:
+   Establece el color de fondo */
+.list {
+  background-color: rgb(71, 91, 107);
+}
+/* Clase .tabla:
+   Añade un relleno a la izquierda y en la parte inferior */
+.tabla {
+  padding-left: 210px;
+  padding-bottom: 100px;
+}
+/* Clase .item-button:
+   Establece el tamaño de la fuente */
+.item-button {
+  font-size: 20px;
+}
+/* Clase .MuiTypography-root:
+   Establece el tamaño y el peso de la fuente */
+.MuiTypography-root {
+  font-size: 25px;
+  font-weight: bolder;
+}
+/* Clase .full-height:
+   Aplica flexbox, dirección de columna y asegura que ocupe toda la altura de la ventana */
+.full-height {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+}
+/* Clase .list-item-auto-margin:
+   Empuja el elemento hacia la parte inferior */
+.list-item-auto-margin {
+  margin-top: auto; /* Empuja el elemento hacia la parte inferior */
+}
+/* Clase .boton-toolbar:
+   Establece el color de fondo y elimina el borde */
+.boton-toolbar {
+  background-color: #04ab91;
+  border: none;
+}
+/* Clase .link:
+   Elimina el subrayado y hereda el color del contenedor */
+.link {
+  text-decoration: none; /* Elimina el subrayado */
+  color: inherit; /* Hereda el color del texto del contenedor */
+}

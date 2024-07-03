@@ -1,27 +1,45 @@
+/* Clase .izq:
+   Posiciona el elemento relativamente a 300 píxeles a la izquierda desde su posición normal */
 .izq {
   position: relative;
   left: 300px;
 }
+
+/* Clase .letra:
+   Define el color del texto, la fuente y el tamaño de la fuente */
 .letra {
-  color: rgb(61, 70, 155);
-  font-family: "Trebuchet MS", Verdana, sans-serif;
-  font-size: 17px;
+  color: rgb(61, 70, 155); /* Color del texto en un tono de azul */
+  font-family: "Trebuchet MS", Verdana, sans-serif; /* Fuente Trebuchet MS con fuentes de respaldo */
+  font-size: 17px; /* Tamaño del texto */
 }
+
+/* Clase .bienvenida:
+   Define el color y la fuente del texto */
 .bienvenida {
-  color: rgb(0, 16, 245);
-  font-family: "Times New Roman", serif;
+  color: rgb(0, 16, 245); /* Color del texto en un tono de azul más oscuro */
+  font-family: "Times New Roman", serif; /* Fuente Times New Roman */
 }
+
+/* Clase .parrafo:
+   Define el color del texto y la fuente, similar a la clase .letra */
 .parrafo {
-  color: rgb(61, 70, 155);
-  font-family: "Trebuchet MS", Verdana, sans-serif;
+  color: rgb(61, 70, 155); /* Color del texto en un tono de azul */
+  font-family: "Trebuchet MS", Verdana, sans-serif; /* Fuente Trebuchet MS con fuentes de respaldo */
 }
+
+/* Clase .typeWriter:
+   Define el color del texto y el tamaño de la fuente */
 .typeWriter {
-  color: rgb(0, 72, 90);
-  font-size: 30px;
+  color: rgb(0, 72, 90); /* Color del texto en un tono de azul verdoso */
+  font-size: 30px; /* Tamaño del texto */
 }
+/* Clase .img:
+   Define la altura de las imágenes */
 .img {
-  height: 125px;
+  height: 125px; /* Altura de la imagen */
 }
+/* Clase .foto:
+   Define la altura de las fotos */
 .foto {
-  height: 150px;
+  height: 150px; /* Altura de la foto */
 }
