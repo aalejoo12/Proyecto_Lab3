@@ -1,50 +1,58 @@
-import { useEffect, useState } from 'react'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
-import Footer from '../components/Footer'
-import { Link, useParams } from 'react-router-dom'
-import axios from "axios"
-import { Button, Container, Table } from 'react-bootstrap'
-import "../css/Paciente.css"
+// Importa hooks de React
+import { useEffect, useState } from "react";
+// Importa componentes personalizados
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
+// Importa componentes de react-router-dom
+import { Link, useParams } from "react-router-dom";
+// Importa axios para realizar solicitudes HTTP
+import axios from "axios";
+// Importa componentes de react-bootstrap
+import { Button, Container, Table } from "react-bootstrap";
+// Importa estilos CSS personalizados
+import "../css/Paciente.css";
 
-
-
+// Define el componente VerPaciente
 const VerPaciente = () => {
+  // Obtiene el parámetro id de la URL
 
   const { id } = useParams();
+  // Define el estado para almacenar la información del paciente
+  const [paciente, setPaciente] = useState([]);
 
-  const [paciente,setPaciente] = useState([])
-
-
+  // Función para obtener la información del paciente desde el servidor
   const getPaciente = async () => {
     let result = await axios.get(`http://localhost:8000/pacientes/${id}`);
     console.log(result.data);
     setPaciente(result.data);
   };
 
+  // Función para formatear la fecha
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    const formattedDate = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
     return formattedDate;
   };
 
+  // useEffect para ejecutar getPaciente cuando el componente se monta
   useEffect(() => {
-    getPaciente()
-
-  }, [])
-  
+    getPaciente();
+  }, []);
 
   return (
-    <>    
-    
-    
-    <Header/>
-    <Container className="tabla-paciente tabla" fluid>
-
-    <Table striped bordered hover>
+    <>
+      {/* Renderiza el componente Header */}
+      <Header />
+      {/* Contenedor para la tabla de información del paciente */}
+      <Container className="tabla-paciente tabla" fluid>
+        {/* Tabla con la información del paciente */}
+        <Table striped bordered hover>
           <thead>
             <tr className="text-center">
-            <th>ID</th>
+              <th>ID</th>
               <th>Nombre del paciente</th>
               <th>Tipo de estudio</th>
               <th>Resultado</th>
@@ -56,6 +64,7 @@ const VerPaciente = () => {
             </tr>
           </thead>
           <tbody className="text-center">
+            {/* Mapea el estado de paciente para crear una fila por cada paciente */}
             {paciente.map((paciente) => (
               <tr key={paciente.id_paciente}>
                 <td>{paciente.id_paciente}</td>
@@ -72,17 +81,21 @@ const VerPaciente = () => {
           </tbody>
         </Table>
         <div className="text-center">
-        <Link className="link" to={`/pacientes`}>
-                  <Button className="btn3" variant="primary">Voler</Button>
-                  </Link>
+          {/* Enlace para volver a la lista de pacientes */}
+          <Link className="link" to={`/pacientes`}>
+            <Button className="btn3" variant="primary">
+              Voler
+            </Button>
+          </Link>
         </div>
-    
-        </Container>
-    <Sidebar/>
-    <Footer/> 
+      </Container>
+      {/* Renderiza el componente Sidebar */}
+      <Sidebar />
+      {/* Renderiza el componente Footer */}
+      <Footer />
     </>
+  );
+};
 
-  )
-}
-
-export default VerPaciente
+// Exporta el componente verPaciente para que pueda ser utilizado en otros archivos
+export default VerPaciente;

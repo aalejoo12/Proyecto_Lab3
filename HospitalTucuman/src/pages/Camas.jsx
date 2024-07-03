@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import axios from "axios";
+import React, { useEffect, useState } from "react"; // Importa React y los hooks useEffect y useState
+import Header from "../components/Header"; // Importa el componente Header
+import Sidebar from "../components/Sidebar"; // Importa el componente Sidebar
+import Footer from "../components/Footer"; // Importa el componente Footer
+import axios from "axios"; // Importa axios para realizar solicitudes HTTP
 import {
   Button,
   Card,
@@ -12,30 +12,33 @@ import {
   Form,
   Modal,
   Row,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "../css/Camas.css";
+} from "react-bootstrap"; // Importa componentes de react-bootstrap
+import { Link } from "react-router-dom"; // Importa Link de react-router-dom para navegación
+import "../css/Camas.css"; // Importa los estilos CSS específicos para este componente
+
 const Camas = () => {
-  const [camas, setCamas] = useState([]);
-  const [mostrar, setMostrar] = useState(false);
-  const [mostrar2, setMostrar2] = useState(true);
+  // Declaración de estados usando useState
+  const [camas, setCamas] = useState([]); // Estado para almacenar las camas
+  const [mostrar, setMostrar] = useState(false); // Estado para mostrar/ocultar el formulario de actualización
+  const [mostrar2, setMostrar2] = useState(true); // Estado para mostrar/ocultar el formulario de creación
 
-  const [estado, setEstado] = useState(0);
-  const [fechaIngreso, setFechaIngreso] = useState("");
-  const [fechaAlta, setFechaAlta] = useState("");
-  const [id_paciente, setId_paciente] = useState(null);
-  const [id_sala, setId_sala] = useState("");
+  const [estado, setEstado] = useState(0); // Estado para el estado de la cama
+  const [fechaIngreso, setFechaIngreso] = useState(""); // Estado para la fecha de ingreso
+  const [fechaAlta, setFechaAlta] = useState(""); // Estado para la fecha de alta
+  const [id_paciente, setId_paciente] = useState(null); // Estado para el ID del paciente
+  const [id_sala, setId_sala] = useState(""); // Estado para el ID de la sala
 
-  const [idActualizar, setIdActualizar] = useState(null);
-  const [idAeliminar, setIdAEliminar] = useState(null);
+  const [idActualizar, setIdActualizar] = useState(null); // Estado para el ID de la cama a actualizar
+  const [idAeliminar, setIdAEliminar] = useState(null); // Estado para el ID de la cama a eliminar
 
-  const [pacientes, setPacientes] = useState([]);
-  const [salas, setSalas] = useState([]);
+  const [pacientes, setPacientes] = useState([]); // Estado para almacenar los pacientes
+  const [salas, setSalas] = useState([]); // Estado para almacenar las salas
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false); // Estado para mostrar/ocultar el modal
 
-  const [opcion, setOpcion] = useState(null);
+  const [opcion, setOpcion] = useState(null); // Estado para la opción seleccionada en el formulario
 
+  // Función para manejar el cambio de la opción seleccionada
   const handleChange = () => {
     if (opcion === "NO") {
       setEstado(1);
@@ -46,24 +49,25 @@ const Camas = () => {
     }
   };
 
+  // Función para obtener las camas desde el backend
   const getCamas = async () => {
     let result = await axios.get("http://localhost:8000/camas");
-    // console.log(result.data);
     setCamas(result.data);
   };
 
+  // Función para obtener los pacientes desde el backend
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
-    // console.log(result.data);
     setPacientes(result.data);
   };
 
+  // Función para obtener las salas desde el backend
   const getSalas = async () => {
     let result = await axios.get("http://localhost:8000/salas");
-    // console.log(result.data);
     setSalas(result.data);
   };
 
+  // Función para formatear una fecha en un string legible
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = `${date.getDate()}/${
@@ -72,6 +76,7 @@ const Camas = () => {
     return formattedDate;
   };
 
+  // Función para manejar el envío del formulario de creación de camas
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -96,6 +101,7 @@ const Camas = () => {
     getCamas();
   };
 
+  // Función para manejar la actualización de una cama
   const handleActualizar = async (e) => {
     getCamas();
     console.log(id_sala);
@@ -129,8 +135,8 @@ const Camas = () => {
     getCamas();
   };
 
+  // Función para manejar la edición de una cama
   const handleEditar = async (id) => {
-
     setEstado(1);
     setMostrar(true);
     setMostrar2(false);
@@ -150,11 +156,11 @@ const Camas = () => {
 
       setId_paciente(cama[0].id_paciente);
       setId_sala(cama[0].id_sala);
-    console.log(cama[0].fechaIngreso);
-
+      console.log(cama[0].fechaIngreso);
     }
   };
 
+  // Función para manejar la eliminación de una cama
   const handleEliminar = async () => {
     console.log(idAeliminar);
     handleClose(true);
@@ -168,35 +174,46 @@ const Camas = () => {
     }
     getCamas();
   };
+
+  // Función para cerrar el modal
   const handleClose = () => {
     setShow(false);
   };
 
+  // Función para mostrar el modal
   const handleShow = (id) => {
     setShow(true);
     setIdAEliminar(id);
   };
 
+  // useEffect para obtener las camas, pacientes y salas cuando el componente se monta
   useEffect(() => {
     getCamas();
     getPacientes();
     getSalas();
   }, []);
 
-  console.log(estado);
-
   return (
     <>
+      {/* Renderiza el componente de encabezado */}
       <Header />
+      {/* Título centralizado de la página */}
       <div className="container-titulo text-center mt-5">
         <h2>Gestión de camas</h2>
       </div>
 
+      {/* Formulario para crear o actualizar camas */}
       <div className="container-form">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
-          {estado != 1 ? <h3>Crear una cama</h3> : <h3>Internar un paciente</h3>}
-              
+            {/* Título del formulario basado en el estado */}
+            {estado != 1 ? (
+              <h3>Crear una cama</h3>
+            ) : (
+              <h3>Internar un paciente</h3>
+            )}
+
+            {/* Selección de sala */}
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Seleccione la sala</Form.Label>
               <Form.Select
@@ -214,29 +231,37 @@ const Camas = () => {
               </Form.Select>
             </Form.Group>
 
-         
-
-            <Form.Group as={Col} controlId="formGridEmail"
-          className={estado != 0 ? 'visible' : 'hidden'}
-          >
-            <Form.Label>Ingrese el paciente</Form.Label>
-            <Form.Select
-              onChange={(e) => setId_paciente(e.target.value)}
-              defaultValue=""
+            {/* Selección de paciente si el estado no es 0 */}
+            <Form.Group
+              as={Col}
+              controlId="formGridEmail"
+              className={estado != 0 ? "visible" : "hidden"}
             >
-              <option value="">Elije el paciente</option>
-              {pacientes.map((paciente) => (
-                <option value={paciente.id_paciente} key={paciente.id_paciente}>
-                  {paciente.nombre}
-                </option>
-              ))}
-            </Form.Select>    
-          </Form.Group>
-         
+              <Form.Label>Ingrese el paciente</Form.Label>
+              <Form.Select
+                onChange={(e) => setId_paciente(e.target.value)}
+                defaultValue=""
+              >
+                <option value="">Elije el paciente</option>
+                {pacientes.map((paciente) => (
+                  <option
+                    value={paciente.id_paciente}
+                    key={paciente.id_paciente}
+                  >
+                    {paciente.nombre}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
           </Row>
 
+          {/* Campos de fechas de ingreso y alta si el estado no es 0 */}
           <Row>
-            <Form.Group as={Col}  className={estado != 0 ? 'visible' : 'hidden'} controlId="formGridAddress1">
+            <Form.Group
+              as={Col}
+              className={estado != 0 ? "visible" : "hidden"}
+              controlId="formGridAddress1"
+            >
               <Form.Label>Ingrese la fecha de ingreso</Form.Label>
               <Form.Control
                 value={fechaIngreso}
@@ -248,7 +273,11 @@ const Camas = () => {
               />
             </Form.Group>
 
-            <Form.Group as={Col}  className={estado != 0 ? 'visible' : 'hidden'} controlId="formGridAddress2">
+            <Form.Group
+              as={Col}
+              className={estado != 0 ? "visible" : "hidden"}
+              controlId="formGridAddress2"
+            >
               <Form.Label>Ingrese la fecha de alta</Form.Label>
               <Form.Control
                 value={fechaAlta}
@@ -260,6 +289,7 @@ const Camas = () => {
               />
             </Form.Group>
           </Row>
+          {/* Botones de acción para crear o actualizar camas */}
           {mostrar2 && (
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               Crear cama
@@ -275,13 +305,15 @@ const Camas = () => {
       </div>
 
       {/* AQUI EMPIEZAN LAS CARDS */}
-
+      {/* Listado de camas en formato de tarjetas */}
       <div className="d-flex justify-content-center">
         <Row md={2}>
           {camas.map((cama) => (
             <Col className="card-medicos" md={6} key={cama.id_cama}>
-              <Card style={{ width: "410px", height: "590px" }}
-              className={cama.estado !== 0 ? "blocked" : ""}>
+              <Card
+                style={{ width: "410px", height: "590px" }}
+                className={cama.estado !== 0 ? "blocked" : ""}
+              >
                 <Card.Title className="fw-bolder fs-4 card-title">
                   ID: #{cama.id_cama}
                 </Card.Title>
@@ -342,7 +374,7 @@ const Camas = () => {
       </div>
 
       {/* ESTE ES EL MODAL PARA PREGUNTAR SI QUIERE ELIMINAR O NO */}
-
+      {/* Modal para confirmar eliminación */}
       <Modal show={show}>
         <Modal.Header closeButton>
           <Modal.Title>¡Cuidado!</Modal.Title>
@@ -363,10 +395,13 @@ const Camas = () => {
         </Modal.Footer>
       </Modal>
 
+      {/* Renderiza el componente de la barra lateral */}
       <Sidebar />
+      {/* Renderiza el componente de pie de página */}
       <Footer />
     </>
   );
 };
 
+//Exporta el componente pages camas
 export default Camas;
