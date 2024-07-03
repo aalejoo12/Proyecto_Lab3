@@ -1,43 +1,56 @@
-import "./App.css";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Pacientes from "./pages/Pacientes";
-import Medicos from "./pages/Medicos";
-import Turnos from "./pages/Turnos";
-import Historial from "./pages/Historial";
-import Estudios from "./pages/Estudios";
-import Camas from "./pages/Camas";
-import VerCama from "./pages/VerCama";
-import Error from "./pages/Error";
-import Salas from "./pages/Salas";
-import VerPaciente from "./pages/VerPaciente";
-
+import "./App.css"; // Importa el archivo de estilos CSS
+import Home from "./pages/Home"; // Importa el componente Home
+import Login from "./pages/Login"; //Importa el componente Login
+import { BrowserRouter, Route, Routes } from "react-router-dom"; // Importa componentes para el enrutamiento de la aplicación
+import Pacientes from "./pages/Pacientes"; // Importa el componente Pacientes
+import Medicos from "./pages/Medicos"; // Importa el componente Medicos
+import Turnos from "./pages/Turnos"; // Importa el componente Turnos
+import Historial from "./pages/Historial"; // Importa el componente Historial
+import Estudios from "./pages/Estudios"; // Importa el componente Estudios
+import Camas from "./pages/Camas"; // Importa el componente Camas
+import VerCama from "./pages/VerCama"; // Importa el componente VerCama
+import Error from "./pages/Error"; // Importa el componente Error
+import Salas from "./pages/Salas"; // Importa el componente Salas
+import VerPaciente from "./pages/VerPaciente"; // Importa el componente VerPaciente
 
 function App() {
   return (
     <>
-    <div className="container-fluid">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/pacientes" element={<Pacientes />} />
-          <Route path="/medicos" element={<Medicos />} />
-          <Route path="/turnos" element={<Turnos />} />
-          <Route path="/hc" element={<Historial />} />
-          <Route path="/estudios" element={<Estudios />} />
-          <Route path="/camas" element={<Camas />} />
-          <Route path="/camas/:id" element={<VerCama />} />
-          <Route path="/pacientes/:id" element={<VerPaciente />} />
-          <Route path="/salas" element={<Salas />} />
-          <Route path="*" element={<Error />} />
-
-        </Routes>
-      </BrowserRouter>
+      {/* Contenedor principal con la clase 'container-fluid' */}
+      <div className="container-fluid">
+        {/* Envoltorio para la gestión de rutas usando BrowserRouter */}
+        <BrowserRouter>
+          {/* Definición de las rutas de la aplicación */}
+          <Routes>
+            {/* Ruta para la página de inicio de sesión */}
+            <Route path="/" element={<Login />} />
+            {/* Ruta para la página principal */}
+            <Route path="/home" element={<Home />} />
+            {/* Ruta para la página de pacientes */}
+            <Route path="/pacientes" element={<Pacientes />} />
+            {/* Ruta para la página de médicos */}
+            <Route path="/medicos" element={<Medicos />} />
+            {/* Ruta para la página de turnos */}
+            <Route path="/turnos" element={<Turnos />} />
+            {/* Ruta para la página de historial clínico */}
+            <Route path="/hc" element={<Historial />} />
+            {/* Ruta para la página de estudios */}
+            <Route path="/estudios" element={<Estudios />} />
+            {/* Ruta para la página de camas */}
+            <Route path="/camas" element={<Camas />} />
+            {/* Ruta para ver una cama específica, identificada por su ID */}
+            <Route path="/camas/:id" element={<VerCama />} />
+            {/* Ruta para ver un paciente específico, identificado por su ID */}
+            <Route path="/pacientes/:id" element={<VerPaciente />} />
+            {/* Ruta para la página de salas */}
+            <Route path="/salas" element={<Salas />} />
+            {/* Ruta de error para páginas no encontradas */}
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   );
 }
 
-export default App;
+export default App; // Exporta el componente App
