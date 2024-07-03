@@ -3,7 +3,8 @@ const { conection } = require("../config/db");
 
 //crea la funcion con los parametros request y response
 const todoCamas = (req, res) => {
-  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala,s.id_sala
+  //crea la query con el comando sql que sirve para ver las camas y su informacion con su respectiva sala
+  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala
 from Camas c 
 join Salas s
 on s.id_sala = c.id_sala

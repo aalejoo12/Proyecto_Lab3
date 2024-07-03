@@ -14,6 +14,7 @@ import Sidebar from "./Sidebar"; // Importación del componente Sidebar
 import { Link } from "react-router-dom"; // Importación de Link de react-router-dom
 
 const Main = () => {
+  // Definición del estado del componente usando useState
   const [pacientes, setPacientes] = useState([]);
 
   const [nomyape, setNomyape] = useState("");
@@ -28,6 +29,7 @@ const Main = () => {
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
+  // Funciones para manejar el estado de la modal
   const handleClose = () => {
     setShow(false);
   };
