@@ -12,6 +12,7 @@ import VerCama from "./pages/VerCama"; // Importa el componente VerCama
 import Error from "./pages/Error"; // Importa el componente Error
 import Salas from "./pages/Salas"; // Importa el componente Salas
 import VerPaciente from "./pages/VerPaciente"; // Importa el componente VerPaciente
+import Nosotros from "./pages/Nosotros";
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
             <Route path="/pacientes/:id" element={<VerPaciente />} />
             {/* Ruta para la página de salas */}
             <Route path="/salas" element={<Salas />} />
+            {/* Ruta para la página de nosotros */}
+            <Route path="/nosotros" element={<Nosotros />} />
             {/* Ruta de error para páginas no encontradas */}
             <Route path="*" element={<Error />} />
           </Routes>
