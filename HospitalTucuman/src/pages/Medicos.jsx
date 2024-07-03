@@ -160,22 +160,17 @@ const Medicos = () => {
                 }}
               />
             </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridEspecialidad">
+  <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Especialidad</Form.Label>
-              <Form.Select
+              <Form.Control
+                value={especialidad}
+                name="especialidad"
+                type="text"
+                placeholder="Ingrese la especialidad"
                 onChange={(e) => {
                   setEspecialidad(e.target.value);
                 }}
-                defaultValue=""
-              >
-                <option value="">Elije una especialidad</option>
-                {medicos.map((medico) => (
-                  <option value={medico.especialidad} key={medico.id_medico}>
-                    {medico.especialidad}
-                  </option>
-                ))}
-              </Form.Select>
+              />
             </Form.Group>
 
           </Row>
