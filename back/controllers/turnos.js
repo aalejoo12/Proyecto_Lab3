@@ -3,10 +3,14 @@ const { conection } = require("../config/db");
 
 //crea la funcion con los paramtros request y response
 const todoTurnos = (req, res) => {
-  //crea la query con el comando sql que sirve para ver los turnos con sus respectivos medicos y pacientes
-  const query =
-    "select m.id_medico, t.id_turno, p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora, m.nombre as Medico from Turnos t join Pacientes p on p.id_paciente = t.id_paciente join Medicos M on m.id_medico = t.id_medico";
-  //ejecuta la consulta con la query y un callback aue maneja los resultados de la consulta
+  const query = `select t.id_turno,p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora,m.id_medico, m.nombre as Medico
+  from Turnos t
+  join Pacientes p
+  on p.id_paciente = t.id_paciente
+  join Medicos M
+  on m.id_medico = t.id_medico
+  where p.activo and m.activo and t.activo = TRUE
+  order by t.id_turno`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -32,9 +36,7 @@ const agregarTurnos = (req, res) => {
 const borrarTurnos = (req, res) => {
   //obtiene el id del turno que se borrara
   const id = req.params.id;
-  //crea la query con el comando sql que borra una fila de una tabla
-  const query = `delete from turnos where id_turno=${id}`;
-  //ejecuta la consulta con la query y un callback que manejara los resultado de la consulta
+  const query = `UPDATE Turnos SET activo = FALSE WHERE id_turno = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -62,9 +64,13 @@ const editarTurnos = (req, res) => {
 const verTurnos = (req, res) => {
   //obtiene el id del turno que quieren ver
   const id = req.params.id;
-  //crea la query con el comando sql que muestra una fila de una tabla(la fila con el id que se obtuvo en la linea anterior)
-  const query = `select * from turnos where id_turno=${id}`;
-  //ejecuta la consulta con la query y un callback que maneja los resultados del a consutla
+  const query = `select t.id_turno,p.id_paciente, p.nombre as NombrePaciente, t.fecha as Fecha, t.hora as Hora,m.id_medico, m.nombre as Medico
+  from Turnos t
+  join Pacientes p
+  on p.id_paciente = t.id_paciente
+  join Medicos M
+  on m.id_medico = t.id_medico
+  where t.id_turno = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecuicion y señala que ha ocurrido un problema
     if (err) throw err;

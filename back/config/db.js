@@ -5,9 +5,8 @@ const mysql = require("mysql2");
 const conection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "alejo2018",
-  database: "HospitalTucuman",
+  password: "alejo_2018",
+  database: "HospitalTucuman2",
 });
 
-// exporto la conexion con la base de datos
 module.exports = { conection };

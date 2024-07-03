@@ -58,7 +58,12 @@ const Login = () => {
   };
 
 
-
+  const handleKeyDown = (e) => {
+    console.log(e.key);
+    if (e.key === "Enter") {
+      handleClick();
+    }
+  };
 
 
   useEffect(() => {
@@ -102,10 +107,11 @@ const Login = () => {
           </InputAdornment>
         ),
       }}
-    />
+      onKeyDown={handleKeyDown} />
             </Box>
             <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" onChange={(e) => setContrasenaIngresada(e.target.value)}
-            >
+            onKeyDown={handleKeyDown}
+                    >
               <InputLabel htmlFor="outlined-adornment-password">
                 Contraseña
               </InputLabel>

@@ -2,9 +2,8 @@
 const { conection } = require("../config/db");
 //crea la funcion con los paramtros request y response
 const todoPacientes = (req, res) => {
-  //crea la query con el comando sql que sirve para mostrar la tabla pacientes
-  const query = "select * from pacientes";
-  //ejecuta la consulta con la query y un callback que sirve para manejar los resultados de la consulta
+  const query = "SELECT * FROM Pacientes WHERE activo = TRUE;";
+
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -30,9 +29,7 @@ const agregarPacientes = (req, res) => {
 const borrarPacientes = (req, res) => {
   //obtiene el id
   const id = req.params.id;
-  //crea la query con el comando sql que sirve para borrar una fila de una tabla, borra la que tiene el id que se obtuvo en la linea anterior
-  const query = `delete from pacientes where id_paciente=${id}`;
-  //ejecuta la consulta con la query y un callback que sirve para manejar los resultados de la consulta
+  const query = `UPDATE Pacientes SET activo = FALSE WHERE id_paciente = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -60,9 +57,11 @@ const editarPacientes = (req, res) => {
 const verPacientes = (req, res) => {
   //obtiene el id
   const id = req.params.id;
-  //crea la query con el comando sql que sirve para ver una linea de una tabla, la linea del id que se obtuvo en la linea anterior
-  const query = `select * from pacientes where id_paciente=${id}`;
-  //ejecuta la consulta con la query y un callback que sirve para manejar los reusultados de la consulta
+  const query = `SELECT p.id_paciente, p.nombre, e.tipodeEstudio, e.resultado, e.fechaRealizacion, h.grupoSanguineo, h.alergias, h.peso, h.altura, h.fechaIngreso
+FROM Pacientes p
+JOIN estudiosCompl e ON e.id_paciente = p.id_paciente
+JOIN historiasClinicas h ON h.id_paciente = p.id_paciente
+WHERE p.id_paciente = ${id} AND e.activo = TRUE AND h.activo = TRUE;`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la conexion y señala que ha ocurrido un problema
     if (err) throw err;

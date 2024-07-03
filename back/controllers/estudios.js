@@ -7,7 +7,9 @@ const todoEstudios = (req, res) => {
   const query = `select p.id_paciente, p.nombre, e.id_estudioCompl, e.tipodeEstudio, e.resultado, e.fechaRealizacion
 from Pacientes p
 join estudioscompl e 
-on e.id_paciente = p.id_paciente`;
+on e.id_paciente = p.id_paciente
+where p.activo && e.activo = TRUE
+order by e.id_estudioCompl;`;
 
   //ejecuta la consulta, el metodo query toma dos argumentos, el mismo query y un callback que maneja el resultado de la consulta
   conection.query(query, (err, results) => {
@@ -38,9 +40,7 @@ const agregarEstudios = (req, res) => {
 const borrarEstudios = (req, res) => {
   //obtiene el id
   const id = req.params.id;
-  //crea la query con el comando sql que borra una linea de una tabla y pasa el id que obtuvo en la linea anterior
-  const query = `delete from estudiosCompl where id_estudioCompl=${id}`;
-  //ejecuta la consulta con el query y un callback que maneja los resultados de la consulta
+  const query = `UPDATE estudiosCompl SET activo = FALSE WHERE id_estudioCompl = ${id}`;
   conection.query(query, (err, results) => {
     //si es que hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;

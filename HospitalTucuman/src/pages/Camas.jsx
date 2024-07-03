@@ -3,16 +3,24 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import axios from "axios";
-import { Button, Card, CardFooter, CardImg, Col, Form, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardFooter,
+  CardImg,
+  Col,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../css/Camas.css"
+import "../css/Camas.css";
 const Camas = () => {
-
-  const [camas, setCamas] = useState([])
+  const [camas, setCamas] = useState([]);
   const [mostrar, setMostrar] = useState(false);
   const [mostrar2, setMostrar2] = useState(true);
 
-  const [estado, setEstado] = useState(null);
+  const [estado, setEstado] = useState(0);
   const [fechaIngreso, setFechaIngreso] = useState("");
   const [fechaAlta, setFechaAlta] = useState("");
   const [id_paciente, setId_paciente] = useState(null);
@@ -21,63 +29,58 @@ const Camas = () => {
   const [idActualizar, setIdActualizar] = useState(null);
   const [idAeliminar, setIdAEliminar] = useState(null);
 
-  const [pacientes, setPacientes] = useState([])
-  const [salas, setSalas] = useState([])
+  const [pacientes, setPacientes] = useState([]);
+  const [salas, setSalas] = useState([]);
 
   const [show, setShow] = useState(false);
 
   const [opcion, setOpcion] = useState(null);
 
-
-const handleChange = () => {
-
-  if (opcion === "NO") {
-    setEstado(1);
-  } else if (opcion === "SI") {
-    setEstado(0);
-  }else{
-    setEstado(null)
-  }
-
-};
-
-
+  const handleChange = () => {
+    if (opcion === "NO") {
+      setEstado(1);
+    } else if (opcion === "SI") {
+      setEstado(0);
+    } else {
+      setEstado(null);
+    }
+  };
 
   const getCamas = async () => {
     let result = await axios.get("http://localhost:8000/camas");
-    console.log(result.data);
+    // console.log(result.data);
     setCamas(result.data);
   };
 
   const getPacientes = async () => {
     let result = await axios.get("http://localhost:8000/pacientes");
-    console.log(result.data);
+    // console.log(result.data);
     setPacientes(result.data);
   };
 
   const getSalas = async () => {
     let result = await axios.get("http://localhost:8000/salas");
-    console.log(result.data);
+    // console.log(result.data);
     setSalas(result.data);
   };
 
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    const formattedDate = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
     return formattedDate;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (fechaIngreso && fechaAlta  && id_sala != "" && estado != null) {
-
+    if (id_sala != "") {
       const response = axios.post("http://localhost:8000/camas/agregar", {
-        estado: estado,
-        fechaIngreso: fechaIngreso,
-        fechaAlta: fechaAlta,
-        id_paciente: id_paciente,
+        estado: 0,
+        fechaIngreso: "1111-11-11",
+        fechaAlta: "1111-11-11",
+        id_paciente: null,
         id_sala: id_sala,
       });
       if (response) {
@@ -89,26 +92,27 @@ const handleChange = () => {
     setFechaIngreso("");
     setFechaAlta("");
     setId_paciente("");
-    setId_sala("");
 
     getCamas();
   };
 
- 
   const handleActualizar = async (e) => {
-
     getCamas();
-    setMostrar(false)
-    setMostrar2(true)
-    e.preventDefault()
+    console.log(id_sala);
+    setMostrar(false);
+    setMostrar2(true);
+    e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:8000/camas/editar/${idActualizar}`, {
-        estado: estado,
-        fechaIngreso: fechaIngreso,
-        fechaAlta: fechaAlta,
-        id_paciente: id_paciente,
-        id_sala: id_sala,
-      });
+      const response = await axios.put(
+        `http://localhost:8000/camas/editar/${idActualizar}`,
+        {
+          estado: estado,
+          fechaIngreso: fechaIngreso,
+          fechaAlta: fechaAlta,
+          id_paciente: id_paciente,
+          id_sala: id_sala,
+        }
+      );
       if (response.status === 200) {
         alert("Cama actualizado correctamente");
         getCamas();
@@ -120,43 +124,40 @@ const handleChange = () => {
     setFechaIngreso("");
     setFechaAlta("");
     setId_paciente("");
-    setId_sala("");
     setEstado("");
 
     getCamas();
-
-  }
+  };
 
   const handleEditar = async (id) => {
 
-    setMostrar(true)
-    setMostrar2(false)
-    setIdActualizar(id)
+    setEstado(1);
+    setMostrar(true);
+    setMostrar2(false);
+    setIdActualizar(id);
     let result = await axios.get(`http://localhost:8000/camas/${id}`);
     const cama = result.data;
-    // console.log(cama[0]);
 
     if (result) {
       const fechaIngreso = new Date(cama[0].fechaIngreso);
       const fechaAlta = new Date(cama[0].fechaAlta);
 
+      const fechaIngresoFormateada = fechaIngreso.toISOString().split("T")[0];
+      const fechaAltaFormateada = fechaAlta.toISOString().split("T")[0];
 
-      const fechaIngresoFormateada = fechaIngreso.toISOString().split('T')[0];
-      const fechaAltaFormateada = fechaAlta.toISOString().split('T')[0];
+      setFechaIngreso(fechaIngresoFormateada);
+      setFechaAlta(fechaAltaFormateada);
 
-
-      setFechaIngreso(fechaIngresoFormateada)
-      setFechaAlta(fechaAltaFormateada)
-
-      setId_paciente(cama[0].id_paciente)
-      setId_sala(cama[0].tipoSala)
+      setId_paciente(cama[0].id_paciente);
+      setId_sala(cama[0].id_sala);
+    console.log(cama[0].fechaIngreso);
 
     }
   };
 
   const handleEliminar = async () => {
     console.log(idAeliminar);
-    handleClose(true)
+    handleClose(true);
 
     let response = await axios.delete(
       `http://localhost:8000/camas/eliminar/${idAeliminar}`
@@ -177,26 +178,46 @@ const handleChange = () => {
   };
 
   useEffect(() => {
-    getCamas()
-    getPacientes()
-    getSalas()
+    getCamas();
+    getPacientes();
+    getSalas();
+  }, []);
 
-  }, [])
+  console.log(estado);
 
   return (
     <>
       <Header />
       <div className="container-titulo text-center mt-5">
-        <h2>Agrega una nueva cama</h2>
+        <h2>Gestión de camas</h2>
       </div>
 
       <div className="container-form">
-        
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
-          
-          <Form.Group as={Col} controlId="formGridEmail"
-          className={estado != 1 ? 'visible' : 'hidden'}
+          {estado != 1 ? <h3>Crear una cama</h3> : <h3>Internar un paciente</h3>}
+              
+            <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Label>Seleccione la sala</Form.Label>
+              <Form.Select
+                onChange={(e) => {
+                  setId_sala(e.target.value);
+                }}
+                defaultValue=""
+              >
+                <option value="">Elije la sala</option>
+                {salas.map((sala) => (
+                  <option value={sala.id_sala} key={sala.id_sala}>
+                    {sala.tipoSala}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
+         
+
+            <Form.Group as={Col} controlId="formGridEmail"
+          className={estado != 0 ? 'visible' : 'hidden'}
           >
             <Form.Label>Ingrese el paciente</Form.Label>
             <Form.Select
@@ -209,70 +230,49 @@ const handleChange = () => {
                   {paciente.nombre}
                 </option>
               ))}
-            </Form.Select>
+            </Form.Select>    
           </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridPassword">
-              <Form.Label>Ingrese La sala</Form.Label>
-              <Form.Select
-                onChange={(e) => {
-                  setId_sala(e.target.value);
-                }}
-                defaultValue=""
-              >
-                <option value="">Elije La sala</option>
-                {salas.map((sala) => (
-                  <option value={sala.id_sala} key={sala.id_sala}>
-                    {sala.tipoSala}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
+         
           </Row>
+
           <Row>
-            <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
+            <Form.Group as={Col}  className={estado != 0 ? 'visible' : 'hidden'} controlId="formGridAddress1">
               <Form.Label>Ingrese la fecha de ingreso</Form.Label>
-              <Form.Control value={fechaIngreso} type="date" placeholder="Fecha de ingreso" onChange={(e) => { setFechaIngreso(e.target.value) }} />
+              <Form.Control
+                value={fechaIngreso}
+                type="date"
+                placeholder="Fecha de ingreso"
+                onChange={(e) => {
+                  setFechaIngreso(e.target.value);
+                }}
+              />
             </Form.Group>
 
-            <Form.Group as={Col} className="mb-3" controlId="formGridAddress2">
+            <Form.Group as={Col}  className={estado != 0 ? 'visible' : 'hidden'} controlId="formGridAddress2">
               <Form.Label>Ingrese la fecha de alta</Form.Label>
-              <Form.Control value={fechaAlta} type="date" placeholder="Fecha de alta" onChange={(e) => {
-                setFechaAlta(e.target.value)
-              }} />
+              <Form.Control
+                value={fechaAlta}
+                type="date"
+                placeholder="Fecha de alta"
+                onChange={(e) => {
+                  setFechaAlta(e.target.value);
+                }}
+              />
             </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>Disponibilidad</Form.Label>
-              <Form.Select
-                onChange={(e)=>{(setEstado(e.target.value))}}
-                defaultValue="Choose..."
-              >
-                <option value="">Elije</option>
-                <option value={1}>Libre</option>
-                <option value={0}>Ocupada</option>
-              </Form.Select>
-            </Form.Group>
-
-
           </Row>
-          {mostrar2 && <Button variant="primary" type="submit" onClick={handleSubmit}>
-            Agregar
-          </Button>}
+          {mostrar2 && (
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              Crear cama
+            </Button>
+          )}
 
-          {mostrar && <Button variant="warning" type="button" onClick={handleActualizar}>
-            Actualizar
-          </Button>}
+          {mostrar && (
+            <Button variant="warning" type="button" onClick={handleActualizar}>
+              Actualizar
+            </Button>
+          )}
         </Form>
       </div>
-
-
-
-
-
-
-
-
 
       {/* AQUI EMPIEZAN LAS CARDS */}
 
@@ -280,35 +280,66 @@ const handleChange = () => {
         <Row md={2}>
           {camas.map((cama) => (
             <Col className="card-medicos" md={6} key={cama.id_cama}>
-              <Card style={{ width: "410px", height: "590px" }}>
-                <Card.Title className="fw-bolder fs-4 card-title bg-light">Cama número: {cama.id_cama}</Card.Title>
-                <CardImg style={{ width: "408px", height: "320px" }} src="https://i.trade-cloud.com.cn/upload/6662/image/20211224/2_295201.jpg"></CardImg>
+              <Card style={{ width: "410px", height: "590px" }}
+              className={cama.estado !== 0 ? "blocked" : ""}>
+                <Card.Title className="fw-bolder fs-4 card-title">
+                  ID: #{cama.id_cama}
+                </Card.Title>
+                <CardImg
+                  style={{ width: "408px", height: "320px" }}
+                  src="https://i.trade-cloud.com.cn/upload/6662/image/20211224/2_295201.jpg"
+                ></CardImg>
                 <Card.Body className="card-body">
-                  <p className="fs-5 fw-bold"> Disponibilidad: {cama.estado === 1 ? "Libre" : "Ocupada"}</p>
-                  <p>Fecha de Ingreso: {formatDate(cama.fechaIngreso)}</p>
-                  <p>Fecha de Alta: {formatDate(cama.fechaAlta)}</p>
+                  <p className="fs-5 fw-bold">
+                    {" "}
+                    Disponibilidad: {cama.estado === 0 ? "Libre" : "Ocupada"}
+                  </p>
+                  <p className={cama.estado != 0 ? "visible" : "hidden"}>
+                    {" "}
+                    Fecha Ingreso: {formatDate(cama.fechaIngreso)}
+                  </p>
+                  <p className={cama.estado != 0 ? "visible" : "hidden"}>
+                    {" "}
+                    Fecha Alta: {formatDate(cama.fechaAlta)}
+                  </p>
                   <p> Sala: {cama.tipoSala}</p>
                 </Card.Body>
                 <CardFooter className="card-footer">
                   <Button
-                    className="btn1"
+                    className={cama.estado != 1 ? "visible" : "hidden"}
+                    variant="success"
+                    onClick={() => handleEditar(cama.id_cama)}
+                  >
+                    Internar
+                  </Button>
+                  <Button
+                    className={cama.estado != 0 ? "visible" : "hidden"}
                     variant="success"
                     onClick={() => handleEditar(cama.id_cama)}
                   >
                     Editar
                   </Button>
-                  <Button onClick={() => handleShow(cama.id_cama)} className="btn2" variant="danger">Eliminar</Button>
+                  <Button
+                    onClick={() => handleShow(cama.id_cama)}
+                    className="btn2"
+                    variant="danger"
+                  >
+                    Eliminar
+                  </Button>
                   <Link className="link" to={`/camas/${cama.id_cama}`}>
-                  <Button className={cama.estado != 1 ? 'visible' : 'hidden'} variant="primary">Ver</Button>
+                    <Button
+                      className={cama.estado != 0 ? "visible" : "hidden"}
+                      variant="primary"
+                    >
+                      Ver
+                    </Button>
                   </Link>
                 </CardFooter>
-                
               </Card>
             </Col>
           ))}
         </Row>
       </div>
-
 
       {/* ESTE ES EL MODAL PARA PREGUNTAR SI QUIERE ELIMINAR O NO */}
 
@@ -316,9 +347,7 @@ const handleChange = () => {
         <Modal.Header closeButton>
           <Modal.Title>¡Cuidado!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          ¿Estás seguro que quieres eliminar la cama?
-        </Modal.Body>
+        <Modal.Body>¿Estás seguro que quieres eliminar la cama?</Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleEliminar}>
             SI
@@ -333,7 +362,6 @@ const handleChange = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
 
       <Sidebar />
       <Footer />

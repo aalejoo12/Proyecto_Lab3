@@ -117,7 +117,16 @@ const Sidebar = () => {
                 </ListItemButton>
               </Link>
             </ListItem>
-            {/* Líneas divisorias entre secciones */}
+            <Divider />
+            <Divider />
+            <ListItem>
+              <Link className="link" to={"/salas"}>
+                <ListItemButton className="item-button">
+                  🏥 Salas
+                </ListItemButton>
+              </Link>
+              <Divider />
+            </ListItem>
             <Divider />
             {/* Elemento de la lista con enlace a Camas */}
             <ListItem>
@@ -128,14 +137,12 @@ const Sidebar = () => {
                 </ListItemButton>
               </Link>
             </ListItem>
-            {/* Líneas divisorias entre secciones. */}
-            <Divider />
-            {/* FALTA LINK EN NOSOTROS */}
             <ListItem className="list-item-auto-margin">
-              {/* Botón de lista con íconos y texto. */}
-              <ListItemButton className="item-button">
-                🤝 Nosotros
-              </ListItemButton>
+              <Link className="link" to={"/nosotros"}>
+                <ListItemButton className="item-button">
+                  🤝 Nosotros
+                </ListItemButton>
+              </Link>
             </ListItem>
           </List>
           {/* Líneas divisorias entre secciones */}

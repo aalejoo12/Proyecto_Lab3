@@ -7,7 +7,8 @@ const todoHistoriasClinicas = (req, res) => {
   const query = `select p.id_paciente, p.nombre, h.id_historiaClinica, h.grupoSanguineo, h.alergias, h.peso, h.altura,h.fechaIngreso
 from Pacientes p
 join historiasclinicas h 
-on h.id_paciente = p.id_paciente`;
+on h.id_paciente = p.id_paciente
+where p.activo && h.activo = TRUE;`;
 
   //ejecuta la consulta con la query y un callback que maneja los resultados de la cunsulta
   conection.query(query, (err, results) => {
@@ -20,10 +21,11 @@ on h.id_paciente = p.id_paciente`;
 
 //Crea la funcion agregarHistoriasClinicas con los parametros request y response
 const agregarHistoriasClinicas = (req, res) => {
-  //obtiene los valores
+  console.log(req);
+
   const { grupoSanguineo, alergias, peso, altura, fechaIngreso, id_paciente } =
     req.body;
-  //crea la query con el comando sql para agregar una linea a una tabla con los valores que se obtuvieron en la linea anterior
+
   const query = `INSERT INTO historiasclinicas (grupoSanguineo, alergias, peso,altura ,id_paciente,fechaIngreso) VALUES ("${grupoSanguineo}","${alergias}","${peso}","${altura}", "${id_paciente}", "${fechaIngreso}")`;
   //ejecuta la consulta con la query y un callback para manejar los resultados de la consutla
   conection.query(query, (err, results) => {
@@ -38,9 +40,7 @@ const agregarHistoriasClinicas = (req, res) => {
 const borrarHistoriasClinicas = (req, res) => {
   //obtiene el id
   const id = req.params.id;
-  //crea la query con el comando sql que borra una linea de una tabla con el id que se obtuvo en la linea anterior
-  const query = `delete from historiasclinicas where id_historiaClinica=${id}`;
-  //ejecuta la consulta con la query y un callback que maneja el resultado de la consulta
+  const query = `UPDATE HistoriasClinicas SET activo = FALSE WHERE id_historiaClinica = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;

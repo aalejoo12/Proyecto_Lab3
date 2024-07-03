@@ -3,8 +3,12 @@ const { conection } = require("../config/db");
 
 //crea la funcion con los parametros request y response
 const todoSalas = (req, res) => {
-  //crea la query con el comando sql que sirve para mostrar la tabla salas
-  const query = "select * from salas";
+  const query = `SELECT s.id_sala, s.tipoSala, COUNT(c.id_cama) AS cantidadCamas
+FROM Salas s
+LEFT JOIN Camas c
+ON c.id_sala = s.id_sala AND c.activo = TRUE
+WHERE s.activo = TRUE
+GROUP BY s.id_sala;`;
 
   //ejecuta la consulta con la query y un callback que maneja los resultados de la consulta
   conection.query(query, (err, results) => {
@@ -20,9 +24,8 @@ const agregarSalas = (req, res) => {
   //obtiene los valores de la sala que se añadira
   const { tipoSala, cantidadCamas } = req.body;
 
-  //crea la query con el comando sql que sirve para añadir una sala a la tabla salas y le da los valores que obtuvo en la linea anterior
-  const query = `INSERT INTO salas (tipoSala, cantidadCamas) VALUES 
-  ("${tipoSala}","${cantidadCamas}")`;
+  const query = `INSERT INTO salas (tipoSala) VALUES 
+  ("${tipoSala}")`;
 
   //ejecuta la consulta con la query y un callback que maneja los resultados de la consulta
   conection.query(query, (err, results) => {
@@ -37,10 +40,7 @@ const agregarSalas = (req, res) => {
 const borrarSalas = (req, res) => {
   //obtiene el id de la sala que se borrara
   const id = req.params.id;
-  //crea la query con el comando sql que sirve para borrar una sala de la tabla salas
-  const query = `delete from salas where id_sala=${id}`;
-
-  //ejecuta la consulta con la query y un callback que maneja los resultados de la consulta
+  const query = `UPDATE Salas SET activo = FALSE WHERE id_sala = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error, detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -53,13 +53,9 @@ const borrarSalas = (req, res) => {
 const editarSalas = (req, res) => {
   //obtiene el id de la sala que se editara
   const id = req.params.id;
-  //obtiene los valores nuevos que obtendra la cama
-  const { tipoSala, cantidadCamas } = req.body;
+  const { tipoSala } = req.body;
 
-  //crea la query con el comando sql que sirve para editar los valores de una cama, y le pasa los valores obtenidos en la linea anterior
-  const query = `UPDATE salas SET tipoSala ="${tipoSala}",cantidadCamas="${cantidadCamas}" where  id_sala = ${id}`;
-
-  //ejecuta la consulta con la query y un callback que maneja los resultados de la consulta
+  const query = `UPDATE salas SET tipoSala ="${tipoSala}" where  id_sala = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;

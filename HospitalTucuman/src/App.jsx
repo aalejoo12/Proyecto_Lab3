@@ -9,7 +9,9 @@ import Historial from "./pages/Historial";
 import Estudios from "./pages/Estudios";
 import Camas from "./pages/Camas";
 import VerCama from "./pages/VerCama";
-
+import Error from "./pages/Error";
+import Salas from "./pages/Salas";
+import VerPaciente from "./pages/VerPaciente";
 
 
 function App() {
@@ -27,12 +29,15 @@ function App() {
           <Route path="/estudios" element={<Estudios />} />
           <Route path="/camas" element={<Camas />} />
           <Route path="/camas/:id" element={<VerCama />} />
+          <Route path="/pacientes/:id" element={<VerPaciente />} />
+          <Route path="/salas" element={<Salas />} />
+          <Route path="*" element={<Error />} />
 
         </Routes>
       </BrowserRouter>
       </div>
     </>
   );
-} 
+}
 
 export default App;

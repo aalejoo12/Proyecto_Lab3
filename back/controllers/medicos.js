@@ -3,9 +3,8 @@ const { conection } = require("../config/db");
 
 //crea la funcion con los parametros request y response
 const todoMedicos = (req, res) => {
-  //crea la query con el comando sql que sirve para mostrar la tabla medicos
-  const query = "select * from medicos";
-  //ejecuta la consulta con la query y un callback que maneja los resultados de al consulta
+  const query = "SELECT * FROM Medicos WHERE activo = TRUE;";
+
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;
@@ -31,9 +30,7 @@ const agregarMedicos = (req, res) => {
 const borrarMedicos = (req, res) => {
   //obtiene el id
   const id = req.params.id;
-  //crea la query con el comando sql que sirve para borrar una linea a una tabla, borrara la linea del id que obtuvo en la linea anterior
-  const query = `delete from medicos where id_medico=${id}`;
-  //ejecuta la consulta con la query y un callback que maneja los resultados de la consulta
+  const query = `UPDATE Medicos SET activo = FALSE WHERE id_medico = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la ejecucion y señala que ha ocurrido un problema
     if (err) throw err;

@@ -3,12 +3,12 @@ const { conection } = require("../config/db");
 
 //crea la funcion con los parametros request y response
 const todoCamas = (req, res) => {
-  //crea la query con el comando sql que sirve para ver las camas y su informacion con su respectiva sala
-  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala
+  const query = `select c.id_cama,c.fechaIngreso,c.fechaAlta,c.estado,s.tipoSala,s.id_sala
 from Camas c 
 join Salas s
 on s.id_sala = c.id_sala
-order by c.id_cama`;
+where c.activo && s.activo = TRUE 
+order by c.estado`;
 
   //ejecuta la consulta con la query y un callback que sirve para manejar los resultados de la consulta
   conection.query(query, (err, results) => {
@@ -40,10 +40,7 @@ const agregarCamas = (req, res) => {
 const borrarCamas = (req, res) => {
   //obtiene el id de la cama que hay que borrar
   const id = req.params.id;
-  //crea la query con el comando sql que sirve para borrar una cama de la tabla camas en la base de datos
-  const query = `delete from camas where id_cama=${id}`;
-
-  //ejecuta la consulta con la query y un callback que sirve para manejar los resultados de la consulta
+  const query = `UPDATE Camas SET activo = FALSE WHERE id_cama = ${id}`;
   conection.query(query, (err, results) => {
     //si hay un error detiene la conexion y señala que ha ocurrido un problema
     if (err) throw err;
