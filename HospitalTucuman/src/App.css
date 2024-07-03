@@ -1,4 +1,4 @@
 #root {
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  /* Aplica una imagen de fondo con un gradiente lineal */
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
-
